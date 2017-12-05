@@ -148,7 +148,8 @@ def update_info_customer(sender_id, info, value):
 
 
 def check_customer_by_id(chatbot, sender_id):
-    user_profile = chatbot.get_user_profile(sender_id)
+    cb = exec(chatbot)
+    user_profile = cb.get_user_profile(sender_id)
     first_name = user_profile["first_name"]
     last_name = user_profile["last_name"]
     gender = user_profile["gender"]
