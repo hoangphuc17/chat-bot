@@ -61,20 +61,6 @@ def ghvn_greeting(sender_id):
 
 
 def ghvn_home(sender_id):
-
-    user_profile = ghvn.get_user_profile(sender_id)  # return dict
-    if user_profile['first_name'] is not None:
-        first = user_profile["first_name"]
-        last = user_profile["last_name"]
-        id_user = user_profile["id"]
-
-    # kiem tra user, neu chua co thi them vao database
-    check_user = USER.find_one({'id_user': sender_id})
-    if bool(check_user):
-        print('user da co trong database')
-    else:
-        insert_new_user(first, last, id_user)
-
     elements = [
         Template.GenericElement("Fansign",
                                 subtitle="Cùng đón nhận những lời chúc từ các huấn luyện viên Giọng Hát Việt Nhí 2017!!!",
@@ -126,16 +112,15 @@ def ghvn_home(sender_id):
                                 ])
     ]
     ghvn.send(sender_id, Template.Generic(elements))
-    return
 
 
 def ghvn_minigame1(sender_id):
     text = "Minigame 1:\n   Dự đoán đội quán quân"
     buttons = [
         Template.ButtonPostBack(
-            "Tham gia dự đoán 👍", "minigame1_menu"),
+            "Tham gia dự đoán 👍", "ghvn_minigame1_menu"),
         Template.ButtonPostBack(
-            "Thể lệ dự đoán 📜", "minigame1_rule")
+            "Thể lệ dự đoán 📜", "ghvn_minigame1_rule")
     ]
     ghvn.send(sender_id, Template.Buttons(text, buttons))
     return
@@ -145,9 +130,9 @@ def ghvn_minigame2(sender_id):
     text = "Minigame 2:\n   Đoán từ khóa nhận Sticker"
     buttons = [
         Template.ButtonPostBack(
-            "Tham gia dự đoán 👍", "minigame2_menu"),
+            "Tham gia dự đoán 👍", "ghvn_minigame2_menu"),
         Template.ButtonPostBack(
-            "Thể lệ dự đoán 📜", "minigame2_rule")
+            "Thể lệ dự đoán 📜", "ghvn_minigame2_rule")
     ]
 
     ghvn.send(sender_id, Template.Buttons(text, buttons))
@@ -155,21 +140,6 @@ def ghvn_minigame2(sender_id):
 
 
 def ghvn_subscribe_news(sender_id):
-
-    user_profile = ghvn.get_user_profile(sender_id)  # return dict
-    first = user_profile["first_name"]
-    last = user_profile["last_name"]
-    id_user = user_profile["id"]
-
-    # kiem tra user, neu chua co thi them vao database
-    check_user = USER.find_one({'id_user': sender_id})
-    if bool(check_user):
-        # pass
-        # ghvn.send(sender_id, "user da co trong database")
-        print('user da co trong database')
-    else:
-        insert_new_user(first, last, id_user)
-
     question = "Bằng cách đồng ý theo dõi tin tức dưới đây, bạn sẽ nhận được thông báo mỗi khi tin tức mới của chương trình “Giọng Hát Việt Nhí” 2017 được cập nhật.\nBạn muốn nhận thông báo chứ?"
     quick_replies = [
         QuickReply(title="1 tuần 1 lần 😋", payload="yes1"),
@@ -181,14 +151,12 @@ def ghvn_subscribe_news(sender_id):
               quick_replies=quick_replies,
               metadata="DEVELOPER_DEFINED_METADATA")
 
-    return
-
 
 def ghvn_handle_subscribe_news(sender_id, quick_reply_payload):
     if quick_reply_payload == 'no':
         text = "Okey. Bất cứ khi nào bạn cần đăng ký nhận tin tức thì quay lại đây nhé!"
         buttons = [
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack("Home", "ghvn_home")
         ]
 
         ghvn.send(sender_id, Template.Buttons(text, buttons))
@@ -197,9 +165,9 @@ def ghvn_handle_subscribe_news(sender_id, quick_reply_payload):
             {'$set': {'subscribe_news': quick_reply_payload}}
         )
     else:
-        text = "Bạn đã đăng ký nhận thông báo thành công. \nMỗi khi có thông báo mới về chương trình The Voice Kid 2017, mình sẽ gửi tới bạn."
+        text = "Bạn đã đăng ký nhận thông báo thành công.\nMỗi khi có thông báo mới về chương trình The Voice Kid 2017, mình sẽ gửi tới bạn."
         buttons = [
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack("Home", "ghvn_home")
         ]
 
         ghvn.send(sender_id, Template.Buttons(text, buttons))
@@ -207,7 +175,6 @@ def ghvn_handle_subscribe_news(sender_id, quick_reply_payload):
             {'id_user': sender_id},
             {'$set': {'subscribe_news': quick_reply_payload}}
         )
-    return
 
 
 def ghvn_read_news(sender_id):
@@ -219,13 +186,10 @@ def ghvn_read_news(sender_id):
             image_url=news['image_url'],
             buttons=[
                 Template.ButtonWeb('Đọc tin', news['item_url']),
-                Template.ButtonPostBack('Về Home', 'home')
+                Template.ButtonPostBack('Về Home', 'ghvn_home')
             ])
         elements.append(element)
-
     ghvn.send(sender_id, Template.Generic(elements))
-
-    return
 
 
 def ghvn_minigame1_vote(sender_id):
@@ -241,15 +205,13 @@ def ghvn_minigame1_vote(sender_id):
               quick_replies=quick_replies,
               metadata="DEVELOPER_DEFINED_METADATA")
 
-    return
-
 
 def ghvn_minigame1_menu(sender_id):
     check_vote = USER.find_one({'id_user': sender_id})
 
     if check_vote["HLV_da_binh_chon"] == "":
         # user chua binh chon
-        minigame1_vote(sender_id)
+        ghvn_minigame1_vote(sender_id)
     else:
         # user da binh chon
         space = " "
@@ -260,8 +222,8 @@ def ghvn_minigame1_menu(sender_id):
         text = space.join(seq)
 
         buttons = [
-            Template.ButtonPostBack("Bình chọn lại", "minigame1_vote"),
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack("Bình chọn lại", "ghvn_minigame1_vote"),
+            Template.ButtonPostBack("Home", "ghvn_home")
         ]
 
         ghvn.send(sender_id, Template.Buttons(text, buttons))
@@ -278,8 +240,8 @@ def ghvn_minigame1_handle_quick_reply(sender_id, quick_reply_payload):
     seq = (a, quick_reply_payload)
     text = space.join(seq)
     buttons = [
-        Template.ButtonPostBack("Bình chọn lại", "minigame1_vote"),
-        Template.ButtonPostBack("Home", "home")
+        Template.ButtonPostBack("Bình chọn lại", "ghvn_minigame1_vote"),
+        Template.ButtonPostBack("Home", "ghvn_home")
     ]
     ghvn.send(sender_id, Template.Buttons(text, buttons))
 
@@ -292,7 +254,7 @@ def ghvn_minigame1_handle_quick_reply(sender_id, quick_reply_payload):
 def ghvn_minigame1_rule(sender_id):
     text = "- Mỗi bạn tham gia sẽ có 01 lựa chọn cho việc dự đoán đội huấn luyện viên có thí sinh đạt được giải quán quân 🎊 của chương trình.\n- Nếu bạn thay đổi ý kiến, dự đoán được BTC ghi nhận là dự đoán cuối cùng mà bạn chọn.\n- Nếu dự đoán đúng và may mắn, bạn sẽ nhận được 01 phần quà 🎁 hấp dẫn từ ban tổ chức.\n Hãy tận dụng “giác quan thứ 6” của mình để 'rinh' quà về nhà nào!\n👉👉👉 “Giọng Hát Việt Nhí” 2017 sẽ chính thức được phát sóng vào lúc 21h10 thứ 7 hằng tuần trên kênh VTV3"
     buttons = [
-        Template.ButtonPostBack("Home", "home")
+        Template.ButtonPostBack("Home", "ghvn_home")
     ]
     ghvn.send(sender_id, Template.Buttons(text, buttons))
 
@@ -300,7 +262,7 @@ def ghvn_minigame1_rule(sender_id):
 def ghvn_minigame2_rule(sender_id):
     text = "- Mỗi bạn tham gia được dự đoán không giới hạn ‘Từ khóa’ may mắn để nhận được trọn bộ Sticker hình vẽ HLV Giọng Hát Việt Nhí 2017.\n- ‘Từ khóa’ có thể gồm 1 từ hoặc 1 cụm từ miêu tả gần giống với các HLV nhất.\n- Nếu dự đoán đúng từ khóa. Bạn sẽ nhận được những Sticker ‘Siêu Đáng Yêu’.\nNgại gì không thử??\n\n👉👉👉 “Giọng Hát Việt Nhí” 2017 sẽ chính thức được phát sóng vào lúc 21h10 thứ 7 hằng tuần (từ ngày 12/8/2017) trên kênh VTV3"
     buttons = [
-        Template.ButtonPostBack("Home", "home")
+        Template.ButtonPostBack("Home", "ghvn_home")
     ]
     ghvn.send(sender_id, Template.Buttons(text, buttons))
     return
@@ -309,7 +271,7 @@ def ghvn_minigame2_rule(sender_id):
 def ghvn_timeline(sender_id):
     text = "📣📣📣 Chương trình “Giọng Hát Việt Nhí” 2017 sẽ được phát sóng vào lúc 9h10 tối thứ 7 hằng tuần từ (ngày 12/08/2017) trên kênh VTV3"
     buttons = [
-        Template.ButtonPostBack("Home", "home")
+        Template.ButtonPostBack("Home", "ghvn_home")
     ]
 
     ghvn.send(sender_id, Template.Buttons(text, buttons))
@@ -319,7 +281,7 @@ def ghvn_timeline(sender_id):
 def ghvn_introduce(sender_id):
     text = "Đến hẹn lại lên, 'Giọng Hát Việt Nhí' đã trở lại và lợi hại hơn bao giờ hết. Với dàn huấn luyện viên là những nghệ sỹ trẻ nổi tiếng tài năng và sở hữu lượng fan hùng hậu nhất nhì làng giải trí Việt. Đó là cặp đôi Hương Tràm –Tiên Cookie, ca sĩ – nhạc sĩ Vũ Cát Tường, ca sĩ Soobin Hoàng Sơn. Họ hứa hẹn sẽ mang đến cho Giọng Hát Việt Nhí mùa 5 nhiều điều thú vị với độ cạnh tranh, “chặt chém” quyết liệt trên ghế nóng.\n📣📣📣 21h10 thứ 7 hằng tuần trên kênh VTV3 - Giọng Hát Việt Nhí 2017 với những bất ngờ đang chờ bạn khám phá!"
     buttons = [
-        Template.ButtonPostBack("Home", "home")
+        Template.ButtonPostBack("Home", "ghvn_home")
     ]
 
     ghvn.send(sender_id, Template.Buttons(text, buttons))
@@ -362,8 +324,9 @@ def ghvn_minigame2_handle_result(message, sender_id):
         ghvn.send(sender_id, Attachment.Image(game2_hlv_url))
         text = "Chính xác!!!!!!!!"
         buttons = [
-            Template.ButtonPostBack("Đoán thêm lần nữa 😻", "minigame2_menu"),
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack(
+                "Đoán thêm lần nữa 😻", "ghvn_minigame2_menu"),
+            Template.ButtonPostBack("Home", "ghvn_home")
         ]
         ghvn.send(sender_id, Template.Buttons(text, buttons))
     elif message in vu_cat_tuong:
@@ -371,8 +334,9 @@ def ghvn_minigame2_handle_result(message, sender_id):
         ghvn.send(sender_id, Attachment.Image(game2_hlv_url))
         text = "Chính xác!!!!!!!!"
         buttons = [
-            Template.ButtonPostBack("Đoán thêm lần nữa 😻", "minigame2_menu"),
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack(
+                "Đoán thêm lần nữa 😻", "ghvn_minigame2_menu"),
+            Template.ButtonPostBack("Home", "ghvn_home")
         ]
         ghvn.send(sender_id, Template.Buttons(text, buttons))
     elif message in soobin:
@@ -380,8 +344,9 @@ def ghvn_minigame2_handle_result(message, sender_id):
         ghvn.send(sender_id, Attachment.Image(game2_hlv_url))
         text = "Chính xác!!!!!!!!"
         buttons = [
-            Template.ButtonPostBack("Đoán thêm lần nữa 😻", "minigame2_menu"),
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack(
+                "Đoán thêm lần nữa 😻", "ghvn_minigame2_menu"),
+            Template.ButtonPostBack("Home", "ghvn_home")
         ]
         ghvn.send(sender_id, Template.Buttons(text, buttons))
     elif message in tien_cookie:
@@ -389,8 +354,9 @@ def ghvn_minigame2_handle_result(message, sender_id):
         ghvn.send(sender_id, Attachment.Image(game2_hlv_url))
         text = "Chính xác!!!!!!!!"
         buttons = [
-            Template.ButtonPostBack("Đoán thêm lần nữa 😻", "minigame2_menu"),
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack(
+                "Đoán thêm lần nữa 😻", "ghvn_minigame2_menu"),
+            Template.ButtonPostBack("Home", "ghvn_home")
         ]
         ghvn.send(sender_id, Template.Buttons(text, buttons))
 
@@ -401,7 +367,7 @@ def ghvn_fansign_menu(sender_id):
     user_profile = ghvn.get_user_profile(sender_id)
     first = user_profile["first_name"]
     last = user_profile["last_name"]
-    id_user = user_profile["id"]
+    # id_user = user_profile["id"]
     print(last + ' ' + first)
 
     space = " "
@@ -450,7 +416,7 @@ def ghvn_image_fs(sender_id, sizeFont, hlv, first, last, x_Text, y_Text):
             hlv) + ' dành riêng cho bạn. Hãy chia sẻ món quà này ngay kèm hashtag #gionghatvietnhifansign nha bạn ơi'
     buttons = [
         Template.ButtonPostBack("Fansign khác", "fansign"),
-        Template.ButtonPostBack("Home", "home")
+        Template.ButtonPostBack("Home", "ghvn_home")
     ]
     ghvn.send(sender_id, Template.Buttons(text2, buttons))
     print('da gui hinh fansign')
@@ -464,27 +430,27 @@ def ghvn_fansign_handle_quick_reply(sender_id, quickreply):
 
     def fs_vct():
         if len(userName) < 11:
-            image_fs(sender_id, 90, "vct", first, last, 180, 370)
+            ghvn_image_fs(sender_id, 90, "vct", first, last, 180, 370)
         else:
-            image_fs(sender_id, 80, "vct", first, last, 90, 370)
+            ghvn_image_fs(sender_id, 80, "vct", first, last, 90, 370)
 
     def fs_ht():
         if len(userName) < 11:
-            image_fs(sender_id, 80, "ht", first, last, 180, 330)
+            ghvn_image_fs(sender_id, 80, "ht", first, last, 180, 330)
         else:
-            image_fs(sender_id, 65, "ht", first, last, 180, 330)
+            ghvn_image_fs(sender_id, 65, "ht", first, last, 180, 330)
 
     def fs_tc():
         if len(userName) < 11:
-            image_fs(sender_id, 90, "tc", first, last, 180, 390)
+            ghvn_image_fs(sender_id, 90, "tc", first, last, 180, 390)
         else:
-            image_fs(sender_id, 80, "tc", first, last, 90, 380)
+            ghvn_image_fs(sender_id, 80, "tc", first, last, 90, 380)
 
     def fs_sb():
         if len(userName) < 11:
-            image_fs(sender_id, 85, "sb", first, last, 30, 450)
+            ghvn_image_fs(sender_id, 85, "sb", first, last, 30, 450)
         else:
-            image_fs(sender_id, 70, "sb", first, last, 30, 455)
+            ghvn_image_fs(sender_id, 70, "sb", first, last, 30, 455)
 
     fs_hlv_list = {
         'sb': fs_sb,
@@ -498,371 +464,297 @@ def ghvn_fansign_handle_quick_reply(sender_id, quickreply):
 
 
 # FROM MESSAGE_HANDLE
+# def ghvn_answer(message, sender_id):
+#     if message is not None:
+#         found_question = False
 
-def ghvn_answer(message, sender_id):
-    if message is not None:
+#         for data in FAQ.find():
+#             final_data = {}
+#             count = 0
+#             metadata = data['metadata']
+#             for word in metadata:
+#                 if word in message:
+#                     count = count + 1
 
-        # kiem tra user, neu chua co thi them vao database
-        check_user = USER.find_one({'id_user': sender_id})
-        if bool(check_user):
-            # pass
-            # ghvn.send(sender_id, "user da co trong database")
-            print('user da co trong database')
-        else:
-            user_profile = ghvn.get_user_profile(sender_id)  # return dict
-            if user_profile['first_name'] is not None:
+#             if count == len(data['metadata']):
+#                 final_data = data
+#                 found_question = True
+#                 break
 
-                first = user_profile["first_name"]
-                last = user_profile["last_name"]
-                id_user = user_profile["id"]
-                insert_new_user(first, last, id_user)
+#         if found_question:
+#             ghvn.send(sender_id, final_data['answer'])
+#         else:
+#             new_nofaq = {'message': message}
+#             NOFAQ.insert_one(new_nofaq)
+#             print('khong tim thay cau hoi trong FAQ, vao nofaq de xem')
+#             text = "Oops..!Hiện tại mình chưa có dữ liệu câu hỏi của bạn, mình sẽ cập nhật và trả lời bạn sớm nhất. Hãy tiếp tục kết nối với chương trình qua các tính năng khác bạn nhé!"
+#             buttons = [
+#                 Template.ButtonPostBack(
+#                     "Home", "home")
+#             ]
+#             ghvn.send(sender_id, Template.Buttons(text, buttons))
 
-        found_question = False
+#     else:
+#         pass
 
-        for data in FAQ.find():
-            final_data = {}
-            count = 0
-            metadata = data['metadata']
-            for word in metadata:
-                if word in message:
-                    count = count + 1
-
-            if count == len(data['metadata']):
-                final_data = data
-                found_question = True
-                break
-
-        if found_question:
-            ghvn.send(sender_id, final_data['answer'])
-        else:
-            new_nofaq = {'message': message}
-            NOFAQ.insert_one(new_nofaq)
-            print('khong tim thay cau hoi trong FAQ, vao nofaq de xem')
-            text = "Oops..!Hiện tại mình chưa có dữ liệu câu hỏi của bạn, mình sẽ cập nhật và trả lời bạn sớm nhất. Hãy tiếp tục kết nối với chương trình qua các tính năng khác bạn nhé!"
-            buttons = [
-                Template.ButtonPostBack(
-                    "Home", "home")
-            ]
-            ghvn.send(sender_id, Template.Buttons(text, buttons))
-
-    else:
-        pass
-
-    return
+#     return
 
 
-def ghvn_find_cat(sender_id, word_dict, message):
-    dict_cat = {}
-    count_word_in_cat = 0
-    chosen_cat = {}
-    for cat_document in FAQ2.find({'level': '1'}):
-        for word in word_dict:
-            if word in cat_document['cat_keyword']:
-                count_word_in_cat = count_word_in_cat + 1
-        dict_cat.update({cat_document['cat_title']: count_word_in_cat})
-        count_word_in_cat = 0
-        # print (dict_cat)
+# def ghvn_find_cat(sender_id, word_dict, message):
+#     dict_cat = {}
+#     count_word_in_cat = 0
+#     chosen_cat = {}
+#     for cat_document in FAQ2.find({'level': '1'}):
+#         for word in word_dict:
+#             if word in cat_document['cat_keyword']:
+#                 count_word_in_cat = count_word_in_cat + 1
+#         dict_cat.update({cat_document['cat_title']: count_word_in_cat})
+#         count_word_in_cat = 0
+#         # print (dict_cat)
 
-    # gom cac cat_title co count_word_in_cat giong nhau lai
-    flipped = {}
-    for key, value in dict_cat.items():
-        if value not in flipped:
-            flipped[value] = [key]
-        else:
-            flipped[value].append(key)
-    # print(flipped)
+#     # gom cac cat_title co count_word_in_cat giong nhau lai
+#     flipped = {}
+#     for key, value in dict_cat.items():
+#         if value not in flipped:
+#             flipped[value] = [key]
+#         else:
+#             flipped[value].append(key)
+#     # print(flipped)
 
-    # xep lai de thanh maximum
-    maximum_key = max(flipped)
-    maximum_value = flipped[maximum_key]
-    # print('maximum value cua find_cat la ', maximum_value, maximum_key)
+#     # xep lai de thanh maximum
+#     maximum_key = max(flipped)
+#     maximum_value = flipped[maximum_key]
+#     # print('maximum value cua find_cat la ', maximum_value, maximum_key)
 
-    if len(maximum_value) == 1 and maximum_key > 0:  # chi co 1 cat co so luong keyword la max
-        # print(maximum_value[0])
-        chosen_cat = FAQ2.find_one(
-            {'level': '1', 'cat_title': maximum_value[0]})
-        # text = 'da chon dc cat ' + chosen_cat['cat_title']
-        # ghvn.send(sender_id, text)
-        # return chosen_cat
+#     if len(maximum_value) == 1 and maximum_key > 0:  # chi co 1 cat co so luong keyword la max
+#         # print(maximum_value[0])
+#         chosen_cat = FAQ2.find_one(
+#             {'level': '1', 'cat_title': maximum_value[0]})
+#         # text = 'da chon dc cat ' + chosen_cat['cat_title']
+#         # ghvn.send(sender_id, text)
+#         # return chosen_cat
 
-    # co nhieu cat co so luong keyword max bang nhau
-    elif len(maximum_value) > 1 and maximum_key > 0:
-        question = 'Giúp mình tìm câu trả lời nhé, bạn muốn tìm biết về mục nào của chương trình 😜'
-        quick_replies = []
-        for cat_title in maximum_value:
-            payload = '>' + \
-                FAQ2.find_one({'level': '1', 'cat_title': cat_title})['cat_id']
-            quick_replies.append(QuickReply(
-                title=cat_title, payload=payload))
-        ghvn.send(sender_id,
-                  question,
-                  quick_replies=quick_replies,
-                  metadata="DEVELOPER_DEFINED_METADATA")
+#     # co nhieu cat co so luong keyword max bang nhau
+#     elif len(maximum_value) > 1 and maximum_key > 0:
+#         question = 'Giúp mình tìm câu trả lời nhé, bạn muốn tìm biết về mục nào của chương trình 😜'
+#         quick_replies = []
+#         for cat_title in maximum_value:
+#             payload = '>' + \
+#                 FAQ2.find_one({'level': '1', 'cat_title': cat_title})['cat_id']
+#             quick_replies.append(QuickReply(
+#                 title=cat_title, payload=payload))
+#         ghvn.send(sender_id,
+#                   question,
+#                   quick_replies=quick_replies,
+#                   metadata="DEVELOPER_DEFINED_METADATA")
 
-    else:  # khong co cat nao, max = 0
-        new_nofaq = {'message': message, 'id_user': sender_id}
-        NOFAQ.insert_one(new_nofaq)
-        print('khong tim thay cau hoi trong FAQ2, vao NOFAQ de xem')
-        text = "Oops..!Hiện tại mình chưa có dữ liệu câu hỏi của bạn, mình sẽ cập nhật và trả lời bạn sớm nhất. Hãy tiếp tục kết nối với chương trình qua các tính năng khác bạn nhé!😬😬"
-        buttons = [
-            Template.ButtonPostBack(
-                "Home", "home")
-        ]
-        ghvn.send(sender_id, Template.Buttons(text, buttons))
+#     else:  # khong co cat nao, max = 0
+#         new_nofaq = {'message': message, 'id_user': sender_id}
+#         NOFAQ.insert_one(new_nofaq)
+#         print('khong tim thay cau hoi trong FAQ2, vao NOFAQ de xem')
+#         text = "Oops..!Hiện tại mình chưa có dữ liệu câu hỏi của bạn, mình sẽ cập nhật và trả lời bạn sớm nhất. Hãy tiếp tục kết nối với chương trình qua các tính năng khác bạn nhé!😬😬"
+#         buttons = [
+#             Template.ButtonPostBack(
+#                 "Home", "home")
+#         ]
+#         ghvn.send(sender_id, Template.Buttons(text, buttons))
 
-    return chosen_cat
-
-
-def ghvn_find_subcat(sender_id, word_dict, chosen_cat):
-    dict_subcat = {}
-    count_word_in_subcat = 0
-    chosen_subcat = {}
-    # print('chosen_cat ', chosen_cat)
-    for subcat_document in FAQ2.find({'level': '2', 'cat_id': chosen_cat['cat_id']}):
-        for word in word_dict:
-            if word in subcat_document['subcat_keyword']:
-                count_word_in_subcat = count_word_in_subcat + 1
-        dict_subcat.update(
-            {subcat_document['subcat_title']: count_word_in_subcat})
-        count_word_in_subcat = 0
-        # print (dict_subcat)
-
-    # gom cac cat_title co count_word_in_cat giong nhau lai
-    flipped = {}
-    for key, value in dict_subcat.items():
-        if value not in flipped:
-            flipped[value] = [key]
-        else:
-            flipped[value].append(key)
-    # print(flipped)
-
-    # xep lai de thanh maximum
-    maximum_key = max(flipped)
-    maximum_value = flipped[maximum_key]
-    # print('maximum value la ', maximum_value)
-
-    if len(maximum_value) == 1:  # chi co 1 cat co so luong keyword la max
-        # print(maximum_value[0])
-        chosen_subcat = FAQ2.find_one(
-            {'level': '2', 'subcat_title': maximum_value[0], 'cat_id': chosen_cat['cat_id']})
-        # text = 'da chon dc subcat ' + chosen_subcat['subcat_id']
-        # ghvn.send(sender_id, text)
-        # return chosen_subcat
-
-    else:  # len(maximum_value) > 1
-        question = 'Hee, câu hỏi nào sẽ giúp mình giải đáp thắc mắc của bạn 😇'
-        quick_replies = []
-        for subcat_title in maximum_value:
-            subcat = FAQ2.find_one(
-                {'level': '2', 'cat_id': chosen_cat['cat_id'], 'subcat_title': subcat_title})
-            payload = '>' + chosen_cat['cat_id'] + '>' + subcat['subcat_id']
-            quick_replies.append(QuickReply(
-                title=subcat_title, payload=payload))
-        ghvn.send(sender_id,
-                  question,
-                  quick_replies=quick_replies,
-                  metadata="DEVELOPER_DEFINED_METADATA")
-    return chosen_subcat
+#     return chosen_cat
 
 
-def ghvn_find_qa(sender_id, word_dict, chosen_subcat):
-    dict_qa = {}
-    count_word_in_qa = 0
-    chosen_qa = {}
-    # print('chosen_subcat trong find_qa', chosen_subcat)
-    for qa_document in FAQ2.find({'level': '3', 'cat_id': chosen_subcat['cat_id'], 'subcat_id': chosen_subcat['subcat_id']}):
-        for word in word_dict:
-            if word in qa_document['qa_keyword']:
-                count_word_in_qa = count_word_in_qa + 1
-        dict_qa.update(
-            {qa_document['question']: count_word_in_qa})
-        count_word_in_qa = 0
-    # print ('dict_qa ', dict_qa)
+# def ghvn_find_subcat(sender_id, word_dict, chosen_cat):
+#     dict_subcat = {}
+#     count_word_in_subcat = 0
+#     chosen_subcat = {}
+#     # print('chosen_cat ', chosen_cat)
+#     for subcat_document in FAQ2.find({'level': '2', 'cat_id': chosen_cat['cat_id']}):
+#         for word in word_dict:
+#             if word in subcat_document['subcat_keyword']:
+#                 count_word_in_subcat = count_word_in_subcat + 1
+#         dict_subcat.update(
+#             {subcat_document['subcat_title']: count_word_in_subcat})
+#         count_word_in_subcat = 0
+#         # print (dict_subcat)
 
-    # gom cac cat_title co count_word_in_cat giong nhau lai
-    flipped = {}
-    for key, value in dict_qa.items():
-        if value not in flipped:
-            flipped[value] = [key]
-        else:
-            flipped[value].append(key)
-    # print('flipped trong find_qa ', flipped)
+#     # gom cac cat_title co count_word_in_cat giong nhau lai
+#     flipped = {}
+#     for key, value in dict_subcat.items():
+#         if value not in flipped:
+#             flipped[value] = [key]
+#         else:
+#             flipped[value].append(key)
+#     # print(flipped)
 
-    # xep lai de thanh maximum
-    maximum_key = max(flipped)
-    maximum_value = flipped[maximum_key]
-    # print('maximum value cua qa la ', maximum_value)
+#     # xep lai de thanh maximum
+#     maximum_key = max(flipped)
+#     maximum_value = flipped[maximum_key]
+#     # print('maximum value la ', maximum_value)
 
-    if len(maximum_value) == 1:  # chi co 1 cat co so luong keyword la max
-        # print(maximum_value[0])
-        chosen_qa = FAQ2.find_one(
-            {'level': '3', 'question': maximum_value[0]})
-        text = chosen_qa['answer']
-        ghvn.send(sender_id, text)
-        # return chosen_qa
+#     if len(maximum_value) == 1:  # chi co 1 cat co so luong keyword la max
+#         # print(maximum_value[0])
+#         chosen_subcat = FAQ2.find_one(
+#             {'level': '2', 'subcat_title': maximum_value[0], 'cat_id': chosen_cat['cat_id']})
+#         # text = 'da chon dc subcat ' + chosen_subcat['subcat_id']
+#         # ghvn.send(sender_id, text)
+#         # return chosen_subcat
 
-    else:  # len(maximum_value) > 1
-        text = 'Câu hỏi nào giống với ý của nhất? 😋'
-        quick_replies = []
-        for question in maximum_value:
-            text = text + \
-                ('\n' + str(maximum_value.index(question) + 1) + '. ' + question)
-            qa = FAQ2.find_one(
-                {'level': '3', 'cat_id': chosen_subcat['cat_id'], 'subcat_id': chosen_subcat['subcat_id']})
-            payload = '>' + chosen_subcat['cat_id'] + '>' + \
-                chosen_subcat['subcat_id'] + '>' + qa['qa_id']
-            quick_replies.append(QuickReply(
-                title=str(maximum_value.index(question) + 1), payload=payload))
-        ghvn.send(sender_id,
-                  text,
-                  quick_replies=quick_replies,
-                  metadata="DEVELOPER_DEFINED_METADATA")
-    return chosen_qa
+#     else:  # len(maximum_value) > 1
+#         question = 'Hee, câu hỏi nào sẽ giúp mình giải đáp thắc mắc của bạn 😇'
+#         quick_replies = []
+#         for subcat_title in maximum_value:
+#             subcat = FAQ2.find_one(
+#                 {'level': '2', 'cat_id': chosen_cat['cat_id'], 'subcat_title': subcat_title})
+#             payload = '>' + chosen_cat['cat_id'] + '>' + subcat['subcat_id']
+#             quick_replies.append(QuickReply(
+#                 title=subcat_title, payload=payload))
+#         ghvn.send(sender_id,
+#                   question,
+#                   quick_replies=quick_replies,
+#                   metadata="DEVELOPER_DEFINED_METADATA")
+#     return chosen_subcat
 
 
-def ghvn_handle_faq_quickreply(sender_id, quickreply_dict):
-    length = len(quickreply_dict)
-    print('length of quick_reply_dict ', length)
-    print(quickreply_dict)
+# def ghvn_find_qa(sender_id, word_dict, chosen_subcat):
+#     dict_qa = {}
+#     count_word_in_qa = 0
+#     chosen_qa = {}
+#     # print('chosen_subcat trong find_qa', chosen_subcat)
+#     for qa_document in FAQ2.find({'level': '3', 'cat_id': chosen_subcat['cat_id'], 'subcat_id': chosen_subcat['subcat_id']}):
+#         for word in word_dict:
+#             if word in qa_document['qa_keyword']:
+#                 count_word_in_qa = count_word_in_qa + 1
+#         dict_qa.update(
+#             {qa_document['question']: count_word_in_qa})
+#         count_word_in_qa = 0
+#     # print ('dict_qa ', dict_qa)
 
-    if length > 3:
-        # length = 4
-        cat_id = quickreply_dict[1]
-        subcat_id = quickreply_dict[2]
-        qa_id = quickreply_dict[3]
-        result = FAQ2.find_one(
-            {'level': '3', 'cat_id': cat_id, 'subcat_id': subcat_id, 'qa_id': qa_id})
-        # print(result)
-        text = result['answer']
-        buttons = [
-            Template.ButtonPostBack(
-                "Home", "home")
-        ]
-        ghvn.send(sender_id, Template.Buttons(text, buttons))
+#     # gom cac cat_title co count_word_in_cat giong nhau lai
+#     flipped = {}
+#     for key, value in dict_qa.items():
+#         if value not in flipped:
+#             flipped[value] = [key]
+#         else:
+#             flipped[value].append(key)
+#     # print('flipped trong find_qa ', flipped)
 
-    elif length > 2:
-        # length = 3
-        print('quick_reply: co cat_id, co subcat_id, khong co qa_id')
-        cat_id = quickreply_dict[1]
-        subcat_id = quickreply_dict[2]
-        question = 'Hee, câu hỏi nào sẽ giúp mình giải đáp thắc mắc của bạn 😇'
-        cursor_qa = FAQ2.find(
-            {'level': '3', 'cat_id': cat_id, 'subcat_id': subcat_id})
-        dict_qa = []
-        for i in cursor_qa:
-            dict_qa.append(i)
-        # print('dict_qa la ', dict_qa)
-        quick_replies = []
-        for qa in dict_qa:
-            question = question + \
-                ('\n' + str(dict_qa.index(qa) + 1) + '. ' + qa['question'])
-            payload = '>' + cat_id + '>' + subcat_id + '>' + qa['qa_id']
-            quick_replies.append(QuickReply(
-                title=str(dict_qa.index(qa) + 1), payload=payload))
-        ghvn.send(sender_id,
-                  question,
-                  quick_replies=quick_replies,
-                  metadata="DEVELOPER_DEFINED_METADATA")
-    else:
-        # length = 2
-        print('quick_reply: co cat_id, khong co subcat_id')
-        cat_id = quickreply_dict[1]
-        dict_subcat = FAQ2.find({'level': '2', 'cat_id': cat_id})
-        question = 'Giúp mình tìm câu trả lời nhé, bạn muốn tìm biết về mục nào của chương trình 😜'
-        quick_replies = []
-        for subcat in dict_subcat:
-            payload = '>' + cat_id + '>' + subcat['subcat_id']
-            quick_replies.append(QuickReply(
-                title=subcat['subcat_title'], payload=payload))
-        ghvn.send(sender_id,
-                  question,
-                  quick_replies=quick_replies,
-                  metadata="DEVELOPER_DEFINED_METADATA")
+#     # xep lai de thanh maximum
+#     maximum_key = max(flipped)
+#     maximum_value = flipped[maximum_key]
+#     # print('maximum value cua qa la ', maximum_value)
 
-    # cat_id = quickreply_dict[1]
-    # if length == 3:
-    #     subcat_id = quickreply_dict[2]
-    #     if length == 4:
-    #         qa_id = quickreply_dict[3]
-    #         result = FAQ2.find(
-    #             {'level': '3', 'cat_id': cat_id, 'subcat_id': subcat_id, 'qa_id': qa_id})
-    #         text = result['answer']
-    #         ghvn.send(sender_id, text)
-    #     else:
-    #         print('quick_reply: co cat_id, co subcat_id, khong co qa_id')
-    #         question = 'Hee, câu hỏi nào sẽ giúp mình giải đáp thắc mắc của bạn 😇'
-    #         dict_qa = FAQ2.find(
-    #             {'level': '3', 'cat_id': cat_id, 'subcat_id': subcat_id})
-    #         quick_replies = []
-    #         stt = 0
-    #         for qa in dict_qa:
-    #             question = question + \
-    #                 ('\n' + str(stt + 1) + '. ' + qa['question'])
-    #             payload = '>' + cat_id + '>' + subcat_id + '>' + qa['qa_id']
-    #             quick_replies.append(QuickReply(
-    #                 title=str(stt + 1), payload=payload))
-    #         ghvn.send(sender_id,
-    #                   question,
-    #                   quick_replies=quick_replies,
-    #                   metadata="DEVELOPER_DEFINED_METADATA")
+#     if len(maximum_value) == 1:  # chi co 1 cat co so luong keyword la max
+#         # print(maximum_value[0])
+#         chosen_qa = FAQ2.find_one(
+#             {'level': '3', 'question': maximum_value[0]})
+#         text = chosen_qa['answer']
+#         ghvn.send(sender_id, text)
+#         # return chosen_qa
 
-    # else:
-    #     print('quick_reply: co cat_id, khong co subcat_id')
-    #     dict_subcat = FAQ2.find({'level': '2', 'cat_id': cat_id})
-    #     question = 'Giúp mình tìm câu trả lời nhé, bạn muốn tìm biết về mục nào của chương trình 😜'
-    #     quick_replies = []
-    #     for subcat in dict_subcat:
-    #         payload = '>' + cat_id + '>' + subcat['subcat_id']
-    #         quick_replies.append(QuickReply(
-    #             title=subcat['subcat_title'], payload=payload))
-
-    #     ghvn.send(sender_id,
-    #               question,
-    #               quick_replies=quick_replies,
-    #               metadata="DEVELOPER_DEFINED_METADATA")
+#     else:  # len(maximum_value) > 1
+#         text = 'Câu hỏi nào giống với ý của nhất? 😋'
+#         quick_replies = []
+#         for question in maximum_value:
+#             text = text + \
+#                 ('\n' + str(maximum_value.index(question) + 1) + '. ' + question)
+#             qa = FAQ2.find_one(
+#                 {'level': '3', 'cat_id': chosen_subcat['cat_id'], 'subcat_id': chosen_subcat['subcat_id']})
+#             payload = '>' + chosen_subcat['cat_id'] + '>' + \
+#                 chosen_subcat['subcat_id'] + '>' + qa['qa_id']
+#             quick_replies.append(QuickReply(
+#                 title=str(maximum_value.index(question) + 1), payload=payload))
+#         ghvn.send(sender_id,
+#                   text,
+#                   quick_replies=quick_replies,
+#                   metadata="DEVELOPER_DEFINED_METADATA")
+#     return chosen_qa
 
 
-def ghvn_handle_faq_message(sender_id, message):
-    if message is not None:
-        print('message la: ', message)
-        # kiem tra user, neu chua co thi them vao database
-        check_user = USER.find_one({'id_user': sender_id})
-        if bool(check_user):
-            # pass
-            # ghvn.send(sender_id, "user da co trong database")
-            print('user da co trong database')
-        else:
-            user_profile = ghvn.get_user_profile(sender_id)  # return dict
-            if user_profile['first_name'] is not None:
+# def ghvn_handle_faq_quickreply(sender_id, quickreply_dict):
+#     length = len(quickreply_dict)
+#     print('length of quick_reply_dict ', length)
+#     print(quickreply_dict)
 
-                first = user_profile["first_name"]
-                last = user_profile["last_name"]
-                id_user = user_profile["id"]
-                insert_new_user(first, last, id_user)
+#     if length > 3:
+#         # length = 4
+#         cat_id = quickreply_dict[1]
+#         subcat_id = quickreply_dict[2]
+#         qa_id = quickreply_dict[3]
+#         result = FAQ2.find_one(
+#             {'level': '3', 'cat_id': cat_id, 'subcat_id': subcat_id, 'qa_id': qa_id})
+#         # print(result)
+#         text = result['answer']
+#         buttons = [
+#             Template.ButtonPostBack(
+#                 "Home", "home")
+#         ]
+#         ghvn.send(sender_id, Template.Buttons(text, buttons))
 
-        # TACH TU (word_segmentation)
-        word_dict = word_sent(message)
-        print('Word Segmentation: ', word_dict)
+#     elif length > 2:
+#         # length = 3
+#         print('quick_reply: co cat_id, co subcat_id, khong co qa_id')
+#         cat_id = quickreply_dict[1]
+#         subcat_id = quickreply_dict[2]
+#         question = 'Hee, câu hỏi nào sẽ giúp mình giải đáp thắc mắc của bạn 😇'
+#         cursor_qa = FAQ2.find(
+#             {'level': '3', 'cat_id': cat_id, 'subcat_id': subcat_id})
+#         dict_qa = []
+#         for i in cursor_qa:
+#             dict_qa.append(i)
+#         # print('dict_qa la ', dict_qa)
+#         quick_replies = []
+#         for qa in dict_qa:
+#             question = question + \
+#                 ('\n' + str(dict_qa.index(qa) + 1) + '. ' + qa['question'])
+#             payload = '>' + cat_id + '>' + subcat_id + '>' + qa['qa_id']
+#             quick_replies.append(QuickReply(
+#                 title=str(dict_qa.index(qa) + 1), payload=payload))
+#         ghvn.send(sender_id,
+#                   question,
+#                   quick_replies=quick_replies,
+#                   metadata="DEVELOPER_DEFINED_METADATA")
+#     else:
+#         # length = 2
+#         print('quick_reply: co cat_id, khong co subcat_id')
+#         cat_id = quickreply_dict[1]
+#         dict_subcat = FAQ2.find({'level': '2', 'cat_id': cat_id})
+#         question = 'Giúp mình tìm câu trả lời nhé, bạn muốn tìm biết về mục nào của chương trình 😜'
+#         quick_replies = []
+#         for subcat in dict_subcat:
+#             payload = '>' + cat_id + '>' + subcat['subcat_id']
+#             quick_replies.append(QuickReply(
+#                 title=subcat['subcat_title'], payload=payload))
+#         ghvn.send(sender_id,
+#                   question,
+#                   quick_replies=quick_replies,
+#                   metadata="DEVELOPER_DEFINED_METADATA")
 
-        chosen_cat = find_cat(sender_id, word_dict, message)
-        if chosen_cat != {}:
-            print('da tim thay chosen_cat')
-            chosen_subcat = find_subcat(sender_id, word_dict, chosen_cat)
-            if chosen_subcat != {}:
-                print('da tim thay chosen_subcat')
-                chosen_qa = find_qa(sender_id, word_dict, chosen_subcat)
 
-                if chosen_qa != {}:
-                    print('da tim thay chosen_qa')
-                else:
-                    print(
-                        'tim thay chosen_cat,tim thay chosen_subcat, khong tim thay chosen_qa')
-            else:
-                print('tim thay chosen_cat, khong tim thay chosen_subcat')
-        else:
-            print('khong tim thay chosen_cat')
-    else:
-        print('Message is None')
+# def ghvn_handle_faq_message(sender_id, message):
+#     if message is not None:
+
+#         # TACH TU (word_segmentation)
+#         word_dict = word_sent(message)
+#         print('Word Segmentation: ', word_dict)
+
+#         chosen_cat = find_cat(sender_id, word_dict, message)
+#         if chosen_cat != {}:
+#             print('da tim thay chosen_cat')
+#             chosen_subcat = find_subcat(sender_id, word_dict, chosen_cat)
+#             if chosen_subcat != {}:
+#                 print('da tim thay chosen_subcat')
+#                 chosen_qa = find_qa(sender_id, word_dict, chosen_subcat)
+
+#                 if chosen_qa != {}:
+#                     print('da tim thay chosen_qa')
+#                 else:
+#                     print(
+#                         'tim thay chosen_cat,tim thay chosen_subcat, khong tim thay chosen_qa')
+#             else:
+#                 print('tim thay chosen_cat, khong tim thay chosen_subcat')
+#         else:
+#             print('khong tim thay chosen_cat')
+#     else:
+#         print('Message is None')
 
 
 def ghvn_message_handler(event):
@@ -881,18 +773,18 @@ def ghvn_message_handler(event):
     keyword_list = {
         'home': ghvn_home,
         'hello': ghvn_greeting,
-        'hi': greeting,
-        'chào': greeting,
-        'alo': greeting,
-        'chao': greeting,
-        'xin chào': greeting,
-        'xin chao': greeting,
-        'Xin chào': greeting,
-        'giờ phát sóng': timeline,
-        'lịch phát sóng': timeline,
-        'giới thiệu': introduce,
-        'subscribe': handle_subscribe_1,
-        'fansign': fansign_menu
+        'hi': ghvn_greeting,
+        'chào': ghvn_greeting,
+        'alo': ghvn_greeting,
+        'chao': ghvn_greeting,
+        'xin chào': ghvn_greeting,
+        'xin chao': ghvn_greeting,
+        'Xin chào': ghvn_greeting,
+        'giờ phát sóng': ghvn_timeline,
+        'lịch phát sóng': ghvn_timeline,
+        'giới thiệu': ghvn_introduce,
+        'subscribe': ghvn_handle_subscribe_1,
+        'fansign': ghvn_fansign_menu
     }
     minigame2_keyword_list = ["đỉnh", "xinh", "bánh bèo", "chất",
                               "phũ", "cá tính", "đẹp trai", "ế", "cao", "hit", "cute", "nhọ"]
@@ -903,29 +795,29 @@ def ghvn_message_handler(event):
         return
 
     elif message in minigame2_keyword_list:
-        minigame2_handle_result(message, sender_id)
+        ghvn_minigame2_handle_result(message, sender_id)
         return
 
     elif danh_sach_HLV.count(quickreply) == 1:
-        minigame1_handle_quick_reply(sender_id, quickreply)
+        ghvn_minigame1_handle_quick_reply(sender_id, quickreply)
         return
 
     elif subscribe_options.count(quickreply) == 1:
-        handle_subscribe_news(sender_id, quickreply)
+        ghvn_handle_subscribe_news(sender_id, quickreply)
         return
 
     elif fansign_list.count(quickreply) == 1:
-        fansign_handle_quick_reply(sender_id, quickreply)
+        ghvn_fansign_handle_quick_reply(sender_id, quickreply)
         return
-    elif quickreply_dict[0] == '' and len(quickreply_dict) > 1:
-        handle_faq_quickreply(sender_id, quickreply_dict)
+    # elif quickreply_dict[0] == '' and len(quickreply_dict) > 1:
+    #     ghvn_handle_faq_quickreply(sender_id, quickreply_dict)
 
     else:
+        print('khong tra loi duoc tin nhan')
         # luu tin nhan
-        save_message(sender_id, message)
+        # ghvn_save_message(sender_id, message)
         # tra loi tin nhan
-        # answer(message, sender_id)
-        handle_faq_message(sender_id, message)
+        # ghvn_handle_faq_message(sender_id, message)
 
 
 def ghvn_postback_handler(event):
@@ -933,20 +825,20 @@ def ghvn_postback_handler(event):
     postback = event.postback_payload
 
     postback_list = {
-        'greeting': greeting,
-        'home': home,
-        'read_news': read_news,
-        'subscribe_news': subscribe_news,
-        'minigame1': minigame1,
-        'minigame1_menu': minigame1_menu,
-        'minigame1_vote': minigame1_vote,
-        'minigame1_rule': minigame1_rule,
-        'minigame2': minigame2,
-        'minigame2_rule': minigame2_rule,
-        'minigame2_menu': minigame2_menu,
-        'time line': timeline,
-        'introduce': introduce,
-        'fansign': fansign_menu
+        'ghvn_greeting': ghvn_greeting,
+        'ghvn_home': ghvn_home,
+        'ghvn_read_news': ghvn_read_news,
+        'ghvn_subscribe_news': ghvn_subscribe_news,
+        'ghvn_minigame1': ghvn_minigame1,
+        'ghvn_minigame1_menu': ghvn_minigame1_menu,
+        'ghvn_minigame1_vote': ghvn_minigame1_vote,
+        'ghvn_minigame1_rule': ghvn_minigame1_rule,
+        'ghvn_minigame2': ghvn_minigame2,
+        'ghvn_minigame2_rule': ghvn_minigame2_rule,
+        'ghvn_minigame2_menu': ghvn_minigame2_menu,
+        'ghvn_time line': ghvn_timeline,
+        'ghvn_introduce': ghvn_introduce,
+        'ghvn_fansign': ghvn_fansign_menu
     }
 
     if postback in postback_list:
