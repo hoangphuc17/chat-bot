@@ -2,8 +2,8 @@
 from flask import Flask, render_template, url_for, request, session, redirect, jsonify, flash
 
 from messenger_platform.messenger_api import Attachment, Template
-from messenger_platform.messenger_api import QuickReply
-from messenger_platform.messenger_api import Page
+# from messenger_platform.messenger_api import QuickReply
+# from messenger_platform.messenger_api import Page
 
 from messenger_platform.config.config import CONFIG
 
