@@ -31,7 +31,7 @@ def save_mess(chatbot, sender_id, mess, timestamp):
         )
     else:
         new_mess = {
-            'chatbot': str(chatbot),
+            'chatbot': chatbot,
             'id_user': sender_id,
             'mess': [{
                 'content': mess,
@@ -71,7 +71,7 @@ def add_customer(chatbot, id_user, first_name, last_name, gender):
     else:
         new_customer = {
             'ATTRIBUTES': {
-                'chatbot': str(chatbot),
+                'chatbot': chatbot,
                 'id_user': id_user,
                 'first_name': first_name,
                 'last_name': last_name,
