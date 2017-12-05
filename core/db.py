@@ -160,7 +160,7 @@ def check_customer_by_id(chatbot, sender_id):
         found_customer = CUSTOMER.find_one(
             {'ATTRIBUTES': {'id_user': sender_id}})
         if bool(found_customer):
-            pass
+            print(last_name, ' ', first_name, ' is already in database')
         else:
             add_customer(chatbot, sender_id, first_name, last_name, gender)
 
