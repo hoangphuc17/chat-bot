@@ -13,10 +13,9 @@ from messenger_platform.messenger_api import Attachment, Template
 from messenger_platform.messenger_api import QuickReply
 from messenger_platform.messenger_api import Page
 
-import messenger_platform.config.messenger
 from messenger_platform.config.config import CONFIG
 
-from messenger_platform.config.config import ghvn
+from messenger_platform.config.fbpage import ghvn
 from core.db import *
 
 import PIL

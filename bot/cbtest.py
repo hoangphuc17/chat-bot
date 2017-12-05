@@ -29,3 +29,4 @@ def postback_handler_cbtest(event):
 
 
 def upload_image(sender_id):
+    print('a')
