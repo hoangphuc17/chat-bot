@@ -10,8 +10,8 @@ os.sys.path.insert(0, parentdir)
 from flask import Flask, request, send_from_directory, render_template
 
 from messenger_platform.messenger_api import Attachment, Template
-from messenger_platform.messenger_api import QuickReply
-from messenger_platform.messenger_api import Page
+# from messenger_platform.messenger_api import QuickReply
+# from messenger_platform.messenger_api import Page
 
 from messenger_platform.config.config import CONFIG
 

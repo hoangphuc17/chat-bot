@@ -21,14 +21,17 @@ class Buttons(object):
                     if item.get('type') in ['web_url', 'postback', 'phone_number']:
                         type = item.get('type')
                         title = item.get('title')
-                        value = item.get('value', item.get('url', item.get('payload')))
+                        value = item.get('value', item.get(
+                            'url', item.get('payload')))
 
                         if type == 'web_url':
                             result.append(ButtonWeb(title=title, url=value))
                         elif type == 'postback':
-                            result.append(ButtonPostBack(title=title, payload=value))
+                            result.append(ButtonPostBack(
+                                title=title, payload=value))
                         elif type == 'phone_number':
-                            result.append(ButtonPhoneNumber(title=title, payload=value))
+                            result.append(ButtonPhoneNumber(
+                                title=title, payload=value))
 
                     else:
                         raise ValueError('Invalid button type')
