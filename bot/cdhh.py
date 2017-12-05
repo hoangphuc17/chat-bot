@@ -46,7 +46,7 @@ def cdhh_greeting(sender_id):
     text = space.join(seq)
     buttons = [
         Template.ButtonPostBack(
-            "Home", "home")
+            "Home", "cdhh_home")
     ]
     cdhh.send(sender_id, Template.Buttons(text, buttons))
 
@@ -58,9 +58,9 @@ def cdhh_home(sender_id):
                                 image_url="http://210.211.109.211/weqbfyretnccbsaf/cdhh_tintuc.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
-                                        "Xem tin tức 👓", "news"),
+                                        "Xem tin tức 👓", "cdhh_news"),
                                     Template.ButtonPostBack(
-                                        "Theo dõi tin tức 📸", "subscribe")
+                                        "Theo dõi tin tức 📸", "cdhh_subscribe")
                                 ]),
         Template.GenericElement("Xem chương trình",
                                 subtitle="Chương trình phát sóng 20:30 thứ 5 hàng tuần trên VTV3.\nBạn có thế xem lại tập Full với các bản tình ca siêu ngọt ngào tại đây nha!",
@@ -76,7 +76,7 @@ def cdhh_home(sender_id):
                                 image_url="http://210.211.109.211/weqbfyretnccbsaf/cdhh_binhchon.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
-                                        "Bình chọn", "vote")
+                                        "Bình chọn", "cdhh_vote")
 
                                 ]),
         Template.GenericElement("Tìm hiểu thêm thông tin",
@@ -93,7 +93,7 @@ def cdhh_home(sender_id):
     cdhh.send(sender_id, Template.Generic(elements))
 
 
-def news(sender_id):
+def cdhh_news(sender_id):
     elements = []
     for item in NEWS.find():
         element = Template.GenericElement(
@@ -102,14 +102,14 @@ def news(sender_id):
             image_url=item['image_url'],
             buttons=[
                 Template.ButtonWeb('Đọc tin', item['item_url']),
-                Template.ButtonPostBack('Về Home', 'home')
+                Template.ButtonPostBack('Về Home', 'cdhh_home')
             ])
         elements.append(element)
 
     cdhh.send(sender_id, Template.Generic(elements))
 
 
-def subscribe(sender_id):
+def cdhh_subscribe(sender_id):
     question = "Bằng cách đồng ý theo dõi tin tức dưới đây, bạn sẽ nhận được thông báo mỗi khi tin tức mới của chương trình được cập nhật.\nBạn muốn nhận thông báo chứ?"
     quick_replies = [
         QuickReply(title="1 tuần 1 lần 😋", payload="yes1"),
@@ -122,11 +122,11 @@ def subscribe(sender_id):
               metadata="DEVELOPER_DEFINED_METADATA")
 
 
-def subscribe_handler(sender_id, quick_reply_payload):
+def cdhh_subscribe_handler(sender_id, quick_reply_payload):
     if quick_reply_payload == 'no':
         text = "Okey. Bất cứ khi nào bạn cần đăng ký nhận tin tức thì quay lại đây nhé!"
         buttons = [
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack("Home", "cdhh_home")
         ]
 
         cdhh.send(sender_id, Template.Buttons(text, buttons))
@@ -137,7 +137,7 @@ def subscribe_handler(sender_id, quick_reply_payload):
     else:
         text = "Bạn đã đăng ký nhận thông báo thành công. \nMỗi khi có thông báo mới về chương trình, mình sẽ gửi tới bạn."
         buttons = [
-            Template.ButtonPostBack("Home", "home")
+            Template.ButtonPostBack("Home", "cdhh_home")
         ]
 
         cdhh.send(sender_id, Template.Buttons(text, buttons))
@@ -147,12 +147,12 @@ def subscribe_handler(sender_id, quick_reply_payload):
         )
 
 
-def vote(sender_id):
+def cdhh_vote(sender_id):
     check_vote = USER.find_one({'id_user': sender_id})
 
     if check_vote['vote'] == '':
         # user chua binh chon
-        vote_menu(sender_id)
+        cdhh_vote_menu(sender_id)
     else:
         # user da binh chon
         space = " "
@@ -169,7 +169,7 @@ def vote(sender_id):
         cdhh.send(sender_id, Template.Buttons(text, buttons))
 
 
-def vote_menu(sender_id):
+def cdhh_vote_menu(sender_id):
     question = 'Bình chọn ngay cho thí sinh bạn yêu thích nhất ngay nào! Bạn thuộc'
     quick_replies = [
         QuickReply(title="Team Mai Tiến Dũng", payload="Team Mai Tiến Dũng"),
@@ -188,14 +188,14 @@ def vote_menu(sender_id):
               metadata="DEVELOPER_DEFINED_METADATA")
 
 
-def vote_handler(sender_id, quickreply):
+def cdhh_vote_handler(sender_id, quickreply):
     space = " "
     a = "Bạn đã dự đoán thành công. Dự đoán của bạn đang dành cho"
     seq = (a, quickreply)
     text = space.join(seq)
     buttons = [
-        Template.ButtonPostBack("Bình chọn lại", "vote_menu"),
-        Template.ButtonPostBack("Home", "home")
+        Template.ButtonPostBack("Bình chọn lại", "cdhh_vote_menu"),
+        Template.ButtonPostBack("Home", "cdhh_home")
     ]
     cdhh.send(sender_id, Template.Buttons(text, buttons))
 
@@ -212,11 +212,11 @@ def cdhh_postback_handler(event):
 
     postback_list = {
         'cdhh_greeting': cdhh_greeting,
-        'home': cdhh_home,
-        'news': news,
-        'subscribe': subscribe,
-        'vote': vote,
-        'vote_menu': vote_menu
+        'cdhh_home': cdhh_home,
+        'cdhh_news': cdhh_news,
+        'cdhh_subscribe': cdhh_subscribe,
+        'cdhh_vote': cdhh_vote,
+        'cdhh_vote_menu': cdhh_vote_menu
     }
 
     if postback in postback_list:
@@ -240,19 +240,19 @@ def cdhh_message_handler(event):
         'hello': cdhh_greeting,
         'hi': cdhh_greeting,
         'home': cdhh_home,
-        'bình chọn': vote,
-        'binh chon': vote,
-        'vote': vote,
-        'dang ky': subscribe,
-        'dang ki': subscribe,
-        'subscribe': subscribe,
-        'đăng ký': subscribe,
-        'đăng kí': subscribe
+        'bình chọn': cdhh_vote,
+        'binh chon': cdhh_vote,
+        'vote': cdhh_vote,
+        'dang ky': cdhh_subscribe,
+        'dang ki': cdhh_subscribe,
+        'subscribe': cdhh_subscribe,
+        'đăng ký': cdhh_subscribe,
+        'đăng kí': cdhh_subscribe
     }
 
     if message in keyword_list:
         keyword_list[message](sender_id)
     elif cdhh_vote_list.count(quickreply) == 1:
-        vote_handler(sender_id, quickreply)
+        cdhh_vote_handler(sender_id, quickreply)
     elif subscribe_options.count(quickreply) == 1:
-        subscribe_handler(sender_id, quickreply)
+        cdhh_subscribe_handler(sender_id, quickreply)

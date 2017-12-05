@@ -233,6 +233,8 @@ class Page(object):
                 self._call_handler('account_linking', account_linking, event)
             elif event.is_referral:
                 self._call_handler('referral', referral, event)
+            elif event.is_attachment_message:
+                print('this is an attachment message')
             else:
                 print("Webhook received unknown messagingEvent:", event)
 
@@ -394,7 +396,8 @@ class Page(object):
                     "payload": button.payload
                 })
             else:
-                raise ValueError('show_persistent_menu button type must be "url" or "postback"')
+                raise ValueError(
+                    'show_persistent_menu button type must be "url" or "postback"')
 
         self._send_thread_settings(json.dumps({
             "setting_type": "call_to_actions",
@@ -450,7 +453,8 @@ class Page(object):
 
         for type in types:
             if type not in self._callback_default_types:
-                raise ValueError('callback types must be "QUICK_REPLY" or "POSTBACK"')
+                raise ValueError(
+                    'callback types must be "QUICK_REPLY" or "POSTBACK"')
 
         def wrapper(func):
             if payloads is None:
@@ -470,7 +474,8 @@ class Page(object):
         callbacks = []
         for key in self._quick_reply_callbacks.keys():
             if key not in self._quick_reply_callbacks_key_regex:
-                self._quick_reply_callbacks_key_regex[key] = re.compile(key + '$')
+                self._quick_reply_callbacks_key_regex[key] = re.compile(
+                    key + '$')
 
             if self._quick_reply_callbacks_key_regex[key].match(event.quick_reply_payload):
                 callbacks.append(self._quick_reply_callbacks[key])
