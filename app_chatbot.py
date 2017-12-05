@@ -16,13 +16,13 @@ from messenger_platform.messenger_api import Page
 from messenger_platform.config.config import CONFIG
 
 from messenger_platform.config.fbpage import ghvn
-from chatbot.ghvn import *
+from bot.ghvn import *
 
 from messenger_platform.config.fbpage import cdhh
-from chatbot.cdhh import *
+from bot.cdhh import *
 
 from messenger_platform.config.fbpage import cbtest
-from chatbot.cbtest import *
+from bot.cbtest import *
 
 
 # from ApiMessenger import Attachment, Template
