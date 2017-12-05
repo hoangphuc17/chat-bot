@@ -388,7 +388,7 @@ def ghvn_fansign_menu(sender_id):
 def ghvn_image_fs(sender_id, sizeFont, hlv, first, last, x_Text, y_Text):
     userName = last + ' ' + first
     font = ImageFont.truetype(
-        "/resource/font_fansign/ghvn/font_fansign.ttf", sizeFont)
+        "./resource/font_fansign/ghvn/font_fansign.ttf", sizeFont)
     imageFile = "image/" + hlv + ".jpg"
     im = Image.open(imageFile)
     draw = ImageDraw.Draw(im)
