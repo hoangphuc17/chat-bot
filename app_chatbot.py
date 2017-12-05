@@ -21,19 +21,6 @@ from bot.ghvn import *
 from bot.cdhh import *
 from bot.cbtest import *
 
-
-# from ApiMessenger import Attachment, Template
-# from ApiMessenger.payload import QuickReply
-# from ApiMessenger.fbmq import Page
-
-
-# from CoreChatbot.Preparation.fbpage import cdhh
-# from CoreChatbot.CapDoiHoanHao.cdhh_message import *
-# from CoreChatbot.CapDoiHoanHao.cdhh_postback import *
-
-# from CoreChatbot.Preparation.fbpage import cbtest
-# from chatbot.cbtest import *
-
 app = Flask(__name__)
 
 
