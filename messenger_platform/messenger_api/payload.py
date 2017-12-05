@@ -1,5 +1,5 @@
 # from .utils import *
-from ApiMessenger import utils
+from messenger_platform.messenger_api import utils
 
 
 class Payload(object):
@@ -42,11 +42,13 @@ class Message(object):
 
     def __init__(self, text=None, attachment=None, quick_replies=None, metadata=None):
         if text is not None and attachment is not None:
-            raise ValueError('Please set only one parameter "text" or "attachment"')
+            raise ValueError(
+                'Please set only one parameter "text" or "attachment"')
 
         self.text = text
         self.attachment = attachment
-        self.quick_replies = Message.convert_shortcut_quick_reply(quick_replies)
+        self.quick_replies = Message.convert_shortcut_quick_reply(
+            quick_replies)
         self.metadata = metadata
 
     @staticmethod
@@ -60,7 +62,8 @@ class Message(object):
                 if isinstance(item, QuickReply):
                     result.append(item)
                 elif isinstance(item, dict):
-                    result.append(QuickReply(title=item.get('title'), payload=item.get('payload')))
+                    result.append(QuickReply(title=item.get(
+                        'title'), payload=item.get('payload')))
                 else:
                     raise ValueError('Invalid quick_replies variables')
             return result
