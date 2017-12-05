@@ -15,14 +15,7 @@ from messenger_platform.messenger_api import Page
 
 from messenger_platform.config.config import CONFIG
 
-from messenger_platform.config.fbpage import ghvn
-from bot.ghvn import *
-
-from messenger_platform.config.fbpage import cdhh
-from bot.cdhh import *
-
-from messenger_platform.config.fbpage import cbtest
-from bot.cbtest import *
+from messenger_platform.config.fbpage import ghvn, cdhh, cbtest, saostar
 
 
 # from ApiMessenger import Attachment, Template
