@@ -4,3 +4,4 @@ from messenger_platform import *
 from . import attachment as Attachment
 from . import template as Template
 from . import payload as QuickReply
+from . import fbmq as Page
