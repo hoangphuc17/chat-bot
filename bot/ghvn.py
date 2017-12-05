@@ -389,7 +389,7 @@ def ghvn_image_fs(sender_id, sizeFont, hlv, first, last, x_Text, y_Text):
     userName = last + ' ' + first
     font = ImageFont.truetype(
         "./resource/font_fansign/ghvn/font_fansign.ttf", sizeFont)
-    imageFile = "image/" + hlv + ".jpg"
+    imageFile = "./resource/image/ghvn/fansign/" + hlv + ".jpg"
     im = Image.open(imageFile)
     draw = ImageDraw.Draw(im)
     draw.text((x_Text, y_Text), userName, (0, 0, 0), font=font)
