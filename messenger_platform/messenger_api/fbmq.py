@@ -174,7 +174,7 @@ class Page(object):
 
     _quick_reply_callbacks_key_regex = {}
     _button_callbacks_key_regex = {}
-
+    _attachments_message = {}
     _after_send = None
 
     def _call_handler(self, name, func, *args, **kwargs):
@@ -186,7 +186,7 @@ class Page(object):
             print("there's no %s handler" % name)
 
     def handle_webhook(self, payload, optin=None, message=None, echo=None, delivery=None,
-                       postback=None, read=None, account_linking=None, referral=None):
+                       postback=None, read=None, account_linking=None, referral=None, attachments_message=None):
         data = json.loads(payload)
 
         # Make sure this is a page subscription
@@ -197,15 +197,20 @@ class Page(object):
         # Iterate over each entry
         # There may be multiple if batched
         def get_events(data):
-            print(data)
+
             for entry in data.get("entry"):
                 # tranh truong hop get duoc "standby"
                 if entry.get("messaging") is not None:
-
                     for messaging in entry.get("messaging"):
                         event = Event(messaging)
-
                         yield event
+
+            for entry in data["entry"]:
+                for messaging_event in entry["messaging"]:
+                    if messaging_event["message"].get("attachments"):
+                        attachment_link = messaging_event["message"]["attachments"][0]["payload"]["url"]
+                    print("Image received, boss!")
+                    print(attachment_link)
 
         for event in get_events(data):
             if event.is_optin:
@@ -233,7 +238,8 @@ class Page(object):
             elif event.is_referral:
                 self._call_handler('referral', referral, event)
             elif event.is_attachment_message:
-                print('this is an attachment message')
+                self._call_handler('attachments_message',
+                                   attachments_message, event)
             else:
                 print("Webhook received unknown messagingEvent:", event)
 
@@ -437,6 +443,9 @@ class Page(object):
 
     def handle_referral(self, func):
         self._webhook_handlers['referral'] = func
+
+    def handle_attachments_message(self, func):
+        self._attachments_message['attachments_message'] = func
 
     def after_send(self, func):
         self._after_send = func

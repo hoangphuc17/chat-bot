@@ -820,6 +820,10 @@ def ghvn_message_handler(event):
         # ghvn_handle_faq_message(sender_id, message)
 
 
+def ghvn_attachments_message_handler(event):
+    print('a')
+
+
 def ghvn_postback_handler(event):
     sender_id = event.sender_id
     postback = event.postback_payload
