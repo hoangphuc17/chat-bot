@@ -20,6 +20,13 @@ CUSTOMER = db.CUSTOMER
 BROADCAST = db.BROADCAST
 CONVERSATION = db.CONVERSATION
 
+bot_dict = {
+    'ghvn': ghvn,
+    'cdhh': cdhh,
+    'cbtest': cbtest,
+    'saostar': saostar
+}
+
 
 # CONVERSATION
 def save_mess(chatbot, sender_id, mess, timestamp):
@@ -149,17 +156,17 @@ def update_info_customer(sender_id, info, value):
 
 
 def check_customer_by_id(chatbot, sender_id):
-    cb = exec(chatbot)
-    user_profile = cb.get_user_profile(sender_id)
-    first_name = user_profile["first_name"]
-    last_name = user_profile["last_name"]
-    gender = user_profile["gender"]
+    if chatbot in bot_dict:
+        user_profile = bot_dict[chatbot].get_user_profile(sender_id)
+        first_name = user_profile["first_name"]
+        last_name = user_profile["last_name"]
+        gender = user_profile["gender"]
 
-    found_customer = CUSTOMER.find_one({'id_user': sender_id})
-    if bool(found_customer):
-        pass
-    else:
-        add_customer(chatbot, sender_id, first_name, last_name, gender)
+        found_customer = CUSTOMER.find_one({'id_user': sender_id})
+        if bool(found_customer):
+            pass
+        else:
+            add_customer(chatbot, sender_id, first_name, last_name, gender)
 
 
 def get_customer_by_id(sender_id):
