@@ -6,7 +6,7 @@ os.sys.path.insert(0, parentdir)
 from messenger_platform.messenger_api.fbmq import Page
 from messenger_platform.config.config import CONFIG
 
-page = Page(CONFIG['messenger_platform.config.messenger'])
+page = Page(CONFIG['FACEBOOK_TOKEN_PAGE'])
 
 ghvn = Page(CONFIG['FACEBOOK_TOKEN_GHVN'])
 cdhh = Page(CONFIG['FACEBOOK_TOKEN_CDHH'])
