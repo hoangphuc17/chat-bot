@@ -162,6 +162,7 @@ def check_customer_by_id(chatbot, sender_id):
         if bool(found_customer):
             print(last_name, ' ', first_name, ' is already in database')
         else:
+            print('khong tim thay user')
             add_customer(chatbot, sender_id, first_name, last_name, gender)
 
 
