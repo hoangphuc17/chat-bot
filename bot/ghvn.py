@@ -54,7 +54,7 @@ def ghvn_greeting(sender_id):
     text = space.join(seq)
     buttons = [
         Template.ButtonPostBack(
-            "Home", "home")
+            "Home", "ghvn_home")
     ]
     ghvn.send(sender_id, Template.Buttons(text, buttons))
 
@@ -66,16 +66,16 @@ def ghvn_home(sender_id):
                                 image_url="http://210.211.109.211/weqbfyretnccbsaf/home_hinh1_tin_tuc.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
-                                        "Lấy Fansign", "fansign")
+                                        "Lấy Fansign", "ghvn_fansign")
                                 ]),
         Template.GenericElement("Tin tức mới nhất từ chương trình “Giọng Hát Việt Nhí” 2017",
                                 subtitle="Nơi cập nhật những tin tức mới nhất từ chương trình “Giọng Hát Việt Nhí” 2017",
                                 image_url="http://210.211.109.211/weqbfyretnccbsaf/home_hinh1_tin_tuc.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
-                                        "Xem tin tức 👓", "read_news"),
+                                        "Xem tin tức 👓", "ghvn_read_news"),
                                     Template.ButtonPostBack(
-                                        "Theo dõi tin tức 📸", "subscribe_news")
+                                        "Theo dõi tin tức 📸", "ghvn_subscribe_news")
                                 ]),
         Template.GenericElement("Video Full - The Voice Kids 2017 | Giọng Hát Việt Nhí mùa 5",
                                 subtitle="Xem lại bản đầy dủ các tập đã được phát sóng trên Youtube, Live Streaming",
@@ -94,9 +94,9 @@ def ghvn_home(sender_id):
                                 image_url="http://210.211.109.211/weqbfyretnccbsaf/home_hinh3_du_doan.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
-                                        "Minigame 1", "minigame1"),
+                                        "Minigame 1", "ghvn_minigame1"),
                                     Template.ButtonPostBack(
-                                        "Minigame 2", "minigame2")
+                                        "Minigame 2", "ghvn_minigame2")
                                 ]),
         Template.GenericElement("About us",
                                 subtitle="Theo dõi chương trình Giọng Hát Việt Nhí 2017 tại các kênh truyền thông",
@@ -105,9 +105,9 @@ def ghvn_home(sender_id):
                                     Template.ButtonWeb(
                                         "Facebook", "https://www.facebook.com/gionghatvietnhi/"),
                                     Template.ButtonPostBack(
-                                        "Giờ phát sóng", "time line"),
+                                        "Giờ phát sóng", "ghvn_timeline"),
                                     Template.ButtonPostBack(
-                                        "Giới thiệu", "introduce")
+                                        "Giới thiệu", "ghvn_introduce")
                                 ])
     ]
     ghvn.send(sender_id, Template.Generic(elements))
