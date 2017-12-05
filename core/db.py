@@ -73,74 +73,68 @@ def save_mess(chatbot, sender_id, mess, timestamp):
 
 # CUSTOMER
 def add_customer(chatbot, id_user, first_name, last_name, gender):
-    check_customer = CUSTOMER.find_one({'id_user': id_user})
-    if bool(check_customer):
-        return False
-    else:
-        new_customer = {
-            'ATTRIBUTES': {
-                'chatbot': chatbot,
-                'id_user': id_user,
-                'first_name': first_name,
-                'last_name': last_name,
-                'gender': gender,
+    new_customer = {
+        'ATTRIBUTES': {
+            'chatbot': chatbot,
+            'id_user': id_user,
+            'first_name': first_name,
+            'last_name': last_name,
+            'gender': gender,
 
-                'address': '',
-                'birthday': '',
-                'education': '',
-                'relationship_status': '',
-                'family_member': '',
-                'workplace': '',
-                'university': '',
-                'high_school': ''
-            },
-            'FRIENDS': [
-                # ban be thuong xuyen nhan tin
-                {
-                    'id_friend': '',
-                    'name': '',
-                    'so_luong_tin_nhan': '',
-                    'muc_do_than_thiet': ''
-                }
-            ],
-            'TALKLINES': {
-                'chatbot': '',
-                'time': '',
-                'message': '',
-                'bot_message_previous': '',
-                'bot_message_next': ''
-
-            },
-            'HOBBIES': {
-                'sport': [{
-                    'rate': '',
-                    'details': [{
-                        'football': '',
-                        'tennis': ''
-                    }]
-                }],
-                'entertainment': [{
-                    'rate': '',
-                    'details': [{
-                        'music': '',
-                        'film': ''
-                    }]
-                }],
-                'travelling': [{
-                    'rate': '',
-                    'details': [{
-                        'place': ''
-                    }]
-                }],
-                'politic': ''
-            },
-            'ADVERTISEMENT': {
-                'clicked_ads': ''
+            'address': '',
+            'birthday': '',
+            'education': '',
+            'relationship_status': '',
+            'family_member': '',
+            'workplace': '',
+            'university': '',
+            'high_school': ''
+        },
+        'FRIENDS': [
+            # ban be thuong xuyen nhan tin
+            {
+                'id_friend': '',
+                'name': '',
+                'so_luong_tin_nhan': '',
+                'muc_do_than_thiet': ''
             }
-        }
-        CUSTOMER.insert_one(new_customer)
+        ],
+        'TALKLINES': {
+            'chatbot': '',
+            'time': '',
+            'message': '',
+            'bot_message_previous': '',
+            'bot_message_next': ''
 
-        return True
+        },
+        'HOBBIES': {
+            'sport': [{
+                'rate': '',
+                'details': [{
+                    'football': '',
+                    'tennis': ''
+                }]
+            }],
+            'entertainment': [{
+                'rate': '',
+                'details': [{
+                    'music': '',
+                    'film': ''
+                }]
+            }],
+            'travelling': [{
+                'rate': '',
+                'details': [{
+                    'place': ''
+                }]
+            }],
+            'politic': ''
+        },
+        'ADVERTISEMENT': {
+            'clicked_ads': ''
+        }
+    }
+    CUSTOMER.insert_one(new_customer)
 
 
 def update_info_customer(sender_id, info, value):
@@ -162,7 +156,9 @@ def check_customer_by_id(chatbot, sender_id):
         last_name = user_profile["last_name"]
         gender = user_profile["gender"]
 
-        found_customer = CUSTOMER.find_one({'id_user': sender_id})
+        # found_customer = CUSTOMER.find_one({'id_user': sender_id})
+        found_customer = CUSTOMER.find_one(
+            {'ATTRIBUTES': {'id_user': sender_id}})
         if bool(found_customer):
             pass
         else:
