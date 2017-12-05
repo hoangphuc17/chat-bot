@@ -3,8 +3,8 @@ import os
 parentdir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.sys.path.insert(0, parentdir)
 
-from ApiMessenger.fbmq import Page
-from CoreChatbot.Preparation.config import CONFIG
+from messenger_platform.messenger_api.fbmq import Page
+from messenger_platform.config.config import CONFIG
 
 ghvn = Page(CONFIG['FACEBOOK_TOKEN_GHVN'])
 cdhh = Page(CONFIG['FACEBOOK_TOKEN_CDHH'])
