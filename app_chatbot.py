@@ -17,6 +17,10 @@ from messenger_platform.config.config import CONFIG
 
 from messenger_platform.config.fbpage import ghvn, cdhh, cbtest, saostar
 
+from bot.ghvn import *
+from bot.cdhh import *
+from bot.cbtest import *
+
 
 # from ApiMessenger import Attachment, Template
 # from ApiMessenger.payload import QuickReply
