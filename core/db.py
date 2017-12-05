@@ -74,6 +74,7 @@ def save_mess(chatbot, sender_id, mess, timestamp):
 # CUSTOMER
 def add_customer(chatbot, id_user, first_name, last_name, gender):
     new_customer = {
+        'id_user': id_user,
         'ATTRIBUTES': {
             'chatbot': chatbot,
             'id_user': id_user,
@@ -156,9 +157,9 @@ def check_customer_by_id(chatbot, sender_id):
         last_name = user_profile["last_name"]
         gender = user_profile["gender"]
 
-        # found_customer = CUSTOMER.find_one({'id_user': sender_id})
-        found_customer = CUSTOMER.find_one(
-            {'ATTRIBUTES': {'id_user': sender_id}})
+        found_customer = CUSTOMER.find_one({'id_user': sender_id})
+        # found_customer = CUSTOMER.find_one(
+        #     {'ATTRIBUTES': {'id_user': sender_id}})
         if bool(found_customer):
             print(last_name, ' ', first_name, ' is already in database')
         else:
