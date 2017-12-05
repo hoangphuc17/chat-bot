@@ -382,7 +382,6 @@ def ghvn_fansign_menu(sender_id):
     ]
     ghvn.send(sender_id, question, quick_replies=quick_replies,
               metadata="DEVELOPER_DEFINED_METADATA")
-    return
 
 
 def ghvn_image_fs(sender_id, sizeFont, hlv, first, last, x_Text, y_Text):
