@@ -82,7 +82,7 @@ def ghvn_customer(sender_id):
 def cdhh_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$push': {'GHVN_CUSTOMER': {'subscribe': 'no', 'vote': ''}}}
+        {'$push': {'CDHH_CUSTOMER': {'subscribe': 'no', 'vote': ''}}}
     )
 
 
