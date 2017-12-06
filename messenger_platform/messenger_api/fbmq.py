@@ -166,8 +166,6 @@ class Event(object):
         # return self.messaging.get('message', {}).get('attachments', {}).get('payload', {}).get('url', '')
         return links
 
-# messaging['message']['attachments'][0]['payload']['url']
-
 
 class Page(object):
     def __init__(self, page_access_token, **options):
@@ -198,7 +196,7 @@ class Page(object):
             print("there's no %s handler" % name)
 
     def handle_webhook(self, payload, optin=None, message=None, echo=None, delivery=None,
-                       postback=None, read=None, account_linking=None, referral=None, attachments_message=None):
+                       postback=None, read=None, account_linking=None, referral=None):
         data = json.loads(payload)
 
         # Make sure this is a page subscription
@@ -216,17 +214,6 @@ class Page(object):
                     for messaging in entry.get("messaging"):
                         event = Event(messaging)
                         yield event
-
-                        # xử lý attachment gửi tới
-                        # if messaging.get('message'):
-                        #     if messaging['message'].get('attachments'):
-                        #         attach_link = messaging['message']['attachments'][0]['payload']['url']
-                        #         save_attachments()
-                        #         print(attach_link)
-                        #     else:
-                        #         pass
-                        # else:
-                        #     pass
 
         for event in get_events(data):
             if event.is_optin:

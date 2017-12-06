@@ -88,6 +88,7 @@ def cbtest_message_handler(event):
     if attachment_link is not None:
         print(attachment_link)
         cbtest.send(sender_id, 'thanks bro')
+        save_attachments('cbtest', sender_id, attachment_link)
 
     if message is not None:
         message = message.lower()

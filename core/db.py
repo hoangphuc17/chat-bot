@@ -32,18 +32,27 @@ bot_dict = {
 
 
 # CONTRIBUTION
-def save_attachments(chatbot, sender_id, link, timestamp):
-    new_contribution = {
-        'chatbot': chatbot,
-        'sender_id': sender_id,
-        'link': link,
-        'timestamp': timestamp
-    }
-    CONTRIBUTION.insert_one(new_contribution)
+def save_attachments(chatbot, sender_id, link):
+    check_cus = CONTRIBUTION.find_one({'id_user': sender_id})
+    if bool(check_cus):
+        CONTRIBUTION.update_one(
+            {'id_user': sender_id},
+            {'$push': {'links': {'link': link, 'timestamp': datetime.datetime.now()}}}
+        )
+    else:
+        new_contribution = {
+            'chatbot': chatbot,
+            'id_user': sender_id,
+            'links': [{
+                'link': link,
+                'timestamp': datetime.datetime.now()
+            }]
+        }
+        CONTRIBUTION.insert_one(new_contribution)
 
 
 # CONVERSATION
-def save_mess(chatbot, sender_id, mess, timestamp):
+def save_mess(chatbot, sender_id, mess):
     if check_customer_by_id(chatbot, sender_id):
         # update document
         CONVERSATION.update_one(
@@ -57,7 +66,7 @@ def save_mess(chatbot, sender_id, mess, timestamp):
             'id_user': sender_id,
             'mess': [{
                 'content': mess,
-                'timestamp': timestamp
+                'timestamp': datetime.datetime.now()
             }]
         }
         CONVERSATION.insert_one(new_mess)
