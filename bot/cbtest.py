@@ -59,9 +59,10 @@ def cbtest_upload_image_implement(sender_id):
     print('a')
 
 
-def cbtest_attachments_handler(event):
-    # event.att
-    print('aaaaaaaaaa')
+# def cbtest_attachments_handler(event):
+#     # event.att
+#     event.
+#     print('aaaaaaaaaa')
 
 
 def cbtest_postback_handler(event):
@@ -82,6 +83,10 @@ def cbtest_message_handler(event):
     sender_id = event.sender_id
     message = event.message_text
     quickreply = event.quick_reply_payload
+    attachment_link = event.attachment_link
+
+    if attachment_link is not None:
+        print('abcdef')
 
     if message is not None:
         message = message.lower()

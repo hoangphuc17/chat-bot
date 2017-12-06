@@ -6,6 +6,8 @@ import requests
 from .payload import *
 from .template import *
 
+from core.db import *
+
 
 # I agree with him : http://stackoverflow.com/a/36937/3843242
 class NotificationType:
@@ -105,10 +107,6 @@ class Event(object):
         return self.messaging.get("message", {}).get("text", None) is not None
 
     @property
-    def is_attachments_message(self):
-        return self.messaging.get("message", {}).get("attachments", None) is not None
-
-    @property
     def is_echo(self):
         return self.messaging.get("message", {}).get("is_echo", None) is not None
 
@@ -157,7 +155,16 @@ class Event(object):
     def postback_referral_ref(self):
         return self.messaging.get("postback", {}).get("referral", {}).get("ref", '')
 
-    # @property
+    @property
+    def is_attachments_message(self):
+        return self.messaging.get("message", {}).get("attachments", None) is not None
+
+    @property
+    def attachment_link(self):
+        return self.messaging.get('message', {}).get('attachments', {}).get('payload', {}).get('url', '')
+
+
+# messaging['message']['attachments'][0]['payload']['url']
 
 
 class Page(object):
@@ -173,10 +180,11 @@ class Page(object):
 
     _quick_reply_callbacks = {}
     _button_callbacks = {}
+    _attachments_callbacks = {}
 
     _quick_reply_callbacks_key_regex = {}
     _button_callbacks_key_regex = {}
-    _attachments_message = {}
+    _attachments_key_regex = {}
     _after_send = None
 
     def _call_handler(self, name, func, *args, **kwargs):
@@ -208,14 +216,15 @@ class Page(object):
                         yield event
 
                         # xử lý attachment gửi tới
-                        if messaging.get('message'):
-                            if messaging['message'].get('attachments'):
-                                attach_link = messaging['message']['attachments'][0]['payload']['url']
-                                print(attach_link)
-                            else:
-                                pass
-                        else:
-                            pass
+                        # if messaging.get('message'):
+                        #     if messaging['message'].get('attachments'):
+                        #         attach_link = messaging['message']['attachments'][0]['payload']['url']
+                        #         save_attachments()
+                        #         print(attach_link)
+                        #     else:
+                        #         pass
+                        # else:
+                        #     pass
 
         for event in get_events(data):
             if event.is_optin:
@@ -242,9 +251,11 @@ class Page(object):
                 self._call_handler('account_linking', account_linking, event)
             elif event.is_referral:
                 self._call_handler('referral', referral, event)
-            elif event.is_attachment_message:
-                self._call_handler('attachments_message',
-                                   attachments_message, event)
+            elif event.is_attachments_message:
+                event.matched_callbacks = self.get_attachments_callbacks(event)
+                self._call_handler('message', message, event)
+                for callback in event.matched_callbacks:
+                    callback(event.attachment_link, event)
             else:
                 print("Webhook received unknown messagingEvent:", event)
 
@@ -449,13 +460,13 @@ class Page(object):
     def handle_referral(self, func):
         self._webhook_handlers['referral'] = func
 
-    def handle_attachments_message(self, func):
-        self._attachments_message['attachments_message'] = func
+    # def handle_attachments_message(self, func):
+    #     self._attachments_message['attachments_message'] = func
 
     def after_send(self, func):
         self._after_send = func
 
-    _callback_default_types = ['QUICK_REPLY', 'POSTBACK']
+    _callback_default_types = ['QUICK_REPLY', 'POSTBACK', 'ATTACHMENTS']
 
     def callback(self, payloads=None, types=None):
         if types is None:
@@ -467,7 +478,7 @@ class Page(object):
         for type in types:
             if type not in self._callback_default_types:
                 raise ValueError(
-                    'callback types must be "QUICK_REPLY" or "POSTBACK"')
+                    'callback types must be "QUICK_REPLY" or "POSTBACK" or "ATTACHMENTS"')
 
         def wrapper(func):
             if payloads is None:
@@ -478,6 +489,8 @@ class Page(object):
                     self._quick_reply_callbacks[payload] = func
                 if 'POSTBACK' in types:
                     self._button_callbacks[payload] = func
+                if 'ATTACHMENTS' in types:
+                    self._attachments_callbacks[payload] = func
 
             return func
 
@@ -503,5 +516,16 @@ class Page(object):
 
             if self._button_callbacks_key_regex[key].match(event.postback_payload):
                 callbacks.append(self._button_callbacks[key])
+
+        return callbacks
+
+    def get_attachments_callbacks(self, event):
+        callbacks = []
+        for key in self._attachments_callbacks.keys():
+            if key not in self._attachments_key_regex:
+                self._attachments_key_regex[key] = re.compile(key + '$')
+
+            if self._attachments_key_regex[key].match(event.attachment_link):
+                callbacks.append(self._attachments_callbacks[key])
 
         return callbacks
