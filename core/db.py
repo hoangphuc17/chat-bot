@@ -26,6 +26,11 @@ bot_dict = {
     'cbtest': cbtest,
     'saostar': saostar
 }
+bot_customer_dict = {
+    'ghvn': ghvn_customer,
+    'cdhh': cdhh_customer,
+    'cbtest': cbtest_customer
+}
 
 
 # CONVERSATION
@@ -72,6 +77,19 @@ def save_mess(chatbot, sender_id, mess, timestamp):
 
 
 # CUSTOMER
+# def ghvn_customer(sender_id):
+
+
+# def cdhh_customer(sender_id):
+
+
+def cbtest_customer(sender_id):
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$push': {'CBTEST_CUSTOMER': {'upload_status': 'off'}}}
+    )
+
+
 def add_customer(chatbot, id_user, first_name, last_name, gender):
     new_customer = {
         'id_user': id_user,
@@ -161,10 +179,12 @@ def check_customer_by_id(chatbot, sender_id):
         # found_customer = CUSTOMER.find_one(
         #     {'ATTRIBUTES': {'id_user': sender_id}})
         if bool(found_customer):
-            print(last_name, ' ', first_name, ' is already in database')
+            print(last_name, first_name, ' is already in database')
         else:
             print('khong tim thay user')
             add_customer(chatbot, sender_id, first_name, last_name, gender)
+            if chatbot in bot_customer_dict:
+                bot_customer_dict[chatbot](sender_id)
 
 
 def get_customer_by_id(sender_id):
