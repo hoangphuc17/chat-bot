@@ -206,10 +206,12 @@ class Page(object):
                         yield event
 
                         # xử lý attachment gửi tới
-                        if messaging['message'].get('attachments'):
+                        # if messaging['message'].get('attachments'):
+                        #     attach_link = messaging['message']['attachments'][0]['payload']['url']
+                        #     print(attach_link)
+                        if messaging['message']['attachments'][0]['payload']['url'] is not None:
                             attach_link = messaging['message']['attachments'][0]['payload']['url']
                             print(attach_link)
-
             # for entry in data["entry"]:
             #     for messaging_event in entry["messaging"]:
             #         print('messaging event: ', messaging_event)
