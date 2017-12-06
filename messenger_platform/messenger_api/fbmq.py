@@ -6,8 +6,6 @@ import requests
 from .payload import *
 from .template import *
 
-from core.db import *
-
 
 # I agree with him : http://stackoverflow.com/a/36937/3843242
 class NotificationType:
