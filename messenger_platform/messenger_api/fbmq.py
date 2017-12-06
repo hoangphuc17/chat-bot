@@ -210,11 +210,13 @@ class Page(object):
                         #     print(attach_link)
 
                         # xử lý attachment gửi tới
-                        if messaging['message'].get('attachments'):
-                            # print('a')
-                            attach_link = messaging['message']['attachments'][0]['payload']['url']
-                            print(attach_link)
-
+                        if messaging.get('message'):
+                            if messaging['message'].get('attachments'):
+                                # print('a')
+                                attach_link = messaging['message']['attachments'][0]['payload']['url']
+                                print(attach_link)
+                            else:
+                                pass
                         else:
                             pass
 
