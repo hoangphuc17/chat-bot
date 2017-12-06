@@ -85,3 +85,4 @@ def cbtest_upload_image_implement(sender_id):
     # 1. kiểm tra trạng thái có phải là đang cho upload hình vào hay không
 
     # 2. nếu ok thì sẽ lưu link đó lại
+    print('a')
