@@ -211,7 +211,13 @@ class Page(object):
 
                         # xử lý attachment gửi tới
                         if messaging['message'].get('attachments'):
-                            print('a')
+                            # print('a')
+                            attach_link = messaging['message']['attachments'][0]['payload']['url']
+                            print(attach_link)
+
+                        else:
+                            pass
+
                         #
                         # if messaging['message']['attachments'][0]['payload']['url'] is not None:
                         #     attach_link = messaging['message']['attachments'][0]['payload']['url']
