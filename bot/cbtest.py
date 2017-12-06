@@ -25,35 +25,6 @@ FAQ = db.CDHH_FAQ
 NEWS = db.CDHH_NEWS
 
 
-def cbtest_postback_handler(event):
-    print('POSTBACK HANDLER CBTEST')
-    sender_id = event.sender_id
-    postback = event.postback_payload
-    postback_list = {
-        'cbtest_upload_image': cbtest_upload_image,
-        'cbtest_home': cbtest_home
-    }
-
-    if postback in postback_list:
-        postback_list[postback](sender_id)
-
-
-def cbtest_message_handler(event):
-    print('MESSAGE HANDLER CBTEST')
-    sender_id = event.sender_id
-    message = event.message_text
-    quickreply = event.quick_reply_payload
-
-    if message is not None:
-        message = message.lower()
-        message_list = {
-            'up': cbtest_upload_image_menu,
-            'hi': cbtest_greeting
-        }
-    else:
-        pass
-
-
 def cbtest_greeting(sender_id):
     user_profile = cbtest.get_user_profile(sender_id)
     first = user_profile["first_name"]
@@ -86,3 +57,36 @@ def cbtest_upload_image_implement(sender_id):
 
     # 2. nếu ok thì sẽ lưu link đó lại
     print('a')
+
+
+def cbtest_attachments_message_handler(event):
+    print('a')
+
+
+def cbtest_postback_handler(event):
+    print('POSTBACK HANDLER CBTEST')
+    sender_id = event.sender_id
+    postback = event.postback_payload
+    postback_list = {
+        'cbtest_upload_image': cbtest_upload_image,
+        'cbtest_home': cbtest_home
+    }
+
+    if postback in postback_list:
+        postback_list[postback](sender_id)
+
+
+def cbtest_message_handler(event):
+    print('MESSAGE HANDLER CBTEST')
+    sender_id = event.sender_id
+    message = event.message_text
+    quickreply = event.quick_reply_payload
+
+    if message is not None:
+        message = message.lower()
+        message_list = {
+            'up': cbtest_upload_image_menu,
+            'hi': cbtest_greeting
+        }
+    else:
+        pass
