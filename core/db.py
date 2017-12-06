@@ -77,10 +77,18 @@ def save_mess(chatbot, sender_id, mess, timestamp):
 
 
 # CUSTOMER
-# def ghvn_customer(sender_id):
+def ghvn_customer(sender_id):
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$push': {'GHVN_CUSTOMER': {'subscribe_news': 'no', 'HLV_da_binh_chon': ''}}}
+    )
 
 
-# def cdhh_customer(sender_id):
+def cdhh_customer(sender_id):
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$push': {'GHVN_CUSTOMER': {'subscribe': 'no', 'vote': ''}}}
+    )
 
 
 def cbtest_customer(sender_id):
