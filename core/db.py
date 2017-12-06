@@ -20,12 +20,26 @@ CUSTOMER = db.CUSTOMER
 BROADCAST = db.BROADCAST
 CONVERSATION = db.CONVERSATION
 
+CONTRIBUTION = db.CONTRIBUTION
+
+
 bot_dict = {
     'ghvn': ghvn,
     'cdhh': cdhh,
     'cbtest': cbtest,
     'saostar': saostar
 }
+
+
+# CONTRIBUTION
+def save_attachments(chatbot, sender_id, link, timestamp):
+    new_contribution = {
+        'chatbot': chatbot,
+        'sender_id': sender_id,
+        'link': link,
+        'timestamp': timestamp
+    }
+    CONTRIBUTION.insert_one(new_contribution)
 
 
 # CONVERSATION

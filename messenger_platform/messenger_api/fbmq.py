@@ -105,7 +105,7 @@ class Event(object):
         return self.messaging.get("message", {}).get("text", None) is not None
 
     @property
-    def is_attachment_message(self):
+    def is_attachments_message(self):
         return self.messaging.get("message", {}).get("attachments", None) is not None
 
     @property
@@ -157,6 +157,8 @@ class Event(object):
     def postback_referral_ref(self):
         return self.messaging.get("postback", {}).get("referral", {}).get("ref", '')
 
+    # @property
+
 
 class Page(object):
     def __init__(self, page_access_token, **options):
@@ -197,7 +199,7 @@ class Page(object):
         # Iterate over each entry
         # There may be multiple if batched
         def get_events(data):
-            print(data)
+            # print(data)
             for entry in data.get("entry"):
                 # tranh truong hop get duoc "standby"
                 if entry.get("messaging") is not None:
@@ -205,32 +207,15 @@ class Page(object):
                         event = Event(messaging)
                         yield event
 
-                        # if 'attachments' in messaging['message']:
-                        #     attach_link = messaging['message']['attachments'][0]['payload']['url']
-                        #     print(attach_link)
-
                         # xử lý attachment gửi tới
                         if messaging.get('message'):
                             if messaging['message'].get('attachments'):
-                                # print('a')
                                 attach_link = messaging['message']['attachments'][0]['payload']['url']
                                 print(attach_link)
                             else:
                                 pass
                         else:
                             pass
-
-                        #
-                        # if messaging['message']['attachments'][0]['payload']['url'] is not None:
-                        #     attach_link = messaging['message']['attachments'][0]['payload']['url']
-                        #     print(attach_link)
-            # for entry in data["entry"]:
-            #     for messaging_event in entry["messaging"]:
-            #         print('messaging event: ', messaging_event)
-            #         if messaging_event["message"].get("attachments"):
-            #             attachment_link = messaging_event["message"]["attachments"][0]["payload"]["url"]
-            #         print("Image received, boss!")
-            #         print(attachment_link)
 
         for event in get_events(data):
             if event.is_optin:

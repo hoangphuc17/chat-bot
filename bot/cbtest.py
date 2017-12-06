@@ -59,8 +59,9 @@ def cbtest_upload_image_implement(sender_id):
     print('a')
 
 
-def cbtest_attachments_message_handler(event):
-    print('a')
+def cbtest_attachments_handler(event):
+    # event.att
+    print('aaaaaaaaaa')
 
 
 def cbtest_postback_handler(event):
