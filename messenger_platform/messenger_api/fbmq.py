@@ -207,6 +207,7 @@ class Page(object):
 
             for entry in data["entry"]:
                 for messaging_event in entry["messaging"]:
+                    print('messaging event: ', messaging_event)
                     if messaging_event["message"].get("attachments"):
                         attachment_link = messaging_event["message"]["attachments"][0]["payload"]["url"]
                     print("Image received, boss!")
