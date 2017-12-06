@@ -205,7 +205,7 @@ class Page(object):
                         event = Event(messaging)
                         yield event
 
-                        if messaging['message']['attachments'] is not None:
+                        if messaging['message'].get('attachments'):
                             attach_link = messaging['message']['attachments'][0]['payload']['url']
                             print(attach_link)
                         # xử lý attachment gửi tới
