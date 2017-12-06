@@ -197,7 +197,7 @@ class Page(object):
         # Iterate over each entry
         # There may be multiple if batched
         def get_events(data):
-
+            print(data)
             for entry in data.get("entry"):
                 # tranh truong hop get duoc "standby"
                 if entry.get("messaging") is not None:
