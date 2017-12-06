@@ -159,8 +159,12 @@ class Event(object):
 
     @property
     def attachment_link(self):
-        return self.messaging.get('message', {}).get('attachments', {}).get('payload', {}).get('url', '')
+        links = []
+        for link in self.messaging.get('message', {}).get('attachments', {}):
+            links.append(link.get('payload', {}).get('url', ''))
 
+        # return self.messaging.get('message', {}).get('attachments', {}).get('payload', {}).get('url', '')
+        return links
 
 # messaging['message']['attachments'][0]['payload']['url']
 
