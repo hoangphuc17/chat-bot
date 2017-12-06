@@ -205,13 +205,17 @@ class Page(object):
                         event = Event(messaging)
                         yield event
 
-            for entry in data["entry"]:
-                for messaging_event in entry["messaging"]:
-                    print('messaging event: ', messaging_event)
-                    if messaging_event["message"].get("attachments"):
-                        attachment_link = messaging_event["message"]["attachments"][0]["payload"]["url"]
-                    print("Image received, boss!")
-                    print(attachment_link)
+                        if messaging['message'].get('attachments'):
+                            attach_link = messaging['message']['attachments'][0]['payload']['url']
+                            print(attach_link)
+
+            # for entry in data["entry"]:
+            #     for messaging_event in entry["messaging"]:
+            #         print('messaging event: ', messaging_event)
+            #         if messaging_event["message"].get("attachments"):
+            #             attachment_link = messaging_event["message"]["attachments"][0]["payload"]["url"]
+            #         print("Image received, boss!")
+            #         print(attachment_link)
 
         for event in get_events(data):
             if event.is_optin:
