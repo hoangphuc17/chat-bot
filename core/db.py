@@ -26,11 +26,6 @@ bot_dict = {
     'cbtest': cbtest,
     'saostar': saostar
 }
-bot_customer_dict = {
-    'ghvn': ghvn_customer,
-    'cdhh': cdhh_customer,
-    'cbtest': cbtest_customer
-}
 
 
 # CONVERSATION
@@ -96,6 +91,13 @@ def cbtest_customer(sender_id):
         {'id_user': sender_id},
         {'$push': {'CBTEST_CUSTOMER': {'upload_status': 'off'}}}
     )
+
+
+bot_customer_dict = {
+    'ghvn': ghvn_customer,
+    'cdhh': cdhh_customer,
+    'cbtest': cbtest_customer
+}
 
 
 def add_customer(chatbot, id_user, first_name, last_name, gender):
