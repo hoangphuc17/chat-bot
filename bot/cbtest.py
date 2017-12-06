@@ -85,12 +85,12 @@ def cbtest_message_handler(event):
     quickreply = event.quick_reply_payload
     attachment_link = event.attachment_link
 
-    if attachment_link is not None:
-        if attachment_link != []:
-            print(attachment_link)
-            cbtest.send(sender_id, 'thanks bro')
-            save_attachments('cbtest', sender_id, attachment_link)
-    elif message is not None:
+    # if attachment_link is not None:
+    #     if attachment_link != []:
+    #         print(attachment_link)
+    #         cbtest.send(sender_id, 'thanks bro')
+    #         save_attachments('cbtest', sender_id, attachment_link)
+    if message is not None:
         message = message.lower()
         message_list = {
             'up': cbtest_upload_image_menu,
