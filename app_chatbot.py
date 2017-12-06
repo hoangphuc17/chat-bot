@@ -47,7 +47,7 @@ def webhook():
     if payload_dict['entry'][0]['id'] == "344510328981706":
         print('GIONG HAT VIET NHI')
         ghvn.handle_webhook(payload, message=ghvn_message_handler,
-                            postback=ghvn_postback_handler, attachments_message=ghvn_attachments_message_handler)
+                            postback=ghvn_postback_handler)
         return 'ok', 200
 
     # XU LY WEBHOOK CHATBOT CDHH
