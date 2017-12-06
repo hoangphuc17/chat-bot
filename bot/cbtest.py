@@ -68,9 +68,6 @@ def cbtest_greeting(sender_id):
     ghvn.send(sender_id, Template.Buttons(text, buttons))
 
 
-def
-
-
 def cbtest_upload_image_menu(sender_id):
     # hiện thị menu để upload
     # chuyển trạng thái người dùng sang đang upload hình ảnh
