@@ -53,7 +53,7 @@ def cbtest_greeting(sender_id):
         Template.ButtonPostBack(
             "Home", "cbtest_home")
     ]
-    ghvn.send(sender_id, Template.Buttons(text, buttons))
+    cbtest.send(sender_id, Template.Buttons(text, buttons))
 
 
 def cbtest_home(sender_id):
