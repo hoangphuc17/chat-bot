@@ -98,29 +98,29 @@ def save_mess(chatbot, sender_id, mess):
 def ghvn_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$push': {'SCRIPT': {'id_user': sender_id,
-                              'subscribe_news': 'no', 'HLV_da_binh_chon': ''}}}
+        {'$set': {'SCRIPT': {'id_user': sender_id,
+                             'subscribe_news': 'no', 'HLV_da_binh_chon': ''}}}
     )
 
 
 def cdhh_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$push': {'SCRIPT': {'id_user': sender_id, 'subscribe': 'no', 'vote': ''}}}
+        {'$set': {'SCRIPT': {'id_user': sender_id, 'subscribe': 'no', 'vote': ''}}}
     )
 
 
 def ttb_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$push': {'SCRIPT': {'id_user': sender_id, 'subscribe': 'no', 'vote': ''}}}
+        {'$set': {'SCRIPT': {'id_user': sender_id, 'subscribe': 'no', 'vote': ''}}}
     )
 
 
 def cbtest_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$push': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off'}}}
+        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off'}}}
     )
 
 
