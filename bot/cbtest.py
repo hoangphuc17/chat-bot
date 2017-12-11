@@ -238,6 +238,8 @@ def cbtest_message_handler(event):
     quickreply = event.quick_reply_payload
     attachment_link = event.attachment_link
 
+    print(quickreply)
+
     message_list = {
         'hi': cbtest_greeting,
         'home': cbtest_home
