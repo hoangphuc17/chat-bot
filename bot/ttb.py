@@ -130,7 +130,7 @@ def ttb_news(sender_id):
             ])
         elements.append(element)
     short_list_elements = random.sample(elements, 10)
-    cbtest.send(sender_id, Template.Generic(short_list_elements))
+    ttb.send(sender_id, Template.Generic(short_list_elements))
 
 
 def ttb_menu_subscribe(sender_id):
