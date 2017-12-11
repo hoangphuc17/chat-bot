@@ -2,6 +2,7 @@ import urllib.request
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 from bs4 import BeautifulSoup
+import datetime
 
 from pymongo import MongoClient
 client = MongoClient('cb.saostar.vn', 27017)
@@ -57,7 +58,8 @@ def crawler(chatbot, url, category):
             'image_url': item[0],
             'item_url': item[1],
             'subtitle': item[2],
-            'title': item[3]
+            'title': item[3],
+            'time_scrape': datetime.datetime.now()
         }
         NEWS.insert_one(new_news)
 
