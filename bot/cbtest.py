@@ -36,9 +36,9 @@ NEWS = db.CDHH_NEWS
 # cbtest_get_news_am_nhac
 
 
-list_category = {
-    'giải trí': cbtest_get_news_giai_tri
-}
+# list_category = {
+#     'giải trí': cbtest_get_news_giai_tri
+# }
 
 
 def cbtest_greeting(sender_id):
