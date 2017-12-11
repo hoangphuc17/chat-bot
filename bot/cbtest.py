@@ -39,11 +39,6 @@ NEWS = db.NEWS
 # cbtest_get_news_am_nhac
 
 
-# list_category = {
-#     'giải trí': cbtest_get_news_giai_tri
-# }
-
-
 def cbtest_greeting(sender_id):
     user_profile = cbtest.get_user_profile(sender_id)
     first = user_profile["first_name"]
@@ -139,14 +134,14 @@ def cbtest_get_news_general(sender_id):
             image_url=news['image_url'],
             buttons=[
                 Template.ButtonWeb('Đọc tin', news['item_url']),
-                Template.ButtonPostBack('Về Home', 'ghvn_home')
+                Template.ButtonPostBack('Về Home', 'cbtest_home')
             ])
         elements.append(element)
 
     short_list_elements = random.sample(elements, 10)
     cbtest.send(sender_id, Template.Generic(short_list_elements))
 
-    question = 'xem thêm'
+    question = 'Xem thêm'
     quick_replies = [
         QuickReply(title="Giải trí", payload="giai_tri"),
         QuickReply(title="Âm nhạc", payload="am_nhac")
@@ -156,9 +151,65 @@ def cbtest_get_news_general(sender_id):
                 quick_replies=quick_replies,
                 metadata="DEVELOPER_DEFINED_METADATA")
 
-# def cbtest_get_news_giai_tri():
 
-# def cbtest_get_news_am_nhac():
+def cbtest_get_news_giai_tri(sender_id):
+    elements = []
+    news_list = []
+    for news in NEWS.find({'chatbot': 'saostar', 'category': 'giai_tri'}):
+        news_list.append(news)
+
+    for news in news_list:
+        element = Template.GenericElement(
+            title=news['title'],
+            subtitle=news['subtitle'],
+            image_url=news['image_url'],
+            buttons=[
+                Template.ButtonWeb('Đọc tin', news['item_url']),
+                Template.ButtonPostBack('Về Home', 'cbtest_home')
+            ])
+        elements.append(element)
+
+    short_list_elements = random.sample(elements, 10)
+    cbtest.send(sender_id, Template.Generic(short_list_elements))
+
+    question = 'Xem thêm'
+    quick_replies = [
+        QuickReply(title="Âm nhạc", payload="am_nhac")
+    ]
+    cbtest.send(sender_id,
+                question,
+                quick_replies=quick_replies,
+                metadata="DEVELOPER_DEFINED_METADATA")
+
+
+def cbtest_get_news_am_nhac(sender_id):
+    elements = []
+    news_list = []
+    for news in NEWS.find({'chatbot': 'saostar', 'category': 'am_nhac'}):
+        news_list.append(news)
+
+    for news in news_list:
+        element = Template.GenericElement(
+            title=news['title'],
+            subtitle=news['subtitle'],
+            image_url=news['image_url'],
+            buttons=[
+                Template.ButtonWeb('Đọc tin', news['item_url']),
+                Template.ButtonPostBack('Về Home', 'cbtest_home')
+            ])
+        elements.append(element)
+
+    short_list_elements = random.sample(elements, 10)
+    cbtest.send(sender_id, Template.Generic(short_list_elements))
+
+    question = 'Xem thêm'
+    quick_replies = [
+        QuickReply(title="Âm nhạc", payload="giai_tri")
+    ]
+    cbtest.send(sender_id,
+                question,
+                quick_replies=quick_replies,
+                metadata="DEVELOPER_DEFINED_METADATA")
 
 
 def cbtest_postback_handler(event):
@@ -192,6 +243,14 @@ def cbtest_message_handler(event):
         }
         if message in message_list:
             message_list[message](sender_id)
+
+    elif quickreply is not None:
+        list_category = {
+            'giai_tri': cbtest_get_news_giai_tri,
+            'am_nhac': cbtest_get_news_am_nhac
+        }
+        if quickreply in list_category:
+            list_category[quickreply](sender_id)
 
     elif attachment_link is not None:
         if attachment_link != []:
