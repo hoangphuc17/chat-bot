@@ -82,7 +82,7 @@ def ttb_home(sender_id):
                                     Template.ButtonPostBack(
                                         "Xem tin tức 👓", "ttb_news"),
                                     Template.ButtonPostBack(
-                                        "Theo dõi tin tức 📸", "ttb_subscribe")
+                                        "Theo dõi tin tức 📸", "ttb_menu_subscribe")
                                 ])
         # Template.GenericElement("Xem video thần tượng bolero mùa 3 - 2018",
         #                         subtitle="Chương trình phát sóng 20:30 thứ 5 hàng tuần trên VTV3.\nBạn có thế xem lại tập Full với các bản tình ca siêu ngọt ngào tại đây nha!",
