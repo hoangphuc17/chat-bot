@@ -166,7 +166,7 @@ def ttb_handle_subscribe(sender_id, quick_reply_payload):
 
         ttb.send(sender_id, Template.Buttons(text, buttons))
         CUSTOMER.update_one(
-            {'id_CUSTOMER': sender_id},
+            {'id_user': sender_id},
             {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
         )
 
