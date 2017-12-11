@@ -185,7 +185,6 @@ def cbtest_get_news_giai_tri(sender_id):
 def cbtest_get_news_am_nhac(sender_id):
     elements = []
     news_list = []
-    cbtest.send(sender_id, 'a')
     for news in NEWS.find({'chatbot': 'saostar', 'category': 'am nhac'}):
         news_list.append(news)
 
@@ -207,7 +206,7 @@ def cbtest_get_news_am_nhac(sender_id):
 
     question = 'Xem thêm'
     quick_replies = [
-        QuickReply(title="Âm nhạc", payload="giai_tri")
+        QuickReply(title="Giải trí", payload="giai_tri")
     ]
     cbtest.send(sender_id,
                 question,

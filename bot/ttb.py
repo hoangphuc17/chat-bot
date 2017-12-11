@@ -17,13 +17,13 @@ from messenger_platform.config.config import CONFIG
 from messenger_platform.config.fbpage import ttb
 from core.db import *
 
-# import datetime
-# from pymongo import MongoClient
-# client = MongoClient('cb.saostar.vn', 27017)
-# db = client.Phuc
-# USER = db.ttb_USER
-# FAQ = db.ttb_FAQ
-# NEWS = db.ttb_NEWS
+import datetime
+from pymongo import MongoClient
+client = MongoClient('cb.saostar.vn', 27017)
+db = client.Phuc
+CUSTOMER = db.CUSTOMER
+FAQ = db.FAQ
+NEWS = db.NEWS
 
 # ttb_vote_list = ['Team Mai Tiến Dũng', 'Team Giang Hồng Ngọc', 'Team Đào Bá Lộc',
 #                   'Team Tiêu Châu Như Quỳnh', 'Team Erik', 'Team Hòa Mizy', 'Team Đức Phúc']
@@ -148,8 +148,8 @@ def ttb_subscribe_handler(sender_id, quick_reply_payload):
         ]
 
         ttb.send(sender_id, Template.Buttons(text, buttons))
-        USER.update_one(
-            {'id_user': sender_id},
+        CUSTOMER.update_one(
+            {'id_CUSTOMER': sender_id},
             {'$set': {'subscribe': quick_reply_payload}}
         )
     else:
@@ -159,20 +159,20 @@ def ttb_subscribe_handler(sender_id, quick_reply_payload):
         ]
 
         ttb.send(sender_id, Template.Buttons(text, buttons))
-        USER.update_one(
-            {'id_user': sender_id},
+        CUSTOMER.update_one(
+            {'id_CUSTOMER': sender_id},
             {'$set': {'subscribe': quick_reply_payload}}
         )
 
 
 def ttb_vote(sender_id):
-    check_vote = USER.find_one({'id_user': sender_id})
+    check_vote = CUSTOMER.find_one({'id_CUSTOMER': sender_id})
 
     if check_vote['vote'] == '':
-        # user chua binh chon
+        # CUSTOMER chua binh chon
         ttb_vote_menu(sender_id)
     else:
-        # user da binh chon
+        # CUSTOMER da binh chon
         space = " "
         a = "Bạn đã dự đoán thành công. Dự đoán của bạn đang dành cho"
         b = check_vote["vote"]
@@ -217,14 +217,14 @@ def ttb_vote_handler(sender_id, quickreply):
     ]
     ttb.send(sender_id, Template.Buttons(text, buttons))
 
-    USER.update_one(
-        {'id_user': sender_id},
+    CUSTOMER.update_one(
+        {'id_CUSTOMER': sender_id},
         {'$set': {'vote': quickreply}}
     )
 
 
 def ttb_postback_handler(event):
-    print('POSTBACK HANDLER ttb')
+    print('POSTBACK HANDLER TTB')
     sender_id = event.sender_id
     postback = event.postback_payload
 
@@ -242,7 +242,7 @@ def ttb_postback_handler(event):
 
 
 def ttb_message_handler(event):
-    print('MESSAGE HANDLER ttb')
+    print('MESSAGE HANDLER TTB')
     sender_id = event.sender_id
     message = event.message_text
     quickreply = event.quick_reply_payload

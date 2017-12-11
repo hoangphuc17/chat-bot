@@ -75,3 +75,4 @@ def scrape(chatbot, category, url):
 
 scrape('saostar', 'giai tri', 'https://saostar.vn/giai-tri/')
 scrape('saostar', 'am nhac', 'https://saostar.vn/am-nhac/')
+scrape('ttb', 'tin hot', 'https://saostar.vn/?s=than+tuong+bolero')
