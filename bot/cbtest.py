@@ -157,8 +157,8 @@ def cbtest_message_handler(event):
     if message is not None:
         message = message.lower()
         message_list = {
-            # 'up': cbtest_upload_image_menu,
-            'hi': cbtest_greeting
+            'hi': cbtest_greeting,
+            'home': cbtest_home
         }
         if message in message_list:
             message_list[message](sender_id)

@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup
 
 from pymongo import MongoClient
-client = MongoClient('localhost', 27017)
+client = MongoClient('cb.saostar.vn', 27017)
 db = client.Phuc
 NEWS = db.NEWS
 
