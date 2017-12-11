@@ -127,7 +127,11 @@ def cbtest_upload_success_continue(chatbot, sender_id, attachment_link):
 # NEWS
 def cbtest_get_news_general(sender_id):
     elements = []
-    for news in NEWS.find():
+    news_list = []
+    for news in NEWS.find({'chatbot': 'cbtest'}):
+        news_list.append(news)
+
+    for news in news_list:
         element = Template.GenericElement(
             title=news['title'],
             subtitle=news['subtitle'],
