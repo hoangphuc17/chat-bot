@@ -238,24 +238,27 @@ def cbtest_message_handler(event):
     quickreply = event.quick_reply_payload
     attachment_link = event.attachment_link
 
+    message_list = {
+        'hi': cbtest_greeting,
+        'home': cbtest_home
+    }
+    quickreply_list = {
+        'giai_tri': cbtest_get_news_giai_tri,
+        'am_nhac': cbtest_get_news_am_nhac
+    }
+
     if message is not None:
         message = message.lower()
-        message_list = {
-            'hi': cbtest_greeting,
-            'home': cbtest_home
-        }
+
         if message in message_list:
             message_list[message](sender_id)
 
-    elif quickreply is not None:
-        list_category = {
-            'giai_tri': cbtest_get_news_giai_tri,
-            'am_nhac': cbtest_get_news_am_nhac
-        }
-        cbtest.send(sender_id, 'b')
-        if quickreply in list_category:
-            list_category[quickreply](sender_id)
-        cbtest.send(sender_id, 'c')
+    # elif quickreply is not None:
+
+    #     cbtest.send(sender_id, 'b')
+    elif quickreply in quickreply_list:
+        quickreply_list[quickreply](sender_id)
+    # cbtest.send(sender_id, 'c')
     elif attachment_link is not None:
         if attachment_link != []:
             print(attachment_link)
