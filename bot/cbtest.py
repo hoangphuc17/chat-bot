@@ -22,9 +22,9 @@ import datetime
 from pymongo import MongoClient
 client = MongoClient('cb.saostar.vn', 27017)
 db = client.Phuc
-USER = db.CDHH_USER
-FAQ = db.CDHH_FAQ
-NEWS = db.CDHH_NEWS
+# USER = db.CDHH_USER
+FAQ = db.FAQ
+NEWS = db.NEWS
 
 # cbtest_home
 # cbtest_greeting
