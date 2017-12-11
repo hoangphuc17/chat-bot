@@ -114,13 +114,13 @@ def cbtest_upload_success_continue(sender_id, attachment_link):
 
 
 # NEWS
-def cbtest_get_news_general():
+# def cbtest_get_news_general():
 
 
-def cbtest_get_news_giai_tri():
+# def cbtest_get_news_giai_tri():
 
 
-def cbtest_get_news_am_nhac():
+# def cbtest_get_news_am_nhac():
 
 
 def cbtest_postback_handler(event):
