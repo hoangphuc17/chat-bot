@@ -71,7 +71,7 @@ def webhook():
     elif payload_dict['entry'][0]['id'] == "932322753471323":
         print('THAN TUONG BOLERO')
         cbtest.handle_webhook(
-            payload, message=cbtest_message_handler, postback=cbtest_postback_handler)
+            payload, message=ttb_message_handler, postback=ttb_postback_handler)
         return "ok", 200
 
     else:
