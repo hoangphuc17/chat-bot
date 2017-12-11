@@ -45,8 +45,9 @@ def cbtest_greeting(sender_id):
     user_profile = cbtest.get_user_profile(sender_id)
     first = user_profile["first_name"]
     last = user_profile["last_name"]
-    check_customer_by_id('cbtest', sender_id)
 
+    check_customer_by_id('cbtest', sender_id)
+    print(sender_id)
     text = 'chao'
     buttons = [
         Template.ButtonPostBack(
