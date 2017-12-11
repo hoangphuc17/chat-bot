@@ -10,6 +10,8 @@ os.sys.path.insert(0, parentdir)
 from flask import Flask, request, send_from_directory, render_template
 
 from messenger_platform.messenger_api import Attachment, Template
+from messenger_platform.messenger_api.payload import *
+
 
 from messenger_platform.config.config import CONFIG
 
@@ -123,11 +125,31 @@ def cbtest_upload_success_continue(chatbot, sender_id, attachment_link):
 
 
 # NEWS
-# def cbtest_get_news_general():
+def cbtest_get_news_general(sender_id):
+    elements = []
+    for news in NEWS.find():
+        element = Template.GenericElement(
+            title=news['title'],
+            subtitle=news['subtitle'],
+            image_url=news['image_url'],
+            buttons=[
+                Template.ButtonWeb('Đọc tin', news['item_url']),
+                Template.ButtonPostBack('Về Home', 'ghvn_home')
+            ])
+        elements.append(element)
+    cbtest.send(sender_id, Template.Generic(elements))
 
+    question = 'xem thêm'
+    quick_replies = [
+        QuickReply(title="Giải trí", payload="giai_tri"),
+        QuickReply(title="Âm nhạc", payload="am_nhac")
+    ]
+    cbtest.send(sender_id,
+                question,
+                quick_replies=quick_replies,
+                metadata="DEVELOPER_DEFINED_METADATA")
 
 # def cbtest_get_news_giai_tri():
-
 
 # def cbtest_get_news_am_nhac():
 
@@ -140,7 +162,8 @@ def cbtest_postback_handler(event):
         # 'cbtest_upload_image': cbtest_upload_image,
         'cbtest_home': cbtest_home,
         'cbtest_menu_upload': cbtest_menu_upload,
-        'cbtest_implement_upload': cbtest_implement_upload
+        'cbtest_implement_upload': cbtest_implement_upload,
+        'cbtest_get_news_general': cbtest_get_news_general
     }
 
     if postback in postback_list:
