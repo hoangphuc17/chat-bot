@@ -188,6 +188,8 @@ def cbtest_get_news_am_nhac(sender_id):
     for news in NEWS.find({'chatbot': 'saostar', 'category': 'am nhac'}):
         news_list.append(news)
 
+    print(news_list)
+
     for news in news_list:
         element = Template.GenericElement(
             title=news['title'],
