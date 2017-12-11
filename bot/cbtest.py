@@ -252,9 +252,10 @@ def cbtest_message_handler(event):
             'giai_tri': cbtest_get_news_giai_tri,
             'am_nhac': cbtest_get_news_am_nhac
         }
+        cbtest.send(sender_id, 'b')
         if quickreply in list_category:
             list_category[quickreply](sender_id)
-
+        cbtest.send(sender_id, 'c')
     elif attachment_link is not None:
         if attachment_link != []:
             print(attachment_link)
