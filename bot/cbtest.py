@@ -88,7 +88,7 @@ def cbtest_menu_upload(sender_id):
 
 
 def cbtest_implement_upload(sender_id):
-    text = 'hãy chọn hình ảnh để upload cho'
+    # text = 'hãy chọn hình ảnh để upload cho'
     text = 'chọn hình và gửi'
 
     # update upload_status = yes
@@ -96,6 +96,8 @@ def cbtest_implement_upload(sender_id):
         {'id_user': sender_id},
         {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'on'}}}
     )
+
+    cbtest.send(sender_id, text)
 
 
 def cbtest_upload_success_continue(chatbot, sender_id, attachment_link):
