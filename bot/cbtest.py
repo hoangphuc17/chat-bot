@@ -185,7 +185,7 @@ def cbtest_get_news_giai_tri(sender_id):
 def cbtest_get_news_am_nhac(sender_id):
     elements = []
     news_list = []
-    print('a')
+    cbtest.send(sender_id, 'a')
     for news in NEWS.find({'chatbot': 'saostar', 'category': 'am nhac'}):
         news_list.append(news)
 
