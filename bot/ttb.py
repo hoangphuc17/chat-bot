@@ -155,8 +155,8 @@ def ttb_handle_subscribe(sender_id, quick_reply_payload):
 
         ttb.send(sender_id, Template.Buttons(text, buttons))
         CUSTOMER.update_one(
-            {'id_CUSTOMER': sender_id},
-            {'$set': {'subscribe': quick_reply_payload}}
+            {'id_user': sender_id},
+            {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
         )
     else:
         text = "Bạn đã đăng ký nhận thông báo thành công.\nMỗi khi có thông báo mới về chương trình, mình sẽ gửi tới bạn."
@@ -167,7 +167,7 @@ def ttb_handle_subscribe(sender_id, quick_reply_payload):
         ttb.send(sender_id, Template.Buttons(text, buttons))
         CUSTOMER.update_one(
             {'id_CUSTOMER': sender_id},
-            {'$set': {'subscribe': quick_reply_payload}}
+            {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
         )
 
 
