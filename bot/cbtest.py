@@ -128,7 +128,7 @@ def cbtest_upload_success_continue(chatbot, sender_id, attachment_link):
 def cbtest_get_news_general(sender_id):
     elements = []
     news_list = []
-    for news in NEWS.find({'chatbot': 'cbtest'}):
+    for news in NEWS.find({'chatbot': 'saostar'}):
         news_list.append(news)
 
     for news in news_list:
