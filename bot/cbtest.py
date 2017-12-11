@@ -98,20 +98,26 @@ def cbtest_implement_upload(sender_id):
     )
 
 
-def cbtest_upload_success_continue(sender_id, attachment_link):
+def cbtest_upload_success_continue(chatbot, sender_id, attachment_link):
     # check upload status
     # save hình đó lại
     # hiển thị thông báo đã upload thành công
     # hỏi upload tiếp tục không
-    check_upload_status = CUSTOMER.find_one({
-        'SCRIPT': {'id_user': sender_id}
-    })
+    cus = CUSTOMER.find_one({'id_user': sender_id})
+    if bool(cus):
+        if cus['SCRIPT']['upload_status'] == 'on':
+            save_attachments(chatbot, sender_id, attachment_link)
+            cbtest.send(sender_id, 'da luu thanh cong')
 
-    if bool(check_upload_status):
-        save_attachments('cbtest', sender_id, attachment_link)
-        cbtest.send(sender_id, 'da luu hinh anh thanh cong')
-    else:
-        cbtest.send(sender_id, 'chua vao che do save')
+    # check_upload_status = CUSTOMER.find_one({
+    #     'SCRIPT': {'id_user': sender_id}
+    # })
+
+    # if bool(check_upload_status):
+    #     save_attachments(chatbot, sender_id, attachment_link)
+    #     cbtest.send(sender_id, 'da luu hinh anh thanh cong')
+    # else:
+    #     cbtest.send(sender_id, 'chua vao che do save')
 
 
 # NEWS
@@ -130,7 +136,9 @@ def cbtest_postback_handler(event):
     postback = event.postback_payload
     postback_list = {
         # 'cbtest_upload_image': cbtest_upload_image,
-        'cbtest_home': cbtest_home
+        'cbtest_home': cbtest_home,
+        'cbtest_menu_upload': cbtest_menu_upload,
+        'cbtest_implement_upload': cbtest_implement_upload
     }
 
     if postback in postback_list:
@@ -157,6 +165,8 @@ def cbtest_message_handler(event):
         if attachment_link != []:
             print(attachment_link)
             cbtest.send(sender_id, 'thanks bro')
-            save_attachments('cbtest', sender_id, attachment_link)
+            cbtest_upload_success_continue(
+                'cbtest', sender_id, attachment_link)
+            # save_attachments('cbtest', sender_id, attachment_link)
     else:
         pass
