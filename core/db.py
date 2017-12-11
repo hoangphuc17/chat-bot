@@ -27,7 +27,9 @@ bot_dict = {
     'ghvn': ghvn,
     'cdhh': cdhh,
     'cbtest': cbtest,
-    'saostar': saostar
+    'saostar': saostar,
+    'ttb': ttb
+
 }
 
 
