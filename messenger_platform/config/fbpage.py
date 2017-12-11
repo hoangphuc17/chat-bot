@@ -12,7 +12,9 @@ ghvn = Page(CONFIG['FACEBOOK_TOKEN_GHVN'])
 cdhh = Page(CONFIG['FACEBOOK_TOKEN_CDHH'])
 cbtest = Page(CONFIG['FACEBOOK_TOKEN_CBTEST'])
 saostar = Page(CONFIG['FACEBOOK_TOKEN_SAOSTAR'])
+cbtest_2 = Page(CONFIG['FACEBOOK_TOKEN_CBTEST_2'])
 
+ttb = Page(CONFIG['FACEBOOK_TOKEN_TTB'])
 
 # @page.after_send
 # def after_send(payload, response):

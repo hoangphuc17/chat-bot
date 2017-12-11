@@ -24,6 +24,22 @@ USER = db.CDHH_USER
 FAQ = db.CDHH_FAQ
 NEWS = db.CDHH_NEWS
 
+# cbtest_home
+# cbtest_greeting
+
+# cbtest_menu_upload
+# cbtest_implement_upload
+# cbtest_upload_success_continue
+
+# cbtest_get_news_general
+# cbtest_get_news_giai_tri
+# cbtest_get_news_am_nhac
+
+
+list_category = {
+    'giải trí': cbtest_get_news_giai_tri
+}
+
 
 def cbtest_greeting(sender_id):
     user_profile = cbtest.get_user_profile(sender_id)
@@ -39,30 +55,72 @@ def cbtest_greeting(sender_id):
     ghvn.send(sender_id, Template.Buttons(text, buttons))
 
 
-def cbtest_upload_image_menu(sender_id):
-    # hiện thị menu để upload
-    # chuyển trạng thái người dùng sang đang upload hình ảnh
-    text = 'upload image to server'
+def cbtest_home(sender_id):
+    elements = [
+        Template.GenericElement("Đóng góp hình ảnh",
+                                subtitle="Saostar",
+                                image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_tintuc.jpg",
+                                buttons=[
+                                    Template.ButtonPostBack(
+                                        "Upload", "cbtest_menu_upload")
+
+                                ]),
+        Template.GenericElement("Tin tức",
+                                subtitle="Saostar",
+                                image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_xemtintuc.jpg",
+                                buttons=[
+                                    Template.ButtonPostBack(
+                                        "Xem tin tức", "cbtest_get_news_general")
+                                ])
+    ]
+    cbtest.send(sender_id, Template.Generic(elements))
+
+
+# UPLOAD
+def cbtest_menu_upload(sender_id):
+    text = 'nhấn chọn nút ở dưới để bắt đầu quy trình upload'
     buttons = [
         Template.ButtonPostBack(
-            "Upload", "cbtest_upload_image")
+            "Upload", "cbtest_implement_upload")
     ]
-    cdhh.send(sender_id, Template.Buttons(text, buttons))
-
-    CUSTOMER.update_one()
+    cbtest.send(sender_id, Template.Buttons(text, buttons))
 
 
-def cbtest_upload_image_implement(sender_id):
-    # 1. kiểm tra trạng thái có phải là đang cho upload hình vào hay không
+def cbtest_implement_upload():
+    text = 'hãy chọn hình ảnh để upload cho'
+    text = 'chọn hình và gửi'
 
-    # 2. nếu ok thì sẽ lưu link đó lại
-    print('a')
+    # update upload_status = yes
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'on'}}}
+    )
 
 
-# def cbtest_attachments_handler(event):
-#     # event.att
-#     event.
-#     print('aaaaaaaaaa')
+def cbtest_upload_success_continue(sender_id, attachment_link):
+    # check upload status
+    # save hình đó lại
+    # hiển thị thông báo đã upload thành công
+    # hỏi upload tiếp tục không
+    check_upload_status = CUSTOMER.find_one({
+        'SCRIPT': {'id_user': sender_id}
+    })
+
+    if bool(check_upload_status):
+        save_attachments('cbtest', sender_id, attachment_link)
+        cbtest.send(sender_id, 'da luu hinh anh thanh cong')
+    else:
+        cbtest.send(sender_id, 'chua vao che do save')
+
+
+# NEWS
+def cbtest_get_news_general():
+
+
+def cbtest_get_news_giai_tri():
+
+
+def cbtest_get_news_am_nhac():
 
 
 def cbtest_postback_handler(event):
@@ -85,12 +143,12 @@ def cbtest_message_handler(event):
     quickreply = event.quick_reply_payload
     attachment_link = event.attachment_link
 
-    # if attachment_link is not None:
-    #     if attachment_link != []:
-    #         print(attachment_link)
-    #         cbtest.send(sender_id, 'thanks bro')
-    #         save_attachments('cbtest', sender_id, attachment_link)
-    if message is not None:
+    if attachment_link is not None:
+        if attachment_link != []:
+            print(attachment_link)
+            cbtest.send(sender_id, 'thanks bro')
+            save_attachments('cbtest', sender_id, attachment_link)
+    elif message is not None:
         message = message.lower()
         message_list = {
             'up': cbtest_upload_image_menu,

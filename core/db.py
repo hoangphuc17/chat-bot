@@ -98,41 +98,50 @@ def save_mess(chatbot, sender_id, mess):
 def ghvn_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$push': {'GHVN_CUSTOMER': {'subscribe_news': 'no', 'HLV_da_binh_chon': ''}}}
+        {'$push': {'SCRIPT': {'id_user': sender_id,
+                              'subscribe_news': 'no', 'HLV_da_binh_chon': ''}}}
     )
 
 
 def cdhh_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$push': {'CDHH_CUSTOMER': {'subscribe': 'no', 'vote': ''}}}
+        {'$push': {'SCRIPT': {'id_user': sender_id, 'subscribe': 'no', 'vote': ''}}}
+    )
+
+
+def ttb_customer(sender_id):
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$push': {'SCRIPT': {'id_user': sender_id, 'subscribe': 'no', 'vote': ''}}}
     )
 
 
 def cbtest_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$push': {'CBTEST_CUSTOMER': {'upload_status': 'off'}}}
+        {'$push': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off'}}}
     )
 
 
 bot_customer_dict = {
     'ghvn': ghvn_customer,
     'cdhh': cdhh_customer,
-    'cbtest': cbtest_customer
+    'cbtest': cbtest_customer,
+    'ttb': ttb_customer
 }
 
 
 def add_customer(chatbot, id_user, first_name, last_name, gender):
     new_customer = {
         'id_user': id_user,
+        'chatbot': chatbot,
         'ATTRIBUTES': {
             'chatbot': chatbot,
             'id_user': id_user,
             'first_name': first_name,
             'last_name': last_name,
             'gender': gender,
-
             'address': '',
             'birthday': '',
             'education': '',
