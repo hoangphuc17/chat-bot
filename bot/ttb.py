@@ -77,7 +77,7 @@ def ttb_home(sender_id):
     elements = [
         Template.GenericElement("Tin tức",
                                 subtitle="Tin tức mới nhất từ Thần tượng Bolero",
-                                image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_tintuc.jpg",
+                                # image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_tintuc.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
                                         "Xem tin tức 👓", "ttb_news"),

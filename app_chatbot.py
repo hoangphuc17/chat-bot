@@ -67,12 +67,12 @@ def webhook():
             payload, message=cbtest_message_handler, postback=cbtest_postback_handler)
         return "cbtest ok", 200
 
-    # XU LY WEBHOOK CHATBOT CBTEST_2
-    elif payload_dict['entry'][0]['id'] == "172088430196293":
-        print('CBTEST_2')
+    # XU LY WEBHOOK CHATBOT TTB
+    elif payload_dict['entry'][0]['id'] == "932322753471323":
+        print('THAN TUONG BOLERO')
         cbtest.handle_webhook(
             payload, message=cbtest_message_handler, postback=cbtest_postback_handler)
-        return "cbtest_2 ok", 200
+        return "ok", 200
 
     else:
         return 'no app correspondent'
