@@ -237,7 +237,7 @@ def cbtest_message_handler(event):
     quickreply = event.quick_reply_payload
     attachment_link = event.attachment_link
 
-    print(quickreply)
+    # print(quickreply)
 
     message_list = {
         'hi': cbtest_greeting,
@@ -253,13 +253,9 @@ def cbtest_message_handler(event):
 
         if message in message_list:
             message_list[message](sender_id)
-
-    # elif quickreply is not None:
-
-    #     cbtest.send(sender_id, 'b')
         elif quickreply in quickreply_list:
             quickreply_list[quickreply](sender_id)
-    # cbtest.send(sender_id, 'c')
+
     elif attachment_link is not None:
         if attachment_link != []:
             print(attachment_link)
