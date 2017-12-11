@@ -7,7 +7,7 @@ from messenger_platform.messenger_api import Attachment, Template
 
 from messenger_platform.config.config import CONFIG
 
-from messenger_platform.config.fbpage import ghvn, cdhh, cbtest, saostar
+from messenger_platform.config.fbpage import ghvn, cdhh, cbtest, saostar, ttb
 
 import datetime
 from pymongo import MongoClient
