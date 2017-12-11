@@ -19,6 +19,7 @@ from messenger_platform.config.fbpage import cbtest
 from core.db import *
 
 import datetime
+import random
 from pymongo import MongoClient
 client = MongoClient('cb.saostar.vn', 27017)
 db = client.Phuc
@@ -141,7 +142,9 @@ def cbtest_get_news_general(sender_id):
                 Template.ButtonPostBack('Về Home', 'ghvn_home')
             ])
         elements.append(element)
-    cbtest.send(sender_id, Template.Generic(elements))
+
+    short_list_elements = random.sample(elements, 10)
+    cbtest.send(sender_id, Template.Generic(short_list_elements))
 
     question = 'xem thêm'
     quick_replies = [
