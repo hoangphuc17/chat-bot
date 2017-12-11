@@ -155,7 +155,7 @@ def cbtest_get_news_general(sender_id):
 def cbtest_get_news_giai_tri(sender_id):
     elements = []
     news_list = []
-    for news in NEWS.find({'chatbot': 'saostar', 'category': 'giai_tri'}):
+    for news in NEWS.find({'chatbot': 'saostar', 'category': 'giai tri'}):
         news_list.append(news)
 
     for news in news_list:
@@ -185,7 +185,7 @@ def cbtest_get_news_giai_tri(sender_id):
 def cbtest_get_news_am_nhac(sender_id):
     elements = []
     news_list = []
-    for news in NEWS.find({'chatbot': 'saostar', 'category': 'am_nhac'}):
+    for news in NEWS.find({'chatbot': 'saostar', 'category': 'am nhac'}):
         news_list.append(news)
 
     for news in news_list:
