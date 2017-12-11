@@ -89,7 +89,7 @@ def crawler_search_page(chatbot, category, url):
         list_item_url.append(item_url)
 
         img = a.contents[0]  # lấy ra thẻ img
-        image_url = img.get('data-src')  # lấy ra image_url
+        image_url = img.get('src')  # lấy ra image_url
         list_image_url.append(image_url)
 
     info_vertical_news = soup.findAll('div', {'class': 'info_vertical_news'})
