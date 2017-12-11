@@ -86,7 +86,7 @@ def cbtest_menu_upload(sender_id):
     cbtest.send(sender_id, Template.Buttons(text, buttons))
 
 
-def cbtest_implement_upload():
+def cbtest_implement_upload(sender_id):
     text = 'hãy chọn hình ảnh để upload cho'
     text = 'chọn hình và gửi'
 
@@ -128,7 +128,7 @@ def cbtest_postback_handler(event):
     sender_id = event.sender_id
     postback = event.postback_payload
     postback_list = {
-        'cbtest_upload_image': cbtest_upload_image,
+        # 'cbtest_upload_image': cbtest_upload_image,
         'cbtest_home': cbtest_home
     }
 
@@ -143,18 +143,19 @@ def cbtest_message_handler(event):
     quickreply = event.quick_reply_payload
     attachment_link = event.attachment_link
 
-    if attachment_link is not None:
-        if attachment_link != []:
-            print(attachment_link)
-            cbtest.send(sender_id, 'thanks bro')
-            save_attachments('cbtest', sender_id, attachment_link)
-    elif message is not None:
+    if message is not None:
         message = message.lower()
         message_list = {
-            'up': cbtest_upload_image_menu,
+            # 'up': cbtest_upload_image_menu,
             'hi': cbtest_greeting
         }
         if message in message_list:
             message_list[message](sender_id)
+
+    elif attachment_link is not None:
+        if attachment_link != []:
+            print(attachment_link)
+            cbtest.send(sender_id, 'thanks bro')
+            save_attachments('cbtest', sender_id, attachment_link)
     else:
         pass
