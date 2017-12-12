@@ -1,0 +1,33 @@
+curl -X POST -H "Content-Type: application/json" -d '{
+  "persistent_menu":[{
+    "locale":"default",
+    "call_to_actions":[
+      {        
+        "type":"postback",
+        "title":"Tin Hot 🔥",      
+        "payload":"cbtest_get_news_general"        
+      },
+      {        
+        "type":"postback",
+        "title":"Chat với admin 😀",      
+        "payload":"chat_with_admin_menu"        
+      },
+      {
+        "title":"Xem thêm",
+        "type":"nested",
+        "call_to_actions":[
+          {
+            "title":"Quảng cáo 🌎",
+            "type":"postback",
+            "payload":"ads"
+          },
+          {
+            "title":"Đóng góp 💌",
+            "type":"postback",
+            "payload":"cbtest_menu_upload"
+          }
+        ]
+      }
+    ]
+  }]
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAANexv7TpxcBAATWSX74MzhNlYXzM0CSDAVPZCrroDJGq3Ortg0dZBxU1T6jmmVLZBVZABJeh95hSzC4ZBwXQDEQVkJtcmXZAZBNihV87FQgSZC2iuAJXJ9eUmBszNM4Fl4CnxkhK5n8Cc4iuYvDWHuZAHJISE3X3WUnfpMbx5ZA6yLQZDZD"

@@ -219,7 +219,7 @@ def cbtest_postback_handler(event):
     sender_id = event.sender_id
     postback = event.postback_payload
     postback_list = {
-        # 'cbtest_upload_image': cbtest_upload_image,
+        'cbtest_greeting': cbtest_greeting,
         'cbtest_home': cbtest_home,
         'cbtest_menu_upload': cbtest_menu_upload,
         'cbtest_implement_upload': cbtest_implement_upload,
