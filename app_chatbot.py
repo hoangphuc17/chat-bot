@@ -23,7 +23,7 @@ from bot.ghvn import *
 from bot.cdhh import *
 from bot.ttb import *
 from bot.saostar import *
-from bot.sv import *
+from bot.svtv import *
 
 app = Flask(__name__)
 
