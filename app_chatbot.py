@@ -15,14 +15,15 @@ from messenger_platform.messenger_api import Attachment, Template
 
 from messenger_platform.config.config import CONFIG
 
-from messenger_platform.config.fbpage import cbtest, ghvn, cdhh, saostar, ttb
+from messenger_platform.config.fbpage import cbtest, ghvn, cdhh, ttb, saostar, svtv
 
 from bot.cbtest import *  # demo chatbot saostar
 
 from bot.ghvn import *
 from bot.cdhh import *
 from bot.ttb import *
-
+from bot.saostar import *
+from bot.sv import *
 
 app = Flask(__name__)
 
@@ -73,6 +74,13 @@ def webhook():
         cbtest.handle_webhook(
             payload, message=ttb_message_handler, postback=ttb_postback_handler)
         return "ok", 200
+
+    # XU LY WEBHOOK CHATBOT SAOSTAR
+    elif payload_dict['entry'][0]['id'] == "1281407545241725":
+        print('SAOSTAR')
+        cbtest.handle_webhook(
+            payload, message=saostar_message_handler, postback=saostar_postback_handler)
+        return "saostar ok", 200
 
     else:
         return 'no app correspondent'

@@ -15,7 +15,8 @@ saostar = Page(CONFIG['FACEBOOK_TOKEN_SAOSTAR'])
 # cbtest_2 = Page(CONFIG['FACEBOOK_TOKEN_CBTEST_2'])
 
 ttb = Page(CONFIG['FACEBOOK_TOKEN_TTB'])
-
+saostar = Page(CONFIG['FACEBOOK_TOKEN_SAOSTAR'])
+svtv = Page(CONFIG['FACEBOOK_TOKEN_SVTV'])
 # @page.after_send
 # def after_send(payload, response):
 #     # print('AFTER_SEND : ' + payload.to_json())
