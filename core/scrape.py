@@ -132,6 +132,16 @@ def scrape_search_page(chatbot, category, url):
     crawler_search_page(chatbot, category, url)
 
 
+# chatbot saostar
 scrape_category_page('saostar', 'giai tri', 'https://saostar.vn/giai-tri/')
 scrape_category_page('saostar', 'am nhac', 'https://saostar.vn/am-nhac/')
+scrape_category_page('saostar', 'phim anh', 'https://saostar.vn/dien-anh/')
+scrape_category_page('saostar', 'thoi trang', 'https://saostar.vn/thoi-trang/')
+scrape_category_page('saostar', 'doi song', 'https://saostar.vn/doi-song/')
+
+# chatbot than tuong bolero
 scrape_search_page('ttb', 'tin hot', 'https://saostar.vn/?s=than+tuong+bolero')
+
+# chatbot sinh vien tv
+scrape_category_page(
+    'svtv', 'tin hot', 'https://saostar.vn/doi-song/school-zone/')

@@ -29,6 +29,9 @@ NEWS = db.NEWS
 # saostar_get_news_general
 # saostar_get_news_giai_tri
 # saostar_get_news_am_nhac
+# saostar_get_news_phim_anh
+# saostar_get_news_xa_hoi
+# saostar_get_news_thoi_trang
 
 # QUANG CAO
 # saostar_ads
