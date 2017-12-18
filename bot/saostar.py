@@ -44,7 +44,7 @@ def saostar_greeting(sender_id):
 
     check_customer_by_id('saostar', sender_id)
     print(sender_id)
-    text = 'Chào ' + first + last + \
+    text = 'Chào ' + first + ' ' + last + \
         '. Nhấn nút home bên dưới để tìm hiểu các tính năng Saostar có nhé'
     buttons = [
         Template.ButtonPostBack(
@@ -211,6 +211,16 @@ def saostar_get_news_am_nhac(sender_id):
                  question,
                  quick_replies=quick_replies,
                  metadata="DEVELOPER_DEFINED_METADATA")
+
+
+# QUANG CAO
+def saostar_ads(sender_id):
+    text = 'Liên hệ hợp tác quảng cáo & xuất bản nội dung: marketing@saostar.vn ❤'
+    buttons = [
+        Template.ButtonPostBack(
+            "Home", "saostar_home")
+    ]
+    saostar.send(sender_id, Template.Buttons(text, buttons))
 
 
 def saostar_postback_handler(event):

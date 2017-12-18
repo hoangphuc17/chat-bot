@@ -39,7 +39,7 @@ def svtv_greeting(sender_id):
 
     check_customer_by_id('svtv', sender_id)
     print(sender_id)
-    text = 'Chào ' + first + last + \
+    text = 'Chào ' + first + ' ' + last + \
         '. Nhấn nút home bên dưới để tìm hiểu các tính năng Sinh viên TV có nhé'
     buttons = [
         Template.ButtonPostBack(
@@ -144,6 +144,16 @@ def svtv_get_news(sender_id):
               question,
               quick_replies=quick_replies,
               metadata="DEVELOPER_DEFINED_METADATA")
+
+
+# QUANG CAO
+def svtv_ads(sender_id):
+    text = 'Liên hệ hợp tác quảng cáo & xuất bản nội dung: sinhvientv.channel@gmail.com'
+    buttons = [
+        Template.ButtonPostBack(
+            "Home", "svtv_home")
+    ]
+    svtv.send(sender_id, Template.Buttons(text, buttons))
 
 
 def svtv_postback_handler(event):
