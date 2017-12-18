@@ -11,7 +11,7 @@ from messenger_platform.config.fbpage import svtv
 from core.db import *
 
 from pymongo import MongoClient
-client = MongoClient('cb.svtv.vn', 27017)
+client = MongoClient('cb.saostar.vn', 27017)
 db = client.Phuc
 FAQ = db.FAQ
 NEWS = db.NEWS
@@ -182,8 +182,8 @@ def svtv_message_handler(event):
 
         if message in message_list:
             message_list[message](sender_id)
-        elif quickreply in quickreply_list:
-            quickreply_list[quickreply](sender_id)
+        # elif quickreply in quickreply_list:
+        #     quickreply_list[quickreply](sender_id)
 
     elif attachment_link is not None:
         if attachment_link != []:
