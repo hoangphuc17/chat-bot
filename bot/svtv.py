@@ -172,18 +172,17 @@ def svtv_message_handler(event):
         'hi': svtv_greeting,
         'home': svtv_home
     }
-    # quickreply_list = {
-    #     'giai_tri': svtv_get_news_giai_tri,
-    #     'am_nhac': svtv_get_news_am_nhac
-    # }
+    quickreply_list = {
+        'svtv_get_news': svtv_get_news
+    }
 
     if message is not None:
         message = message.lower()
 
         if message in message_list:
             message_list[message](sender_id)
-        # elif quickreply in quickreply_list:
-        #     quickreply_list[quickreply](sender_id)
+        elif quickreply in quickreply_list:
+            quickreply_list[quickreply](sender_id)
 
     elif attachment_link is not None:
         if attachment_link != []:
