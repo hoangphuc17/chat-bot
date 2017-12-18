@@ -1,13 +1,11 @@
 # xử lý các vấn đề liên quan tới lưu, xoá, insert database
-from flask import Flask, render_template, url_for, request, session, redirect, jsonify, flash
 
 from messenger_platform.messenger_api import Attachment, Template
 # from messenger_platform.messenger_api import QuickReply
 # from messenger_platform.messenger_api import Page
 
 from messenger_platform.config.config import CONFIG
-
-from messenger_platform.config.fbpage import ghvn, cdhh, cbtest, saostar, ttb
+from messenger_platform.config.fbpage import ghvn, cdhh, cbtest, saostar, ttb, svtv
 
 import datetime
 from pymongo import MongoClient
@@ -19,7 +17,6 @@ NEWS = db.NEWS
 CUSTOMER = db.CUSTOMER
 BROADCAST = db.BROADCAST
 CONVERSATION = db.CONVERSATION
-
 CONTRIBUTION = db.CONTRIBUTION
 
 
@@ -28,7 +25,8 @@ bot_dict = {
     'cdhh': cdhh,
     'cbtest': cbtest,
     'saostar': saostar,
-    'ttb': ttb
+    'ttb': ttb,
+    'svtv': svtv
 
 }
 
@@ -126,11 +124,27 @@ def cbtest_customer(sender_id):
     )
 
 
+def saostar_customer(sender_id):
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off'}}}
+    )
+
+
+def svtv_customer(sender_id):
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off'}}}
+    )
+
+
 bot_customer_dict = {
     'ghvn': ghvn_customer,
     'cdhh': cdhh_customer,
     'cbtest': cbtest_customer,
-    'ttb': ttb_customer
+    'ttb': ttb_customer,
+    'saostar': saostar_customer,
+    'svtv': svtv_customer
 }
 
 

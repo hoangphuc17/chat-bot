@@ -27,6 +27,14 @@ from bot.svtv import *
 
 app = Flask(__name__)
 
+id_page_cbtest = '1987057708238038'
+
+id_page_ghvn = '344510328981706'
+id_page_cdhh = '693691134038165'
+id_page_ttb = '932322753471323'
+id_page_saostar = '1281407545241725'
+id_page_svtv = '1654988921425352'
+
 
 # Verify
 @app.route('/', methods=['GET'])
@@ -48,39 +56,46 @@ def webhook():
     payload_dict = json.loads(payload)
 
     # XU LY WEBHOOK CHATBOT GHVN
-    if payload_dict['entry'][0]['id'] == "344510328981706":
+    if payload_dict['entry'][0]['id'] == id_page_ghvn:
         print('GIONG HAT VIET NHI')
         ghvn.handle_webhook(payload, message=ghvn_message_handler,
                             postback=ghvn_postback_handler)
         return 'ok', 200
 
     # XU LY WEBHOOK CHATBOT CDHH
-    elif payload_dict['entry'][0]['id'] == "693691134038165":
+    elif payload_dict['entry'][0]['id'] == id_page_cdhh:
         print('CAP DOI HOAN HAO')
         cdhh.handle_webhook(payload, message=cdhh_message_handler,
                             postback=cdhh_postback_handler)
         return "ok", 200
 
     # XU LY WEBHOOK CHATBOT CBTEST
-    elif payload_dict['entry'][0]['id'] == "1987057708238038":
+    elif payload_dict['entry'][0]['id'] == id_page_cbtest:
         print('CBTEST')
         cbtest.handle_webhook(
             payload, message=cbtest_message_handler, postback=cbtest_postback_handler)
         return "cbtest ok", 200
 
     # XU LY WEBHOOK CHATBOT TTB
-    elif payload_dict['entry'][0]['id'] == "932322753471323":
+    elif payload_dict['entry'][0]['id'] == id_page_ttb:
         print('THAN TUONG BOLERO')
         cbtest.handle_webhook(
             payload, message=ttb_message_handler, postback=ttb_postback_handler)
         return "ok", 200
 
     # XU LY WEBHOOK CHATBOT SAOSTAR
-    elif payload_dict['entry'][0]['id'] == "1281407545241725":
+    elif payload_dict['entry'][0]['id'] == id_page_saostar:
         print('SAOSTAR')
         cbtest.handle_webhook(
             payload, message=saostar_message_handler, postback=saostar_postback_handler)
         return "saostar ok", 200
+
+    # XU LY WEBHOOK CHATBOT SVTV
+    elif payload_dict['entry'][0]['id'] == id_page_svtv:
+        print('SINH VIEN TV')
+        cbtest.handle_webhook(
+            payload, message=svtv_message_handler, postback=svtv_postback_handler)
+        return "svtv ok", 200
 
     else:
         return 'no app correspondent'
