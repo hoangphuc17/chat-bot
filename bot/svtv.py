@@ -172,10 +172,10 @@ def svtv_message_handler(event):
         'hi': svtv_greeting,
         'home': svtv_home
     }
-    quickreply_list = {
-        'giai_tri': svtv_get_news_giai_tri,
-        'am_nhac': svtv_get_news_am_nhac
-    }
+    # quickreply_list = {
+    #     'giai_tri': svtv_get_news_giai_tri,
+    #     'am_nhac': svtv_get_news_am_nhac
+    # }
 
     if message is not None:
         message = message.lower()
