@@ -39,7 +39,8 @@ def svtv_greeting(sender_id):
 
     check_customer_by_id('svtv', sender_id)
     print(sender_id)
-    text = 'chao'
+    text = 'Chào ' + first + last + \
+        '. Nhấn nút home bên dưới để tìm hiểu các tính năng Sinh viên TV có nhé'
     buttons = [
         Template.ButtonPostBack(
             "Home", "svtv_home")

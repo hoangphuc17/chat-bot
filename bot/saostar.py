@@ -44,7 +44,8 @@ def saostar_greeting(sender_id):
 
     check_customer_by_id('saostar', sender_id)
     print(sender_id)
-    text = 'chao'
+    text = 'Chào ' + first + last + \
+        '. Nhấn nút home bên dưới để tìm hiểu các tính năng Saostar có nhé'
     buttons = [
         Template.ButtonPostBack(
             "Home", "saostar_home")

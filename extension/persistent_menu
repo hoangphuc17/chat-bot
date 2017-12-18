@@ -5,29 +5,39 @@ curl -X POST -H "Content-Type: application/json" -d '{
       {        
         "type":"postback",
         "title":"Tin Hot 🔥",      
-        "payload":"cbtest_get_news_general"        
+        "payload":"svtv_get_news"        
       },
       {        
         "type":"postback",
-        "title":"Chat với admin 😀",      
-        "payload":"chat_with_admin_menu"        
+        "title":"Post hay Sinh Viên TV",      
+        "payload":"svtv_post"        
       },
       {
         "title":"Xem thêm",
         "type":"nested",
         "call_to_actions":[
           {
+            "title":"Kết bạn",
+            "type":"postback",
+            "payload":"svtv_get_friends"
+          },
+          {
+            "title":"Chat với admin",
+            "type":"postback",
+            "payload":"chat_with_admin_menu"
+          },
+          {
             "title":"Quảng cáo 🌎",
             "type":"postback",
-            "payload":"ads"
+            "payload":"svtv_ads"
           },
           {
             "title":"Đóng góp 💌",
             "type":"postback",
-            "payload":"cbtest_menu_upload"
+            "payload":"svtv_menu_upload"
           }
         ]
       }
     ]
   }]
-}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAANexv7TpxcBAATWSX74MzhNlYXzM0CSDAVPZCrroDJGq3Ortg0dZBxU1T6jmmVLZBVZABJeh95hSzC4ZBwXQDEQVkJtcmXZAZBNihV87FQgSZC2iuAJXJ9eUmBszNM4Fl4CnxkhK5n8Cc4iuYvDWHuZAHJISE3X3WUnfpMbx5ZA6yLQZDZD"
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAADZBISwFN3ABAEvYrliJrZAZCmGKBTkt3RRYKwsp45albVyoboK2UuDKZBOK1GUJohEg6DhTJLomSZBQrH40jcWYVMENxaomPfXZCLJiZBZCerRvSnv7foZAZCjRg30MvTBR614IMzZCbvnWzitd0ZBWDu1FolYlDK7oRSsgozrTEnYRaG2u1UzFLZAT"

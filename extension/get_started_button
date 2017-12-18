@@ -1,5 +1,5 @@
 curl -X POST -H "Content-Type: application/json" -d '{ 
 "get_started":{
-    "payload":"cbtest_greeting"
+    "payload":"svtv_greeting"
 }
-}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAANexv7TpxcBAATWSX74MzhNlYXzM0CSDAVPZCrroDJGq3Ortg0dZBxU1T6jmmVLZBVZABJeh95hSzC4ZBwXQDEQVkJtcmXZAZBNihV87FQgSZC2iuAJXJ9eUmBszNM4Fl4CnxkhK5n8Cc4iuYvDWHuZAHJISE3X3WUnfpMbx5ZA6yLQZDZD"
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAADZBISwFN3ABAEvYrliJrZAZCmGKBTkt3RRYKwsp45albVyoboK2UuDKZBOK1GUJohEg6DhTJLomSZBQrH40jcWYVMENxaomPfXZCLJiZBZCerRvSnv7foZAZCjRg30MvTBR614IMzZCbvnWzitd0ZBWDu1FolYlDK7oRSsgozrTEnYRaG2u1UzFLZAT"
