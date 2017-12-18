@@ -165,7 +165,8 @@ def svtv_postback_handler(event):
         'svtv_home': svtv_home,
         'svtv_menu_upload': svtv_menu_upload,
         'svtv_implement_upload': svtv_implement_upload,
-        'svtv_get_news': svtv_get_news
+        'svtv_get_news': svtv_get_news,
+        'svtv_ads': svtv_ads
     }
 
     if postback in postback_list:
