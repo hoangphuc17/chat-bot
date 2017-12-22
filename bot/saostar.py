@@ -36,6 +36,8 @@ NEWS = db.NEWS
 # QUANG CAO
 # saostar_ads
 
+# THEO DOI TIN TUC
+
 
 def saostar_greeting(sender_id):
     user_profile = saostar.get_user_profile(sender_id)
@@ -48,7 +50,7 @@ def saostar_greeting(sender_id):
         '. Nhấn nút home bên dưới để tìm hiểu các tính năng Saostar có nhé'
     buttons = [
         Template.ButtonPostBack(
-            "Home", "saostar_home")
+            "HOME", "saostar_home")
     ]
     saostar.send(sender_id, Template.Buttons(text, buttons))
 
@@ -57,7 +59,7 @@ def saostar_home(sender_id):
     elements = [
         Template.GenericElement("Đóng góp hình ảnh",
                                 subtitle="Saostar",
-                                # image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_tintuc.jpg",
+                                # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_tintuc.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
                                         "Upload", "saostar_menu_upload")
@@ -65,7 +67,7 @@ def saostar_home(sender_id):
                                 ]),
         Template.GenericElement("Tin tức",
                                 subtitle="Saostar",
-                                # image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_xemtintuc.jpg",
+                                # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_xemtintuc.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
                                         "Xem tin tức", "saostar_get_news_general")
@@ -133,7 +135,7 @@ def saostar_get_news_general(sender_id):
             image_url=news['image_url'],
             buttons=[
                 Template.ButtonWeb('Đọc tin', news['item_url']),
-                Template.ButtonPostBack('Về Home', 'saostar_home')
+                Template.ButtonPostBack('HOME', 'saostar_home')
             ])
         elements.append(element)
 
@@ -166,7 +168,7 @@ def saostar_get_news_giai_tri(sender_id):
             image_url=news['image_url'],
             buttons=[
                 Template.ButtonWeb('Đọc tin', news['item_url']),
-                Template.ButtonPostBack('Về Home', 'saostar_home')
+                Template.ButtonPostBack('HOME', 'saostar_home')
             ])
         elements.append(element)
 
@@ -196,7 +198,7 @@ def saostar_get_news_am_nhac(sender_id):
             image_url=news['image_url'],
             buttons=[
                 Template.ButtonWeb('Đọc tin', news['item_url']),
-                Template.ButtonPostBack('Về Home', 'saostar_home')
+                Template.ButtonPostBack('HOME', 'saostar_home')
             ])
         elements.append(element)
 
@@ -218,11 +220,53 @@ def saostar_ads(sender_id):
     text = 'Liên hệ hợp tác quảng cáo & xuất bản nội dung: marketing@saostar.vn ❤'
     buttons = [
         Template.ButtonPostBack(
-            "Home", "saostar_home")
+            "HOME", "saostar_home")
     ]
     saostar.send(sender_id, Template.Buttons(text, buttons))
 
 
+# SUBSCRIBE NEWS
+def saostar_menu_subscribe(sender_id):
+    question = "Bằng cách đồng ý theo dõi tin tức dưới đây, bạn sẽ nhận được thông báo mỗi khi tin tức mới của chương trình được cập nhật.\nBạn muốn nhận thông báo chứ?"
+    quick_replies = [
+        QuickReply(title="1 tuần 1 lần 😋", payload="yes1"),
+        QuickReply(title="1 tuần 2 lần 😈", payload="yes2"),
+        QuickReply(title="Nhắc lại sau 😜", payload="no")
+    ]
+    saostar.send(sender_id,
+             question,
+             quick_replies=quick_replies,
+             metadata="DEVELOPER_DEFINED_METADATA")
+
+
+def saostar_handle_subscribe(sender_id, quick_reply_payload):
+    if quick_reply_payload == 'no':
+        text = "Okey. Bất cứ khi nào bạn cần đăng ký nhận tin tức thì quay lại đây nhé!"
+        buttons = [
+            Template.ButtonPostBack("HOME", "saostar_home")
+        ]
+
+        saostar.send(sender_id, Template.Buttons(text, buttons))
+        CUSTOMER.update_one(
+            {'id_user': sender_id},
+            {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
+        )
+    else:
+        text = "Bạn đã đăng ký nhận thông báo thành công.\nMỗi khi có thông báo mới về chương trình, mình sẽ gửi tới bạn."
+        buttons = [
+            Template.ButtonPostBack("HOME", "saostar_home")
+        ]
+
+        saostar.send(sender_id, Template.Buttons(text, buttons))
+        CUSTOMER.update_one(
+            {'id_user': sender_id},
+            {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
+        )
+
+
+
+
+# HANDLE POSTBACK AND MESSAGE
 def saostar_postback_handler(event):
     print('POSTBACK HANDLER saostar')
     sender_id = event.sender_id
@@ -247,6 +291,8 @@ def saostar_message_handler(event):
     quickreply = event.quick_reply_payload
     attachment_link = event.attachment_link
 
+    subscribe_options = ["yes1", "yes2", "no"]
+
     message_list = {
         'hi': saostar_greeting,
         'home': saostar_home
@@ -261,8 +307,13 @@ def saostar_message_handler(event):
 
         if message in message_list:
             message_list[message](sender_id)
+
+        # xu ly cac quick reply    
         elif quickreply in quickreply_list:
             quickreply_list[quickreply](sender_id)
+        # xu ly subscribe option
+        elif subscribe_options.count(quickreply) == 1:
+            ttb_handle_subscribe(sender_id, quickreply)
 
     elif attachment_link is not None:
         if attachment_link != []:

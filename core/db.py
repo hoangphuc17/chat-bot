@@ -127,14 +127,14 @@ def cbtest_customer(sender_id):
 def saostar_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off'}}}
+        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off', 'subscribe': 'no'}}}
     )
 
 
 def svtv_customer(sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off'}}}
+        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'off', 'subscribe': 'no'}}}
     )
 
 
