@@ -262,9 +262,13 @@ def saostar_handle_subscribe(sender_id, quick_reply_payload):
 
 
         CUSTOMER.update_one(
-            {'SCRIPT': {'id_user': sender_id}},
-            # {'id_user': sender_id},
-            {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
+            {'SCRIPT':{
+                {'id_user': sender_id},
+                {'$set': {'subscribe': quick_reply_payload}}
+            }}
+            # {'SCRIPT': {'id_user': sender_id}},
+            # # {'id_user': sender_id},
+            # {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
         )
 
 
