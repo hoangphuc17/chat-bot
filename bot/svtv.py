@@ -254,7 +254,7 @@ def svtv_message_handler(event):
             quickreply_list[quickreply](sender_id)
         # xu ly subscribe option
         elif subscribe_options.count(quickreply) == 1:
-            saostar_handle_subscribe(sender_id, quickreply)
+            svtv_handle_subscribe(sender_id, quickreply)
 
     elif attachment_link is not None:
         if attachment_link != []:
