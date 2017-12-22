@@ -70,7 +70,9 @@ def saostar_home(sender_id):
                                 # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_xemtintuc.jpg",
                                 buttons=[
                                     Template.ButtonPostBack(
-                                        "Xem tin tức", "saostar_get_news_general")
+                                        "Xem tin tức", "saostar_get_news_general"),
+                                    Template.ButtonPostBack(
+                                        "Theo dõi tin tức", "saostar_menu_subscribe")
                                 ])
     ]
     saostar.send(sender_id, Template.Generic(elements))
@@ -277,7 +279,8 @@ def saostar_postback_handler(event):
         'saostar_menu_upload': saostar_menu_upload,
         'saostar_implement_upload': saostar_implement_upload,
         'saostar_get_news_general': saostar_get_news_general,
-        'saostar_ads': saostar_ads
+        'saostar_ads': saostar_ads,
+        'saostar_menu_subscribe': saostar_menu_subscribe
     }
 
     if postback in postback_list:
@@ -313,7 +316,7 @@ def saostar_message_handler(event):
             quickreply_list[quickreply](sender_id)
         # xu ly subscribe option
         elif subscribe_options.count(quickreply) == 1:
-            ttb_handle_subscribe(sender_id, quickreply)
+            saostar_handle_subscribe(sender_id, quickreply)
 
     elif attachment_link is not None:
         if attachment_link != []:
