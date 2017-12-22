@@ -258,12 +258,13 @@ def saostar_handle_subscribe(sender_id, quick_reply_payload):
         buttons = [
             Template.ButtonPostBack("HOME", "saostar_home")
         ]
-
         saostar.send(sender_id, Template.Buttons(text, buttons))
+
+
         CUSTOMER.update_one(
             {'SCRIPT': {'id_user': sender_id}},
             # {'id_user': sender_id},
-            {'$set': {'subscribe': quick_reply_payload}}
+            {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
         )
 
 
