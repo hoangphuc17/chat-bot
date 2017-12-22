@@ -260,18 +260,22 @@ def saostar_handle_subscribe(sender_id, quick_reply_payload):
         ]
         saostar.send(sender_id, Template.Buttons(text, buttons))
 
-
+        user = CUSTOMER.find_one({'id_user': sender_id})
+        new_script = {
+            'upload_status': user['SCRIPT']['upload_status'],
+            'subscribe': quick_reply_payload
+        }
         CUSTOMER.update_one(
-            {'SCRIPT':{
-                {'id_user': sender_id},
-                {'$set': {'subscribe': quick_reply_payload}}
-            }}
-            # {'SCRIPT': {'id_user': sender_id}},
-            # # {'id_user': sender_id},
-            # {'$set': {'SCRIPT': {'subscribe': quick_reply_payload}}}
+            {'id_user': sender_id},
+            {'$set': {'SCRIPT': new_script}}
         )
 
-
+        # CUSTOMER.update_one(
+        #     {'SCRIPT':{
+        #         {'id_user': sender_id},
+        #         {'$set': {'subscribe': quick_reply_payload}}
+        #     }}
+        # )
 
 
 # HANDLE POSTBACK AND MESSAGE
