@@ -65,7 +65,7 @@ def svtv_home(sender_id):
                                     Template.ButtonPostBack(
                                         "Xem tin tức", "svtv_get_news"),
                                     Template.ButtonPostBack(
-                                        "Xem tin tức", "svtv_get_news")
+                                        "Theo dõi tin tức", "svtv_menu_subscribe")
                                 ])
     ]
     svtv.send(sender_id, Template.Generic(elements))
