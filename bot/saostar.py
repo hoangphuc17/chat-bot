@@ -112,17 +112,6 @@ def saostar_upload_success_continue(chatbot, sender_id, attachment_link):
             save_attachments(chatbot, sender_id, attachment_link)
             saostar.send(sender_id, 'da luu thanh cong')
 
-    # check_upload_status = CUSTOMER.find_one({
-    #     'SCRIPT': {'id_user': sender_id}
-    # })
-
-    # if bool(check_upload_status):
-    #     save_attachments(chatbot, sender_id, attachment_link)
-    #     saostar.send(sender_id, 'da luu hinh anh thanh cong')
-    # else:
-    #     saostar.send(sender_id, 'chua vao che do save')
-
-
 # NEWS
 def saostar_get_news_general(sender_id):
     elements = []
@@ -274,13 +263,6 @@ def saostar_handle_subscribe(sender_id, quick_reply_payload):
             {'id_user': sender_id},
             {'$set': {'SCRIPT': new_script}}
         )
-
-        # CUSTOMER.update_one(
-        #     {'SCRIPT':{
-        #         {'id_user': sender_id},
-        #         {'$set': {'subscribe': quick_reply_payload}}
-        #     }}
-        # )
 
 
 # HANDLE POSTBACK AND MESSAGE
