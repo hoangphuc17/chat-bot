@@ -27,32 +27,32 @@ CUSTOMER = db.CUSTOMER
 FAQ = db.FAQ
 NEWS = db.NEWS
 
+
+# BASIC
+# ttb_home
+# ttb_greeting
+
+# UPLOAD
+# ttb_menu_upload
+# ttb_implement_upload
+# ttb_upload_success_continue
+
+# NEWS
+# ttb_get_news
+
+# ABOUT
+# ttb_timeline
+# ttb_about
+
+# GAME
+# ttb_menu_game
+# ttb_handle_result
+
+
 # ttb_vote_list = ['Team Mai Tiến Dũng', 'Team Giang Hồng Ngọc', 'Team Đào Bá Lộc',
 #                   'Team Tiêu Châu Như Quỳnh', 'Team Erik', 'Team Hòa Mizy', 'Team Đức Phúc']
 
 
-# các function cần thực hiện
-# 1. tin tức
-#     - func(menu tin tức)
-#     - theo dõi tin tức:
-#         - func(menu xác nhận)
-#         - func(xử lý kết quả)
-
-# 2. game
-#     - func(thể lệ)
-#     - tham gia:
-#         - func(menu tham gia)
-#         - func(xử lý kết quả)
-# 3. about
-#     - func(about)
-#     - func(timeline)
-# 4. xem video
-#     - func(video hot)
-
-
-# func phụ
-# - func(greeting)
-# - func(home)
 
 def ttb_greeting(sender_id):
     user_profile = ttb.get_user_profile(sender_id)
