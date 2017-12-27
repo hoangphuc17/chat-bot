@@ -1,23 +1,25 @@
+SINH VIEN TV
+
 curl -X POST -H "Content-Type: application/json" -d '{
   "persistent_menu":[{
     "locale":"default",
     "call_to_actions":[
       {        
         "type":"postback",
-        "title":"Tin Hot 🔥",      
+        "title":"🔥 Tin SV Hot",      
         "payload":"svtv_get_news"        
       },
       {        
         "type":"postback",
-        "title":"Post hay Sinh Viên TV",      
-        "payload":"svtv_post"        
+        "title":"🎬 Clip Hay",      
+        "payload":"svtv_clip_hay"        
       },
       {
         "title":"Xem thêm",
         "type":"nested",
         "call_to_actions":[
           {
-            "title":"Kết bạn",
+            "title":"Chat với người lạ",
             "type":"postback",
             "payload":"svtv_get_friends"
           },
@@ -41,3 +43,6 @@ curl -X POST -H "Content-Type: application/json" -d '{
     ]
   }]
 }' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAADZBISwFN3ABAEvYrliJrZAZCmGKBTkt3RRYKwsp45albVyoboK2UuDKZBOK1GUJohEg6DhTJLomSZBQrH40jcWYVMENxaomPfXZCLJiZBZCerRvSnv7foZAZCjRg30MvTBR614IMzZCbvnWzitd0ZBWDu1FolYlDK7oRSsgozrTEnYRaG2u1UzFLZAT"
+
+
+SAOSTAR

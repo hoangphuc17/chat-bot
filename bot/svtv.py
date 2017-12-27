@@ -19,6 +19,7 @@ NEWS = db.NEWS
 # BASIC
 # svtv_home
 # svtv_greeting
+# svtv_default_message
 
 # UPLOAD
 # svtv_menu_upload
@@ -43,9 +44,18 @@ def svtv_greeting(sender_id):
         '. Nhấn nút home bên dưới để tìm hiểu các tính năng Sinh viên TV có nhé'
     buttons = [
         Template.ButtonPostBack(
-            "Home", "svtv_home")
+            "HOME", "svtv_home")
     ]
     svtv.send(sender_id, Template.Buttons(text, buttons))
+
+def svtv_default_message(sender_id):
+    text = 'Chào bạn! Sinh Viên TV có thể giúp gì cho bạn?'
+    buttons = [
+        Template.ButtonPostBack(
+            "HOME", "svtv_home")
+    ]
+    svtv.send(sender_id, Template.Buttons(text, buttons))
+
 
 
 def svtv_home(sender_id):
@@ -73,7 +83,8 @@ def svtv_home(sender_id):
 
 # UPLOAD
 def svtv_menu_upload(sender_id):
-    text = 'nhấn chọn nút ở dưới để bắt đầu quy trình upload'
+    # text = 'nhấn chọn nút ở dưới để bắt đầu quy trình upload'
+    text = 'Chào bạn, bạn muốn đóng góp nội dung gì cho Sinh Viên TV? Chọn nút bên dưới để bắt đầu Upload'
     buttons = [
         Template.ButtonPostBack(
             "Upload", "svtv_implement_upload")
@@ -83,7 +94,7 @@ def svtv_menu_upload(sender_id):
 
 def svtv_implement_upload(sender_id):
     # text = 'hãy chọn hình ảnh để upload cho'
-    text = 'chọn hình và gửi'
+    text = 'hãy chọn 📷Ảnh – 🎬Video'
 
     # update upload_status = yes
     CUSTOMER.update_one(
@@ -103,7 +114,15 @@ def svtv_upload_success_continue(chatbot, sender_id, attachment_link):
     if bool(cus):
         if cus['SCRIPT']['upload_status'] == 'on':
             save_attachments(chatbot, sender_id, attachment_link)
-            svtv.send(sender_id, 'da luu thanh cong')
+
+            text = 'Cảm ơn bạn đã đóng góp cho Sinh Viên TV nhé!'
+            buttons = [
+                Template.ButtonPostBack(
+                    "HOME", "svtv_home")
+            ]
+            svtv.send(sender_id, Template.Buttons(text, buttons))
+            
+            # svtv.send(sender_id, 'da luu thanh cong')
 
     # check_upload_status = CUSTOMER.find_one({
     #     'SCRIPT': {'id_user': sender_id}
@@ -150,7 +169,7 @@ def svtv_get_news(sender_id):
 
 # QUANG CAO
 def svtv_ads(sender_id):
-    text = 'Liên hệ hợp tác quảng cáo & xuất bản nội dung: sinhvientv.channel@gmail.com'
+    text = 'Liên hệ hợp tác quảng cáo & xuất bản nội dung: sinhvientv.channel@gmail.com\nhoặc Hotline: 097.674.6263 (Mr Dương).'
     buttons = [
         Template.ButtonPostBack(
             "Home", "svtv_home")
@@ -255,11 +274,13 @@ def svtv_message_handler(event):
         # xu ly subscribe option
         elif subscribe_options.count(quickreply) == 1:
             svtv_handle_subscribe(sender_id, quickreply)
+        else:
+            svtv_default_message(sender_id)
 
     elif attachment_link is not None:
         if attachment_link != []:
             print(attachment_link)
-            svtv.send(sender_id, 'thanks bro')
+            # svtv.send(sender_id, 'thanks bro')
             svtv_upload_success_continue(
                 'svtv', sender_id, attachment_link)
     else:
