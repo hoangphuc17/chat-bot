@@ -53,7 +53,7 @@ curl -X POST -H "Content-Type: application/json" -d '{
       {        
         "type":"postback",
         "title":"Tin Hot 🔥",      
-        "payload":"saostar_get_news"        
+        "payload":"saostar_get_news_general"        
       },
       {        
         "type":"postback",
