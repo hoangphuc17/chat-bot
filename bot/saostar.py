@@ -411,7 +411,8 @@ def saostar_postback_handler(event):
         'saostar_implement_upload': saostar_implement_upload,
         'saostar_get_news_general': saostar_get_news_general,
         'saostar_ads': saostar_ads,
-        'saostar_menu_subscribe': saostar_menu_subscribe
+        'saostar_menu_subscribe': saostar_menu_subscribe,
+        'saostar_chuyen_muc': saostar_chuyen_muc
     }
 
     if postback in postback_list:
