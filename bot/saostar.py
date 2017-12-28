@@ -143,12 +143,12 @@ def saostar_get_news_general(sender_id):
 
     question = 'Xem thêm'
     quick_replies = [
-        QuickReply(title="Xem thêm", payload="xem_them"),
+        # QuickReply(title="Xem thêm", payload="xem_them"),
         QuickReply(title="Giải trí", payload="giai_tri"),
         QuickReply(title="Âm nhạc", payload="am_nhac"),
-        QuickReply(title="Âm nhạc", payload="phim_anh"),
-        QuickReply(title="Âm nhạc", payload="doi_song"),
-        QuickReply(title="Âm nhạc", payload="thoi_trang")
+        QuickReply(title="Phim ảnh", payload="phim_anh"),
+        QuickReply(title="Đời sống", payload="doi_song"),
+        QuickReply(title="Thời trang", payload="thoi_trang")
     ]
     saostar.send(sender_id,
                  question,
@@ -180,9 +180,9 @@ def saostar_get_news_giai_tri(sender_id):
     quick_replies = [
         QuickReply(title="Xem thêm", payload="xem_them"),
         QuickReply(title="Âm nhạc", payload="am_nhac"),
-        QuickReply(title="Âm nhạc", payload="phim_anh"),
-        QuickReply(title="Âm nhạc", payload="doi_song"),
-        QuickReply(title="Âm nhạc", payload="thoi_trang")
+        QuickReply(title="Phim ảnh", payload="phim_anh"),
+        QuickReply(title="Đời sống", payload="doi_song"),
+        QuickReply(title="Thời trang", payload="thoi_trang")
     ]
     saostar.send(sender_id,
                  question,
@@ -215,9 +215,9 @@ def saostar_get_news_am_nhac(sender_id):
         QuickReply(title="Xem thêm", payload="xem_them"),
         QuickReply(title="Giải trí", payload="giai_tri"),
         # QuickReply(title="Âm nhạc", payload="am_nhac"),
-        QuickReply(title="Âm nhạc", payload="phim_anh"),
-        QuickReply(title="Âm nhạc", payload="doi_song"),
-        QuickReply(title="Âm nhạc", payload="thoi_trang")
+        QuickReply(title="Phim ảnh", payload="phim_anh"),
+        QuickReply(title="Đời sống", payload="doi_song"),
+        QuickReply(title="Thời trang", payload="thoi_trang")
     ]
     saostar.send(sender_id,
                  question,
@@ -249,8 +249,8 @@ def saostar_get_news_phim_anh(sender_id):
         QuickReply(title="Giải trí", payload="giai_tri"),
         QuickReply(title="Âm nhạc", payload="am_nhac"),
         # QuickReply(title="Âm nhạc", payload="phim_anh"),
-        QuickReply(title="Âm nhạc", payload="doi_song"),
-        QuickReply(title="Âm nhạc", payload="thoi_trang")
+        QuickReply(title="Đời sống", payload="doi_song"),
+        QuickReply(title="Thời trang", payload="thoi_trang")
     ]
     saostar.send(sender_id,
                  question,
@@ -282,9 +282,9 @@ def saostar_get_news_doi_song(sender_id):
         QuickReply(title="Xem thêm", payload="xem_them"),
         QuickReply(title="Giải trí", payload="giai_tri"),
         QuickReply(title="Âm nhạc", payload="am_nhac"),
-        QuickReply(title="Âm nhạc", payload="phim_anh"),
+        QuickReply(title="Phim ảnh", payload="phim_anh"),
         # QuickReply(title="Âm nhạc", payload="doi_song"),
-        QuickReply(title="Âm nhạc", payload="thoi_trang")
+        QuickReply(title="Thời trang", payload="thoi_trang")
     ]
     saostar.send(sender_id,
                  question,
@@ -315,8 +315,8 @@ def saostar_get_news_thoi_trang(sender_id):
         QuickReply(title="Xem thêm", payload="xem_them"),
         QuickReply(title="Giải trí", payload="giai_tri"),
         QuickReply(title="Âm nhạc", payload="am_nhac"),
-        QuickReply(title="Âm nhạc", payload="phim_anh"),
-        QuickReply(title="Âm nhạc", payload="doi_song")
+        QuickReply(title="Phim ảnh", payload="phim_anh"),
+        QuickReply(title="Đời sống", payload="doi_song")
         # QuickReply(title="Âm nhạc", payload="thoi_trang")
     ]
     saostar.send(sender_id,
