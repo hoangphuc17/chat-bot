@@ -46,3 +46,46 @@ curl -X POST -H "Content-Type: application/json" -d '{
 
 
 SAOSTAR
+curl -X POST -H "Content-Type: application/json" -d '{
+  "persistent_menu":[{
+    "locale":"default",
+    "call_to_actions":[
+      {        
+        "type":"postback",
+        "title":"Tin Hot 🔥",      
+        "payload":"saostar_get_news"        
+      },
+      {        
+        "type":"postback",
+        "title":"Chuyên mục ➡",      
+        "payload":"saostar_chuyen_muc"        
+      },
+      {
+        "title":"Xem thêm",
+        "type":"nested",
+        "call_to_actions":[
+          {
+            "title":"Clip hay 🎬",
+            "type":"postback",
+            "payload":"saostar_clip_hay"
+          },
+          {
+            "title":"Quảng cáo 🌎",
+            "type":"postback",
+            "payload":"svtv_ads"
+          },
+          {
+            "title":"Đóng góp 💌",
+            "type":"postback",
+            "payload":"saostar_menu_upload"
+          },
+          {
+            "title":"Chat với admin",
+            "type":"postback",
+            "payload":"saostar_chat_with_admin_menu"
+          }
+        ]
+      }
+    ]
+  }]
+}' "https://graph.facebook.com/v2.6/me/messenger_profile?access_token=EAAEOrTwdoZAEBADZC5GIvACzd9q4zmNa8ZBoLyiYgMdxm7OGZBZBeU2RGLWejJIZB7ubs3p4JIpLEeYZBzTQa8iNAGjDZAKTIpZBR7lT4Fedxx29VkwK0ZCtcOQSREmUHFltIxSzh8LHCVFCnO2BZAJRW9oPqK8I3yAkUL9ikun5XX3ZBAZDZD"

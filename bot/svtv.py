@@ -66,7 +66,6 @@ def svtv_home(sender_id):
                                 buttons=[
                                     Template.ButtonPostBack(
                                         "Upload", "svtv_menu_upload")
-
                                 ]),
         Template.GenericElement("Tin tức",
                                 subtitle="svtv",

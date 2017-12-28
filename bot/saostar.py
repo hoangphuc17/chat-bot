@@ -30,13 +30,16 @@ NEWS = db.NEWS
 # saostar_get_news_giai_tri
 # saostar_get_news_am_nhac
 # saostar_get_news_phim_anh
-# saostar_get_news_xa_hoi
+# saostar_get_news_doi_song
 # saostar_get_news_thoi_trang
 
 # QUANG CAO
 # saostar_ads
 
 # THEO DOI TIN TUC
+
+# CHUYEN MUC
+# saostar_chuyen_muc
 
 
 def saostar_greeting(sender_id):
@@ -110,8 +113,13 @@ def saostar_upload_success_continue(chatbot, sender_id, attachment_link):
     if bool(cus):
         if cus['SCRIPT']['upload_status'] == 'on':
             save_attachments(chatbot, sender_id, attachment_link)
-            saostar.send(sender_id, 'da luu thanh cong')
-
+            text = 'Cảm ơn bạn đã đóng góp cho Saostar nhé!'
+            buttons = [
+                Template.ButtonPostBack(
+                    "HOME", "saostar_home")
+            ]
+            saostar.send(sender_id, Template.Buttons(text, buttons))
+            
 # NEWS
 def saostar_get_news_general(sender_id):
     elements = []
@@ -135,10 +143,12 @@ def saostar_get_news_general(sender_id):
 
     question = 'Xem thêm'
     quick_replies = [
+        QuickReply(title="Xem thêm", payload="xem_them"),
         QuickReply(title="Giải trí", payload="giai_tri"),
         QuickReply(title="Âm nhạc", payload="am_nhac"),
-        QuickReply(title="Xem thêm", payload="xem_them")
-
+        QuickReply(title="Âm nhạc", payload="phim_anh"),
+        QuickReply(title="Âm nhạc", payload="doi_song"),
+        QuickReply(title="Âm nhạc", payload="thoi_trang")
     ]
     saostar.send(sender_id,
                  question,
@@ -168,7 +178,11 @@ def saostar_get_news_giai_tri(sender_id):
 
     question = 'Xem thêm'
     quick_replies = [
-        QuickReply(title="Âm nhạc", payload="am_nhac")
+        QuickReply(title="Xem thêm", payload="xem_them"),
+        QuickReply(title="Âm nhạc", payload="am_nhac"),
+        QuickReply(title="Âm nhạc", payload="phim_anh"),
+        QuickReply(title="Âm nhạc", payload="doi_song"),
+        QuickReply(title="Âm nhạc", payload="thoi_trang")
     ]
     saostar.send(sender_id,
                  question,
@@ -198,13 +212,117 @@ def saostar_get_news_am_nhac(sender_id):
 
     question = 'Xem thêm'
     quick_replies = [
-        QuickReply(title="Giải trí", payload="giai_tri")
+        QuickReply(title="Xem thêm", payload="xem_them"),
+        QuickReply(title="Giải trí", payload="giai_tri"),
+        # QuickReply(title="Âm nhạc", payload="am_nhac"),
+        QuickReply(title="Âm nhạc", payload="phim_anh"),
+        QuickReply(title="Âm nhạc", payload="doi_song"),
+        QuickReply(title="Âm nhạc", payload="thoi_trang")
+    ]
+    saostar.send(sender_id,
+                 question,
+                 quick_replies=quick_replies,
+                 metadata="DEVELOPER_DEFINED_METADATA")
+def saostar_get_news_phim_anh(sender_id):
+    elements = []
+    news_list = []
+    for news in NEWS.find({'chatbot': 'saostar', 'category': 'phim anh'}):
+        news_list.append(news)
+
+    for news in news_list:
+        element = Template.GenericElement(
+            title=news['title'],
+            subtitle=news['subtitle'],
+            image_url=news['image_url'],
+            buttons=[
+                Template.ButtonWeb('Đọc tin', news['item_url']),
+                Template.ButtonPostBack('HOME', 'saostar_home')
+            ])
+        elements.append(element)
+
+    short_list_elements = random.sample(elements, 5)
+    saostar.send(sender_id, Template.Generic(short_list_elements))
+
+    question = 'Xem thêm'
+    quick_replies = [
+        QuickReply(title="Xem thêm", payload="xem_them"),
+        QuickReply(title="Giải trí", payload="giai_tri"),
+        QuickReply(title="Âm nhạc", payload="am_nhac"),
+        # QuickReply(title="Âm nhạc", payload="phim_anh"),
+        QuickReply(title="Âm nhạc", payload="doi_song"),
+        QuickReply(title="Âm nhạc", payload="thoi_trang")
     ]
     saostar.send(sender_id,
                  question,
                  quick_replies=quick_replies,
                  metadata="DEVELOPER_DEFINED_METADATA")
 
+def saostar_get_news_doi_song(sender_id):
+    elements = []
+    news_list = []
+    for news in NEWS.find({'chatbot': 'saostar', 'category': 'doi song'}):
+        news_list.append(news)
+
+    for news in news_list:
+        element = Template.GenericElement(
+            title=news['title'],
+            subtitle=news['subtitle'],
+            image_url=news['image_url'],
+            buttons=[
+                Template.ButtonWeb('Đọc tin', news['item_url']),
+                Template.ButtonPostBack('HOME', 'saostar_home')
+            ])
+        elements.append(element)
+
+    short_list_elements = random.sample(elements, 5)
+    saostar.send(sender_id, Template.Generic(short_list_elements))
+
+    question = 'Xem thêm'
+    quick_replies = [
+        QuickReply(title="Xem thêm", payload="xem_them"),
+        QuickReply(title="Giải trí", payload="giai_tri"),
+        QuickReply(title="Âm nhạc", payload="am_nhac"),
+        QuickReply(title="Âm nhạc", payload="phim_anh"),
+        # QuickReply(title="Âm nhạc", payload="doi_song"),
+        QuickReply(title="Âm nhạc", payload="thoi_trang")
+    ]
+    saostar.send(sender_id,
+                 question,
+                 quick_replies=quick_replies,
+                 metadata="DEVELOPER_DEFINED_METADATA")
+def saostar_get_news_thoi_trang(sender_id):
+    elements = []
+    news_list = []
+    for news in NEWS.find({'chatbot': 'saostar', 'category': 'thoi trang'}):
+        news_list.append(news)
+
+    for news in news_list:
+        element = Template.GenericElement(
+            title=news['title'],
+            subtitle=news['subtitle'],
+            image_url=news['image_url'],
+            buttons=[
+                Template.ButtonWeb('Đọc tin', news['item_url']),
+                Template.ButtonPostBack('HOME', 'saostar_home')
+            ])
+        elements.append(element)
+
+    short_list_elements = random.sample(elements, 5)
+    saostar.send(sender_id, Template.Generic(short_list_elements))
+
+    question = 'Xem thêm'
+    quick_replies = [
+        QuickReply(title="Xem thêm", payload="xem_them"),
+        QuickReply(title="Giải trí", payload="giai_tri"),
+        QuickReply(title="Âm nhạc", payload="am_nhac"),
+        QuickReply(title="Âm nhạc", payload="phim_anh"),
+        QuickReply(title="Âm nhạc", payload="doi_song")
+        # QuickReply(title="Âm nhạc", payload="thoi_trang")
+    ]
+    saostar.send(sender_id,
+                 question,
+                 quick_replies=quick_replies,
+                 metadata="DEVELOPER_DEFINED_METADATA")
 
 # QUANG CAO
 def saostar_ads(sender_id):
@@ -265,6 +383,22 @@ def saostar_handle_subscribe(sender_id, quick_reply_payload):
         )
 
 
+# CHUYEN MUC
+def saostar_chuyen_muc(sender_id):
+    question = "Chọn chuyên mục bạn muốn xem"
+    quick_replies = [
+        QuickReply(title="Âm nhạc", payload="am_nhac"),
+        QuickReply(title="Giải trí", payload="giai_tri"),
+        QuickReply(title="Phim ảnh", payload="phim_anh"),
+        QuickReply(title="Thời trang", payload="thoi_trang"),
+        QuickReply(title="Đời sống", payload="doi_song")
+    ]
+    saostar.send(sender_id,
+             question,
+             quick_replies=quick_replies,
+             metadata="DEVELOPER_DEFINED_METADATA")
+
+
 # HANDLE POSTBACK AND MESSAGE
 def saostar_postback_handler(event):
     print('POSTBACK HANDLER saostar')
@@ -299,7 +433,10 @@ def saostar_message_handler(event):
     }
     quickreply_list = {
         'giai_tri': saostar_get_news_giai_tri,
-        'am_nhac': saostar_get_news_am_nhac
+        'am_nhac': saostar_get_news_am_nhac,
+        'phim_anh': saostar_get_news_phim_anh,
+        'thoi_trang':saostar_get_news_thoi_trang,
+        'doi_song':saostar_get_news_doi_song
     }
 
     if message is not None:
@@ -318,7 +455,7 @@ def saostar_message_handler(event):
     elif attachment_link is not None:
         if attachment_link != []:
             print(attachment_link)
-            saostar.send(sender_id, 'thanks bro')
+            # saostar.send(sender_id, 'thanks bro')
             saostar_upload_success_continue(
                 'saostar', sender_id, attachment_link)
     else:
