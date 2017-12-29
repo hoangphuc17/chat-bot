@@ -60,28 +60,9 @@ curl -X POST -H "Content-Type: application/json" -d '{
             "payload":"saostar_clip_hay"
           },
           {
-<<<<<<< HEAD
-            "title":"Đóng góp 💌",
-=======
             "title":"🌎 Quảng cáo",
->>>>>>> 3d311f6584390714331d4b222bd94643b585d809
             "type":"postback",
             "payload":"saostar_menu_upload"
-          },
-          {
-            "title":"Quảng cáo 🌎",
-            "type":"postback",
-<<<<<<< HEAD
-            "payload":"saostar_ads"
-          },
-          
-          {
-            "title":"Chat với admin",
-            "type":"postback",
-            "payload":"saostar_chat_with_admin_menu"
-=======
-            "payload":"saostar_menu_upload"
->>>>>>> 3d311f6584390714331d4b222bd94643b585d809
           }
         ]
       }
