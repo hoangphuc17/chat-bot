@@ -14,7 +14,6 @@
 # CUSTOMER = db.CUSTOMER
 # CHATIBLE = db.CHATIBLE
 
-
 # def new_chatible():
 #     new_chat = {
 #         'chatbot':
@@ -22,7 +21,7 @@
 #         'id_user_B':
 #         'message': {
 #             'id': 
-#             'message':
+#             'message': 
 #             'timestamp':    
 #         }
 #     }

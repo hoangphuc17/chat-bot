@@ -407,7 +407,7 @@ def saostar_postback_handler(event):
     postback_list = {
         'saostar_greeting': saostar_greeting,
         'saostar_home': saostar_home,
-        'saostar_menu_upload': saostar_menu_upload,
+        # 'saostar_menu_upload': saostar_menu_upload,
         'saostar_implement_upload': saostar_implement_upload,
         'saostar_get_news_general': saostar_get_news_general,
         'saostar_ads': saostar_ads,
