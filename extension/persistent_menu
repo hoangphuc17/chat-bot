@@ -19,22 +19,12 @@ curl -X POST -H "Content-Type: application/json" -d '{
         "type":"nested",
         "call_to_actions":[
           {
-            "title":"Chat với người lạ",
-            "type":"postback",
-            "payload":"svtv_get_friends"
-          },
-          {
-            "title":"Chat với admin",
-            "type":"postback",
-            "payload":"chat_with_admin_menu"
-          },
-          {
-            "title":"Quảng cáo 🌎",
+            "title":"🌎 Quảng cáo",
             "type":"postback",
             "payload":"svtv_ads"
           },
           {
-            "title":"Đóng góp 💌",
+            "title":" 💌 Đóng góp",
             "type":"postback",
             "payload":"svtv_menu_upload"
           }
@@ -52,12 +42,12 @@ curl -X POST -H "Content-Type: application/json" -d '{
     "call_to_actions":[
       {        
         "type":"postback",
-        "title":"Tin Hot 🔥",      
+        "title":"🔥 Tin Hot",      
         "payload":"saostar_get_news_general"        
       },
       {        
         "type":"postback",
-        "title":"Chuyên mục ➡",      
+        "title":"➡ Chuyên mục",      
         "payload":"saostar_chuyen_muc"        
       },
       {
@@ -65,12 +55,12 @@ curl -X POST -H "Content-Type: application/json" -d '{
         "type":"nested",
         "call_to_actions":[
           {
-            "title":"Clip hay 🎬",
+            "title":"🎬 Clip hay",
             "type":"postback",
             "payload":"saostar_clip_hay"
           },
           {
-            "title":"Quảng cáo 🌎",
+            "title":"🌎 Quảng cáo",
             "type":"postback",
             "payload":"svtv_ads"
           },
@@ -78,11 +68,6 @@ curl -X POST -H "Content-Type: application/json" -d '{
             "title":"Đóng góp 💌",
             "type":"postback",
             "payload":"saostar_menu_upload"
-          },
-          {
-            "title":"Chat với admin",
-            "type":"postback",
-            "payload":"saostar_chat_with_admin_menu"
           }
         ]
       }
