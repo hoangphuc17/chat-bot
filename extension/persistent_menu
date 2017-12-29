@@ -70,15 +70,16 @@ curl -X POST -H "Content-Type: application/json" -d '{
             "payload":"saostar_clip_hay"
           },
           {
-            "title":"Quảng cáo 🌎",
-            "type":"postback",
-            "payload":"svtv_ads"
-          },
-          {
             "title":"Đóng góp 💌",
             "type":"postback",
             "payload":"saostar_menu_upload"
           },
+          {
+            "title":"Quảng cáo 🌎",
+            "type":"postback",
+            "payload":"saostar_ads"
+          },
+          
           {
             "title":"Chat với admin",
             "type":"postback",
