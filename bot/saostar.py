@@ -60,14 +60,14 @@ def saostar_greeting(sender_id):
 
 def saostar_home(sender_id):
     elements = [
-        Template.GenericElement("Đóng góp hình ảnh",
-                                subtitle="Saostar",
-                                # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_tintuc.jpg",
-                                buttons=[
-                                    Template.ButtonPostBack(
-                                        "Upload", "saostar_menu_upload")
+        # Template.GenericElement("Đóng góp hình ảnh",
+        #                         subtitle="Saostar",
+        #                         # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_tintuc.jpg",
+        #                         buttons=[
+        #                             Template.ButtonPostBack(
+        #                                 "Upload", "saostar_menu_upload")
 
-                                ]),
+        #                         ]),
         Template.GenericElement("Tin tức",
                                 subtitle="Saostar",
                                 # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_xemtintuc.jpg",
