@@ -234,8 +234,8 @@ def svtv_postback_handler(event):
     postback_list = {
         'svtv_greeting': svtv_greeting,
         'svtv_home': svtv_home,
-        'svtv_menu_upload': svtv_menu_upload,
-        'svtv_implement_upload': svtv_implement_upload,
+        # 'svtv_menu_upload': svtv_menu_upload,
+        # 'svtv_implement_upload': svtv_implement_upload,
         'svtv_get_news': svtv_get_news,
         'svtv_ads': svtv_ads,
         'svtv_menu_subscribe': svtv_menu_subscribe

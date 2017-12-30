@@ -408,7 +408,7 @@ def saostar_postback_handler(event):
         'saostar_greeting': saostar_greeting,
         'saostar_home': saostar_home,
         # 'saostar_menu_upload': saostar_menu_upload,
-        'saostar_implement_upload': saostar_implement_upload,
+        # 'saostar_implement_upload': saostar_implement_upload,
         'saostar_get_news_general': saostar_get_news_general,
         'saostar_ads': saostar_ads,
         'saostar_menu_subscribe': saostar_menu_subscribe,
@@ -456,7 +456,6 @@ def saostar_message_handler(event):
     elif attachment_link is not None:
         if attachment_link != []:
             print(attachment_link)
-            # saostar.send(sender_id, 'thanks bro')
             saostar_upload_success_continue(
                 'saostar', sender_id, attachment_link)
     else:
