@@ -33,7 +33,7 @@ def new_chatible(chatbot, usera, userb):
         'id_user_A': usera,
         'id_user_B': userb,
         'message': {
-            
+
             'sender_id': '',
             'message': '',
             'timestamp':  ''  
@@ -76,6 +76,6 @@ def check_chatible_status(sender_id):
     else:
         print('xu ly tin nhan binh thuong')
         
-def 
+
 
 
