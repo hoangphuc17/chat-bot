@@ -435,7 +435,8 @@ def saostar_message_handler(event):
 
     message_list = {
         'hi': saostar_greeting,
-        'home': saostar_home
+        'home': saostar_home,
+        'u': saostar_menu_upload
     }
     quickreply_list = {
         'giai_tri': saostar_get_news_giai_tri,
