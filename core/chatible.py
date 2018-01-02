@@ -77,6 +77,11 @@ def chatible_chatting(chatbot, sender_id, message):
 
     bot_chatible_dict[chatbot].send(user2, message)
 
+    CHATIBLE.update_one(
+        {'id_user': sender_id},
+        {'$set': {'message.with_user': user2, 'message.message': message, 'message.timestamp': datetime.datetime.now()}}
+    )
+
 
 def exit_chatible(chatbot, sender_id):
     print('ket thuc cuoc tro chuyen')

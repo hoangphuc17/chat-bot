@@ -270,8 +270,7 @@ def svtv_message_handler(event):
     if message is not None:
         message = message.lower()
         if check_chatible_status(sender_id):
-            # chatible_bat_dau(chatbot, sender_id)
-            print('chuyen tin nhan di')
+            print('chatting')
             chatible_chatting('svtv', sender_id, message)
         else:
             if message in message_list:
