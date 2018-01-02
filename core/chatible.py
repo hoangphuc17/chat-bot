@@ -41,7 +41,7 @@ def new_chatible(chatbot, usera, userb):
     }
     CHATIBLE.insert_one(new_chat_user)
 
-def chatible_tim_kiem(sender_id):
+def chatible_tim_kiem(chatbot, sender_id):
     available_customer = CUSTOMER.find_one({'SCRIPT.chat_available': 'yes'})    
     if bool(available_customer):
         userb = available_customer['id_user']
@@ -56,13 +56,13 @@ def chatible_tim_kiem(sender_id):
         print('khong co nguoi nao de chat')
 
 
-def chatible_bat_dau(sender_id):
+def chatible_bat_dau(chatbot, sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
         {'$set': {'SCRIPT.chat_available': 'yes'}}
     )
     svtv.send(sender_id, 'aaaa')
-    chatible_tim_kiem(sender_id)
+    chatible_tim_kiem(chatbot, sender_id)
 
 
 
@@ -75,8 +75,10 @@ def check_chatible_status(sender_id):
     check_chat_status = CUSTOMER.find_one({'SCRIPT.chat_status': 'on'})
     if bool(check_chat_status):
         print('xu ly tin nhan chatible')
+        return True
     else:
         print('xu ly tin nhan binh thuong')
+        return False
         
 
 

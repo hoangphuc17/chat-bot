@@ -258,8 +258,7 @@ def svtv_message_handler(event):
 
     message_list = {
         'hi': svtv_greeting,
-        'home': svtv_home,
-        'c': chatible_bat_dau
+        'home': svtv_home
     }
     quickreply_list = {
         'svtv_get_news': svtv_get_news
@@ -267,17 +266,18 @@ def svtv_message_handler(event):
 
     if message is not None:
         message = message.lower()
-        check_chatible_status(sender_id)
-
-        if message in message_list:
-            message_list[message](sender_id)
-        elif quickreply in quickreply_list:
-            quickreply_list[quickreply](sender_id)
-        # xu ly subscribe option
-        elif subscribe_options.count(quickreply) == 1:
-            svtv_handle_subscribe(sender_id, quickreply)
+        if check_chatible_status(sender_id):
+            chatible_bat_dau(chatbot, sender_id)
         else:
-            svtv_default_message(sender_id)
+            if message in message_list:
+                message_list[message](sender_id)
+            elif quickreply in quickreply_list:
+                quickreply_list[quickreply](sender_id)
+            # xu ly subscribe option
+            elif subscribe_options.count(quickreply) == 1:
+                svtv_handle_subscribe(sender_id, quickreply)
+            else:
+                svtv_default_message(sender_id)
 
     elif attachment_link is not None:
         if attachment_link != []:
