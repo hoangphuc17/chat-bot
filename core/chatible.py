@@ -7,28 +7,39 @@
 # # nếu không phải thì lấy nội dung tin nhắn của id đó gửi cho id cặp đôi
 # # Nếu là dấu hiệu kết thúc cuộc hội thoại thì xóa id đó và id cặp đôi ra khỏi db chát
 
-# import datetime
-# from pymongo import MongoClient
-# client = MongoClient('cb.saostar.vn', 27017)
-# db = client.Phuc
-# CUSTOMER = db.CUSTOMER
-# CHATIBLE = db.CHATIBLE
+import datetime
+from pymongo import MongoClient
+client = MongoClient('cb.saostar.vn', 27017)
+db = client.Phuc
+CUSTOMER = db.CUSTOMER
+CHATIBLE = db.CHATIBLE
 
-# def new_chatible():
-#     new_chat = {
-#         'chatbot':
-#         'id_user_A':
-#         'id_user_B':
-#         'message': {
-#             'id': 
-#             'message': 
-#             'timestamp':    
-#         }
-#     }
-#     CHATIBLE.insert_one(new_chat_user)
+def new_chatible(chatbot, usera, userb):
+    new_chat = {
+        'chatbot': chatbot,
+        'id_user_A': usera,
+        'id_user_B': userb
+        'message': {
+            'sender_id': 
+            'message': 
+            'timestamp':    
+        }
+    }
+    CHATIBLE.insert_one(new_chat_user)
 
 
-# def chatible():
-#     check = CHATIBLE.find_one({'available': 'yes'})    
-#     if bool(check):
+def chatible(chatbot, sender_id):
+    available_customer = CUSTOMER.find_one({'chat_available': 'yes'})    
+    if bool(available_customer):
+        userb = available_customer['id_user']
+        new_chatible(chatbot, sender_id, userb)
+
+    else:
+        print('khong co nguoi nao de chat')
+
+
+def exit_chatible(chatbot, sender_id, message):
+    if message == 'pp':
+        print('ket thuc cuoc tro chuyen')
+        
 
