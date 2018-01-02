@@ -259,7 +259,7 @@ def svtv_message_handler(event):
     message_list = {
         'hi': svtv_greeting,
         'home': svtv_home,
-        'c': chatible_dang_tim_kiem
+        'c': chatible_bat_dau
     }
     quickreply_list = {
         'svtv_get_news': svtv_get_news
