@@ -60,14 +60,14 @@ def saostar_greeting(sender_id):
 
 def saostar_home(sender_id):
     elements = [
-        Template.GenericElement("Đóng góp hình ảnh",
-                                subtitle="Saostar",
-                                # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_tintuc.jpg",
-                                buttons=[
-                                    Template.ButtonPostBack(
-                                        "Upload", "saostar_menu_upload")
+        # Template.GenericElement("Đóng góp hình ảnh",
+        #                         subtitle="Saostar",
+        #                         # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_tintuc.jpg",
+        #                         buttons=[
+        #                             Template.ButtonPostBack(
+        #                                 "Upload", "saostar_menu_upload")
 
-                                ]),
+        #                         ]),
         Template.GenericElement("Tin tức",
                                 subtitle="Saostar",
                                 # image_url="http://210.211.109.211/weqbfyretnccbsaf/saostar_xemtintuc.jpg",
@@ -96,9 +96,14 @@ def saostar_implement_upload(sender_id):
     text = 'chọn hình và gửi'
 
     # update upload_status = yes
+    # CUSTOMER.update_one(
+    #     {'id_user': sender_id},
+    #     {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'on'}}}
+    # )
+
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'on'}}}
+        {'$set': {'SCRIPT.upload_status': 'on'}}
     )
 
     saostar.send(sender_id, text)
@@ -407,8 +412,8 @@ def saostar_postback_handler(event):
     postback_list = {
         'saostar_greeting': saostar_greeting,
         'saostar_home': saostar_home,
-        'saostar_menu_upload': saostar_menu_upload,
-        'saostar_implement_upload': saostar_implement_upload,
+        # 'saostar_menu_upload': saostar_menu_upload,
+        # 'saostar_implement_upload': saostar_implement_upload,
         'saostar_get_news_general': saostar_get_news_general,
         'saostar_ads': saostar_ads,
         'saostar_menu_subscribe': saostar_menu_subscribe,
@@ -456,7 +461,6 @@ def saostar_message_handler(event):
     elif attachment_link is not None:
         if attachment_link != []:
             print(attachment_link)
-            # saostar.send(sender_id, 'thanks bro')
             saostar_upload_success_continue(
                 'saostar', sender_id, attachment_link)
     else:
