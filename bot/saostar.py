@@ -96,9 +96,14 @@ def saostar_implement_upload(sender_id):
     text = 'chọn hình và gửi'
 
     # update upload_status = yes
+    # CUSTOMER.update_one(
+    #     {'id_user': sender_id},
+    #     {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'on'}}}
+    # )
+
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$set': {'SCRIPT': {'id_user': sender_id, 'upload_status': 'on'}}}
+        {'$set': {'SCRIPT.upload_status': 'on'}}
     )
 
     saostar.send(sender_id, text)
