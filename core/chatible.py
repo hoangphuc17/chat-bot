@@ -27,14 +27,13 @@ bot_chatible_dict = {
     'svtv': svtv
 }
 
-def new_chatible(chatbot, usera, userb):
+def new_chatible(chatbot, sender_id):
     new_chat_user = {
         'chatbot': chatbot,
-        'id_user_A': usera,
-        'id_user_B': userb,
+        'id_user': sender_id,
+        'chatting_with_user': '',
         'message': {
-
-            'sender_id': '',
+            'with_user': '',
             'message': '',
             'timestamp':  ''  
         }
@@ -44,6 +43,8 @@ def new_chatible(chatbot, usera, userb):
 def chatible_tim_kiem(chatbot, sender_id):
     available_customer = CUSTOMER.find_one({'SCRIPT.chat_available': 'yes'})    
     if bool(available_customer):
+        
+
         userb = available_customer['id_user']
         new_chatible(chatbot, sender_id, userb)
         bot_chatible_dict[chatbot].send(sender_id, 'da tim thay')
@@ -61,14 +62,23 @@ def chatible_bat_dau(chatbot, sender_id):
         {'id_user': sender_id},
         {'$set': {'SCRIPT.chat_available': 'yes'}}
     )
-    svtv.send(sender_id, 'aaaa')
+
+    bot_chatible_dict[chatbot].send(sender_id, 'Đang tìm kiếm bạn')
+
     chatible_tim_kiem(chatbot, sender_id)
+
+
+def chatible_chatting():
 
 
 
 def exit_chatible(chatbot, sender_id, message):
     if message == 'pp':
         print('ket thuc cuoc tro chuyen')
+        CUSTOMER.update_one(
+            {'id_user': sender_id},
+            {'$set': {'SCRIPT.chat_status': 'off'}}
+        )
 
 
 def check_chatible_status(sender_id):
