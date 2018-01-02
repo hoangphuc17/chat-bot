@@ -240,7 +240,6 @@ def svtv_postback_handler(event):
         'svtv_get_news': svtv_get_news,
         'svtv_ads': svtv_ads,
         'svtv_menu_subscribe': svtv_menu_subscribe
-
     }
 
     if postback in postback_list:
@@ -264,10 +263,15 @@ def svtv_message_handler(event):
         'svtv_get_news': svtv_get_news
     }
 
+    chatible_list = {
+        'c': chatible_bat_dau
+    }
+
     if message is not None:
         message = message.lower()
         if check_chatible_status(sender_id):
-            chatible_bat_dau(chatbot, sender_id)
+            # chatible_bat_dau(chatbot, sender_id)
+            print('chuyen tin nhan di')
         else:
             if message in message_list:
                 message_list[message](sender_id)
@@ -276,6 +280,9 @@ def svtv_message_handler(event):
             # xu ly subscribe option
             elif subscribe_options.count(quickreply) == 1:
                 svtv_handle_subscribe(sender_id, quickreply)
+
+            elif message in chatible_list:
+                chatible_list[message]('svtv', sender_id)
             else:
                 svtv_default_message(sender_id)
 
