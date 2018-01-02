@@ -41,7 +41,7 @@ def new_chatible(chatbot, usera, userb):
     }
     CHATIBLE.insert_one(new_chat_user)
 
-def chatible_tim_kiem():
+def chatible_tim_kiem(sender_id):
     available_customer = CUSTOMER.find_one({'SCRIPT.chat_available': 'yes'})    
     if bool(available_customer):
         userb = available_customer['id_user']
