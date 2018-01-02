@@ -9,6 +9,7 @@ from messenger_platform.messenger_api.payload import *
 
 from messenger_platform.config.fbpage import svtv
 from core.db import *
+from core.chatible import *
 
 from pymongo import MongoClient
 client = MongoClient('cb.saostar.vn', 27017)
@@ -257,7 +258,8 @@ def svtv_message_handler(event):
 
     message_list = {
         'hi': svtv_greeting,
-        'home': svtv_home
+        'home': svtv_home,
+        'c': chatible_dang_tim_kiem
     }
     quickreply_list = {
         'svtv_get_news': svtv_get_news
@@ -265,6 +267,7 @@ def svtv_message_handler(event):
 
     if message is not None:
         message = message.lower()
+        check_chatible_status(sender_id)
 
         if message in message_list:
             message_list[message](sender_id)

@@ -7,12 +7,25 @@
 # # nếu không phải thì lấy nội dung tin nhắn của id đó gửi cho id cặp đôi
 # # Nếu là dấu hiệu kết thúc cuộc hội thoại thì xóa id đó và id cặp đôi ra khỏi db chát
 
+from messenger_platform.messenger_api import Attachment, Template
+from messenger_platform.messenger_api.payload import *
+
+from messenger_platform.config.config import CONFIG
+from messenger_platform.messenger_api.payload import *
+
+from messenger_platform.config.fbpage import svtv,saostar
+
 import datetime
 from pymongo import MongoClient
 client = MongoClient('cb.saostar.vn', 27017)
 db = client.Phuc
 CUSTOMER = db.CUSTOMER
 CHATIBLE = db.CHATIBLE
+
+bot_chatible_dict = {
+    'saostar': saostar,
+    'svtv': svtv
+}
 
 def new_chatible(chatbot, usera, userb):
     new_chat = {
@@ -28,12 +41,24 @@ def new_chatible(chatbot, usera, userb):
     CHATIBLE.insert_one(new_chat_user)
 
 
-def chatible(chatbot, sender_id):
-    available_customer = CUSTOMER.find_one({'chat_available': 'yes'})    
+def chatible_dang_tim_kiem(sender_id):
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$set': {'SCRIPT.chat_available': 'yes'}}
+    )
+
+
+def chatible_da_tim_thay(sender_id):
+    available_customer = CUSTOMER.find_one({'SCRIPT.chat_available': 'yes'})    
     if bool(available_customer):
         userb = available_customer['id_user']
         new_chatible(chatbot, sender_id, userb)
-
+        bot_chatible_dict[chatbot].send(sender_id, 'da tim thay')
+        
+        CUSTOMER.update_one(
+            {'id_user': sender_id},
+            {'$set': {'SCRIPT.chat_status': 'on'}}
+        )
     else:
         print('khong co nguoi nao de chat')
 
@@ -41,5 +66,15 @@ def chatible(chatbot, sender_id):
 def exit_chatible(chatbot, sender_id, message):
     if message == 'pp':
         print('ket thuc cuoc tro chuyen')
+
+
+def check_chatible_status(sender_id):
+    check_chat_status = CUSTOMER.find_one({'SCRIPT.chat_status': 'on'})
+    if bool(check_chat_status):
+        print('xu ly tin nhan chatible')
+    else:
+        print('xu ly tin nhan binh thuong')
         
+def 
+
 
