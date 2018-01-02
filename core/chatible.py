@@ -28,7 +28,7 @@ bot_chatible_dict = {
 }
 
 def new_chatible(chatbot, usera, userb):
-    new_chat = {
+    new_chat_user = {
         'chatbot': chatbot,
         'id_user_A': usera,
         'id_user_B': userb,
