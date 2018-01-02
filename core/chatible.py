@@ -31,7 +31,7 @@ def new_chatible(chatbot, usera, userb):
     new_chat = {
         'chatbot': chatbot,
         'id_user_A': usera,
-        'id_user_B': userb
+        'id_user_B': userb,
         'message': {
             'sender_id': 
             'message': 
@@ -54,7 +54,7 @@ def chatible_da_tim_thay(sender_id):
         userb = available_customer['id_user']
         new_chatible(chatbot, sender_id, userb)
         bot_chatible_dict[chatbot].send(sender_id, 'da tim thay')
-        
+
         CUSTOMER.update_one(
             {'id_user': sender_id},
             {'$set': {'SCRIPT.chat_status': 'on'}}
