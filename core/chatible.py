@@ -79,7 +79,12 @@ def chatible_chatting(chatbot, sender_id, message):
 
     CHATIBLE.update_one(
         {'id_user': sender_id},
-        {'$set': {'message.with_user': user2, 'message.message': message, 'message.timestamp': datetime.datetime.now()}}
+        # {'$push': {'message.with_user': user2, 'message.message': message, 'message.timestamp': datetime.datetime.now()}}
+        {'$push': {'message':{
+            'with_user': user2,
+            'message': message,
+            'timestamp': datetime.datetime.now()
+        }}}
     )
 
 
