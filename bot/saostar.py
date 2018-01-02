@@ -361,31 +361,41 @@ def saostar_handle_subscribe(sender_id, quick_reply_payload):
         ]
         saostar.send(sender_id, Template.Buttons(text, buttons))
 
-        user = CUSTOMER.find_one({'id_user': sender_id})
-        new_script = {
-            'upload_status': user['SCRIPT']['upload_status'],
-            'subscribe': quick_reply_payload
-        }
         CUSTOMER.update_one(
             {'id_user': sender_id},
-            {'$set': {'SCRIPT': new_script}}
+            {'$set': {'SCRIPT.subscribe_news': quick_reply_payload}}
         )
+
+        # user = CUSTOMER.find_one({'id_user': sender_id})
+        # new_script = {
+        #     'upload_status': user['SCRIPT']['upload_status'],
+        #     'subscribe': quick_reply_payload
+        # }
+        # CUSTOMER.update_one(
+        #     {'id_user': sender_id},
+        #     {'$set': {'SCRIPT': new_script}}
+        # )
     else:
         text = "Bạn đã đăng ký nhận thông báo thành công.\nMỗi khi có thông báo mới về chương trình, mình sẽ gửi tới bạn."
         buttons = [
             Template.ButtonPostBack("HOME", "saostar_home")
         ]
         saostar.send(sender_id, Template.Buttons(text, buttons))
-
-        user = CUSTOMER.find_one({'id_user': sender_id})
-        new_script = {
-            'upload_status': user['SCRIPT']['upload_status'],
-            'subscribe': quick_reply_payload
-        }
+        
         CUSTOMER.update_one(
             {'id_user': sender_id},
-            {'$set': {'SCRIPT': new_script}}
+            {'$set': {'SCRIPT.subscribe_news': quick_reply_payload}}
         )
+
+        # user = CUSTOMER.find_one({'id_user': sender_id})
+        # new_script = {
+        #     'upload_status': user['SCRIPT']['upload_status'],
+        #     'subscribe': quick_reply_payload
+        # }
+        # CUSTOMER.update_one(
+        #     {'id_user': sender_id},
+        #     {'$set': {'SCRIPT': new_script}}
+        # )
 
 
 # CHUYEN MUC
