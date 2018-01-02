@@ -27,11 +27,11 @@ bot_chatible_dict = {
     'svtv': svtv
 }
 
-def new_chatible(chatbot, sender_id):
+def new_chatible(chatbot, sender_id, user2):
     new_chat_user = {
         'chatbot': chatbot,
         'id_user': sender_id,
-        'chatting_with_user': '',
+        'chatting_with_user': user2,
         'message': {
             'with_user': '',
             'message': '',
@@ -42,17 +42,20 @@ def new_chatible(chatbot, sender_id):
 
 def chatible_tim_kiem(chatbot, sender_id):
     available_customer = CUSTOMER.find_one({'SCRIPT.chat_available': 'yes'})    
-    if bool(available_customer):
-        
 
-        userb = available_customer['id_user']
-        new_chatible(chatbot, sender_id, userb)
-        bot_chatible_dict[chatbot].send(sender_id, 'da tim thay')
+    if bool(available_customer):
+        user2 = available_customer['id_user']
+
+        new_chatible(chatbot, sender_id, user2)
+        new_chatible(chatbot, user2, sender_id)
+        
+        bot_chatible_dict[chatbot].send(sender_id, 'Đã tìm thấy bạn, hãy gửi tin nhắn')
 
         CUSTOMER.update_one(
             {'id_user': sender_id},
             {'$set': {'SCRIPT.chat_status': 'on'}}
         )
+
     else:
         print('khong co nguoi nao de chat')
 
@@ -68,21 +71,23 @@ def chatible_bat_dau(chatbot, sender_id):
     chatible_tim_kiem(chatbot, sender_id)
 
 
-def chatible_chatting():
+def chatible_chatting(chatbot, sender_id, message):
+    chatty = CHATIBLE.find_one({'id_user': sender_id})
+    user2 = chatty['chatting_with_user']
+
+    bot_chatible_dict[chatbot].send(user2, message)
 
 
-
-def exit_chatible(chatbot, sender_id, message):
-    if message == 'pp':
-        print('ket thuc cuoc tro chuyen')
-        CUSTOMER.update_one(
-            {'id_user': sender_id},
-            {'$set': {'SCRIPT.chat_status': 'off'}}
-        )
+def exit_chatible(chatbot, sender_id):
+    print('ket thuc cuoc tro chuyen')
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$set': {'SCRIPT.chat_status': 'off'}}
+    )
 
 
 def check_chatible_status(sender_id):
-    check_chat_status = CUSTOMER.find_one({'SCRIPT.chat_status': 'on'})
+    check_chat_status = CUSTOMER.find_one({'id_user': sender_id, 'SCRIPT.chat_status': 'on'})
     if bool(check_chat_status):
         print('xu ly tin nhan chatible')
         return True

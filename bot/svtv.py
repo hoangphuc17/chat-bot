@@ -272,6 +272,7 @@ def svtv_message_handler(event):
         if check_chatible_status(sender_id):
             # chatible_bat_dau(chatbot, sender_id)
             print('chuyen tin nhan di')
+            chatible_chatting('svtv', sender_id, message)
         else:
             if message in message_list:
                 message_list[message](sender_id)
