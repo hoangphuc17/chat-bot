@@ -47,6 +47,7 @@ def chatible_dang_tim_kiem(sender_id):
         {'id_user': sender_id},
         {'$set': {'SCRIPT.chat_available': 'yes'}}
     )
+    svtv.send(sender_id, 'aaaa')
 
 
 def chatible_da_tim_thay(sender_id):

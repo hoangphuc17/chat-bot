@@ -282,7 +282,6 @@ def svtv_message_handler(event):
     elif attachment_link is not None:
         if attachment_link != []:
             print(attachment_link)
-            # svtv.send(sender_id, 'thanks bro')
             svtv_upload_success_continue(
                 'svtv', sender_id, attachment_link)
     else:
