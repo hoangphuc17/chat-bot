@@ -32,11 +32,12 @@ def new_chatible(chatbot, sender_id, user2):
         'chatbot': chatbot,
         'id_user': sender_id,
         'chatting_with_user': user2,
-        'message': {
+        'message': [{
+            
             'with_user': '',
             'message': '',
             'timestamp':  ''  
-        }
+        }]
     }
     CHATIBLE.insert_one(new_chat_user)
 
