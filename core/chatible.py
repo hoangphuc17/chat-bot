@@ -32,7 +32,7 @@ def new_chatible(chatbot, sender_id, user2):
         'chatbot': chatbot,
         'id_user': sender_id,
         'chatting_with_user': user2,
-        'ended_chat_with': [],
+        'chatted_user': [],
         'message': [{
             'with_user': '',
             'message': '',
@@ -41,29 +41,48 @@ def new_chatible(chatbot, sender_id, user2):
     }
     CHATIBLE.insert_one(new_chat_user)
 
+
 def chatible_tim_kiem(chatbot, sender_id):
-    available_customer = CUSTOMER.find_one({'SCRIPT.chat_available': 'yes'})    
+    arr_chatted_user = CUSTOMER.find_one({'id_user': sender_id})['chatted_user']
 
-    
+    arr_partner = []
+    cursor_partner = CUSTOMER.find({'SCRIPT.chat_available': 'yes'})
+    for partner in cursor_partner:
+        arr_partner.append(partner)
 
-    if bool(available_customer):
-        user2 = available_customer['id_user']
+    found = False
+    found_partner = ''
+    for partner in arr_partner:
+        if found:
+            break
+        if partner['id_user'] not in arr_chatted_user:
+            found = True
+            found_partner = partner['id_user']
 
-        new_chatible(chatbot, sender_id, user2)
-        new_chatible(chatbot, user2, sender_id)
-        
-        bot_chatible_dict[chatbot].send(sender_id, 'Đã tìm thấy bạn, hãy gửi tin nhắn')
-
-        CUSTOMER.update_one(
-            {'id_user': sender_id},
-            {'$set': {'SCRIPT.chat_status': 'on'}}
-        )
-
+    if found_partner != sender_id:
+        chatible_bat_dau_chat(chatbot, sender_id, found_partner)
     else:
-        print('khong co nguoi nao de chat')
+        print('khong tim duoc nguoi nao')
 
 
-def chatible_bat_dau(chatbot, sender_id):
+def chatible_bat_dau_chat(chatbot, sender_id, partner):
+    new_chatible(chatbot, sender_id, partner)
+    new_chatible(chatbot, partner, sender_id)
+    
+    bot_chatible_dict[chatbot].send(sender_id, 'Đã tìm thấy bạn, hãy gửi tin nhắn')
+
+    CUSTOMER.update_one(
+        {'id_user': sender_id},
+        {'$set': {'SCRIPT.chat_status': 'on'}}
+    )
+
+    CUSTOMER.update_one(
+        {'id_user': partner},
+        {'$set': {'SCRIPT.chat_status': 'on'}}
+    )
+
+  
+def chatible_bat_dau_tim_kiem(chatbot, sender_id):
     CUSTOMER.update_one(
         {'id_user': sender_id},
         {'$set': {'SCRIPT.chat_available': 'yes'}}
@@ -92,7 +111,7 @@ def chatible_chatting(chatbot, sender_id, message):
 
 
 def exit_chatible(chatbot, sender_id):
-    print('ket thuc cuoc tro chuyen')
+    print('ket thuc cuoc tro chuyen, cap nhat chat_status, chatted_user')
     CUSTOMER.update_one(
         {'id_user': sender_id},
         {'$set': {'SCRIPT.chat_status': 'off'}}

@@ -264,7 +264,7 @@ def svtv_message_handler(event):
     }
 
     chatible_list = {
-        'c': chatible_bat_dau
+        'c': chatible_bat_dau_tim_kiem
     }
 
     if message is not None:
