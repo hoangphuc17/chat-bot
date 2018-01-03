@@ -32,8 +32,8 @@ def new_chatible(chatbot, sender_id, user2):
         'chatbot': chatbot,
         'id_user': sender_id,
         'chatting_with_user': user2,
+        'ended_chat_with': [],
         'message': [{
-            
             'with_user': '',
             'message': '',
             'timestamp':  ''  
@@ -43,6 +43,8 @@ def new_chatible(chatbot, sender_id, user2):
 
 def chatible_tim_kiem(chatbot, sender_id):
     available_customer = CUSTOMER.find_one({'SCRIPT.chat_available': 'yes'})    
+
+    
 
     if bool(available_customer):
         user2 = available_customer['id_user']
