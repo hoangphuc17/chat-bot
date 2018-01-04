@@ -36,7 +36,7 @@ from messenger_platform.messenger_api.payload import *
 from messenger_platform.config.config import CONFIG
 from messenger_platform.messenger_api.payload import *
 
-from messenger_platform.config.fbpage import svtv,saostar
+from messenger_platform.config.fbpage import svtv, saostar
 
 import datetime
 from pymongo import MongoClient
@@ -92,8 +92,8 @@ def check_chatting_status(sender_id):
 
 def start_to_chat(chatbot, chatible_customer, chatible_partner):
     mess = 'Đã tìm thấy, hãy gửi tin nhắn'
-    bot_chatible_dict[chatbot].send(chatible_customer, mess)
-    bot_chatible_dict[chatbot].send(chatible_partner, mess)
+    bot_chatible_dict[chatbot].send(chatible_customer, 'da tim thay, hay gui tin nhan')
+    bot_chatible_dict[chatbot].send(chatible_partner, 'da tim thay, hay gui tin nhan')
 
     CUSTOMER.update_one(
         {'id_user': chatible_customer},
