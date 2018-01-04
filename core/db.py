@@ -143,9 +143,9 @@ def svtv_customer(sender_id):
         {'$set': {'SCRIPT': {
             'id_user': sender_id,
             'subscribe_news': 'no',
-            'upload_status': 'off',
-            'chat_available': 'no',
-            'chat_status': 'off'
+            'allow_to_upload_status': 'no',
+            'chatting_status': 'no',
+            'searching_partner': 'no'
         }}}
     )
 

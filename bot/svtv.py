@@ -264,14 +264,14 @@ def svtv_message_handler(event):
     }
 
     chatible_list = {
-        'c': chatible_bat_dau_tim_kiem
+        'c': search
     }
 
     if message is not None:
         message = message.lower()
-        if check_chatible_status(sender_id):
+        if check_chatting_status(sender_id):
             print('chatting')
-            chatible_chatting('svtv', sender_id, message)
+            chat('svtv', sender_id, message)
         else:
             if message in message_list:
                 message_list[message](sender_id)
