@@ -65,73 +65,6 @@ def new_chatible(chatbot, sender_id):
     CHATIBLE.insert_one(new_chat_user)
 
 
-def chatible_tim_kiem(chatbot, sender_id):
-    arr_chatted_user = CUSTOMER.find_one({'id_user': sender_id})['chatted_user']
-
-    arr_partner = []
-    cursor_partner = CUSTOMER.find({'SCRIPT.available_to_chat': 'yes'})
-    for partner in cursor_partner:
-        arr_partner.append(partner)
-
-    found = False
-    found_partner = ''
-    for partner in arr_partner:
-        if found:
-            break
-        if partner['id_user'] not in arr_chatted_user:
-            found = True
-            found_partner = partner['id_user']
-
-    if found_partner != sender_id:
-        chatible_bat_dau_chat(chatbot, sender_id, found_partner)
-    else:
-        print('khong tim duoc nguoi nao')
-
-
-def chatible_bat_dau_chat(chatbot, sender_id, partner):
-    new_chatible(chatbot, sender_id, partner)
-    new_chatible(chatbot, partner, sender_id)
-    
-    bot_chatible_dict[chatbot].send(sender_id, 'Đã tìm thấy bạn, hãy gửi tin nhắn')
-
-    CUSTOMER.update_one(
-        {'id_user': sender_id},
-        {'$set': {'SCRIPT.chatting_status': 'on'}}
-    )
-
-    CUSTOMER.update_one(
-        {'id_user': partner},
-        {'$set': {'SCRIPT.chatting_status': 'on'}}
-    )
-
-  
-def chatible_bat_dau_tim_kiem(chatbot, sender_id):
-    CUSTOMER.update_one(
-        {'id_user': sender_id},
-        {'$set': {'SCRIPT.available_to_chat': 'yes'}}
-    )
-
-    bot_chatible_dict[chatbot].send(sender_id, 'Đang tìm kiếm bạn')
-
-    chatible_tim_kiem(chatbot, sender_id)
-
-
-def chatible_chatting(chatbot, sender_id, message):
-    chatty = CHATIBLE.find_one({'id_user': sender_id})
-    partner = chatty['chatting_with_user']
-
-    bot_chatible_dict[chatbot].send(partner, message)
-
-    CHATIBLE.update_one(
-        {'id_user': sender_id},
-        {'$push': {'message':{
-            'with_user': partner,
-            'message': message,
-            'timestamp': datetime.datetime.now()
-        }}}
-    )
-
-
 def exit_chatible(chatbot, sender_id):
     print('ket thuc cuoc tro chuyen, cap nhat chat_status, chatted_user')
     CUSTOMER.update_one(
@@ -157,7 +90,7 @@ def check_chatting_status(sender_id):
         return False
         
 
-def start_to_chat(chatible_customer, chatible_partner):
+def start_to_chat(chatbot, chatible_customer, chatible_partner):
     mess = 'Đã tìm thấy, hãy gửi tin nhắn'
     bot_chatible_dict[chatbot].send(chatible_customer, mess)
     bot_chatible_dict[chatbot].send(chatible_partner, mess)
@@ -183,8 +116,6 @@ def start_to_chat(chatible_customer, chatible_partner):
     )
 
     
-
-
 def chat(chatbot, sender_id, message):
     chatty = CHATIBLE.find_one({'id_user': sender_id})
     partner = chatty['chatting_with_user']
@@ -221,7 +152,7 @@ def search(chatbot, sender_id):
                 chatible_partner = partner['id_user']
                 break
         if chatible_partner != '':
-            start_to_chat(chatible_customer, chatible_partner)
+            start_to_chat(chatbot, chatible_customer, chatible_partner)
         else:
             print('da chat voi tat ca moi nguoi trong danh sach searching partner, cap nhat searching_partner = yes')
             CUSTOMER.update_one(
