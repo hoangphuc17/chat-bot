@@ -145,12 +145,14 @@ def search(chatbot, sender_id):
         array_searching_partner.append(searching_partner)
 
     chatible_partner = ''
+    print('1')
     if array_searching_partner != []:
         chatible_customer = CHATIBLE.find_one({'id_user': sender_id})
         for partner in array_searching_partner:
             if partner['id_user'] not in chatible_customer['chatted_with_user']:
                 chatible_partner = partner['id_user']
                 break
+        print('2')
         if chatible_partner != '':
             start_to_chat(chatbot, chatible_customer, chatible_partner)
         else:
@@ -159,12 +161,13 @@ def search(chatbot, sender_id):
                 {'id_user': sender_id},
                 {'$set': {'SCRIPT.searching_partner': 'yes'}}
             )
+        print('3')
     else:
         print('array searching partner = [], cap nhat searching_partner = yes')
         CUSTOMER.update_one(
             {'id_user': sender_id},
             {'$set': {'SCRIPT.searching_partner': 'yes'}}
         )
-    
+    print('4')
 
 
