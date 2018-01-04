@@ -69,7 +69,7 @@ def exit_chatible(chatbot, sender_id):
     print('ket thuc cuoc tro chuyen, cap nhat chat_status, chatted_user')
     CUSTOMER.update_one(
         {'id_user': sender_id},
-        {'$set': {'SCRIPT.chatting_status': 'no', 'SCRIPT.searching_status': 'no'}}
+        {'$set': {'SCRIPT.chatting_status': 'no', 'SCRIPT.searching_partner': 'no'}}
     )
 
     chatting_with_user = CHATIBLE.find_one({'id_user': sender_id})
@@ -97,7 +97,7 @@ def start_to_chat(chatbot, chatible_customer, chatible_partner):
 
     CUSTOMER.update_one(
         {'id_user': chatible_customer},
-        {'$set': {'SCRIPT.chatting_status': 'yes', 'SCRIPT.searching_status': 'no'}}
+        {'$set': {'SCRIPT.chatting_status': 'yes', 'SCRIPT.searching_partner': 'no'}}
     )
 
     CHATIBLE.update_one(
@@ -107,7 +107,7 @@ def start_to_chat(chatbot, chatible_customer, chatible_partner):
 
     CUSTOMER.update_one(
         {'id_user': chatible_partner},
-        {'$set': {'SCRIPT.chatting_status': 'yes', 'SCRIPT.searching_status': 'no'}}
+        {'$set': {'SCRIPT.chatting_status': 'yes', 'SCRIPT.searching_partner': 'no'}}
     )
 
     CHATIBLE.update_one(
@@ -133,9 +133,10 @@ def chat(chatbot, sender_id, message):
 
 
 def search(chatbot, sender_id):
-    check_searching = CUSTOMER.find_one({'id_user': sender_id, 'SCRIPT.searching_status': 'yes'})
+    check_searching = CUSTOMER.find_one({'id_user': sender_id, 'SCRIPT.searching_partner': 'yes'})
     if bool(check_searching):
         print('dang tim kiem')
+        pass
     else:
         check_customer_in_chatible_database = CHATIBLE.find_one({'id_user': sender_id})
         if bool(check_customer_in_chatible_database):
