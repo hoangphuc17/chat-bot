@@ -61,13 +61,13 @@ def svtv_default_message(sender_id):
 
 def svtv_home(sender_id):
     elements = [
-        Template.GenericElement("Đóng góp hình ảnh",
-                                subtitle="svtv",
-                                # image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_tintuc.jpg",
-                                buttons=[
-                                    Template.ButtonPostBack(
-                                        "Upload", "svtv_menu_upload")
-                                ]),
+        # Template.GenericElement("Đóng góp hình ảnh",
+        #                         subtitle="svtv",
+        #                         # image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_tintuc.jpg",
+        #                         buttons=[
+        #                             Template.ButtonPostBack(
+        #                                 "Upload", "svtv_menu_upload")
+        #                         ]),
         Template.GenericElement("Tin tức",
                                 subtitle="svtv",
                                 # image_url="http://210.211.109.211/weqbfyretnccbsaf/ttb_xemtintuc.jpg",
