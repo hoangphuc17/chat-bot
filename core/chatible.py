@@ -168,6 +168,8 @@ def search(chatbot, sender_id):
             {'id_user': sender_id},
             {'$set': {'SCRIPT.searching_partner': 'yes'}}
         )
+        
+        bot_chatible_dict[chatbot].send(partner, 'Đang tìm kiếm')
     print('4')
 
 
