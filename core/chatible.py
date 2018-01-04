@@ -173,7 +173,7 @@ def search(chatbot, sender_id):
                 {'$set': {'SCRIPT.searching_partner': 'yes'}}
             )
             
-            bot_chatible_dict[chatbot].send(partner, 'Đang tìm kiếm')
+            bot_chatible_dict[chatbot].send(sender_id, 'Đang tìm kiếm')
         print('4')
 
 
