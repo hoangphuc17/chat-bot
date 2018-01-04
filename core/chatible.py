@@ -133,43 +133,47 @@ def chat(chatbot, sender_id, message):
 
 
 def search(chatbot, sender_id):
-    check_customer_in_chatible_database = CHATIBLE.find_one({'id_user': sender_id})
-    if bool(check_customer_in_chatible_database):
-        pass
+    check_searching = CUSTOMER.find_one({'id_user': sender_id, 'SCRIPT.searching_status': 'yes'})
+    if bool(check_searching):
+        print('dang tim kiem')
     else:
-        new_chatible(chatbot, sender_id)
-    
-    array_searching_partner = []
-    cursor_searching_partner = CUSTOMER.find({'SCRIPT.searching_partner': 'yes'})
-    for searching_partner in cursor_searching_partner:
-        array_searching_partner.append(searching_partner)
-
-    chatible_partner = ''
-    print('1')
-    if array_searching_partner != []:
-        chatible_customer = CHATIBLE.find_one({'id_user': sender_id})
-        for partner in array_searching_partner:
-            if partner['id_user'] not in chatible_customer['chatted_with_user']:
-                chatible_partner = partner['id_user']
-                break
-        print('2')
-        if chatible_partner != '':
-            start_to_chat(chatbot, chatible_customer, chatible_partner)
+        check_customer_in_chatible_database = CHATIBLE.find_one({'id_user': sender_id})
+        if bool(check_customer_in_chatible_database):
+            pass
         else:
-            print('da chat voi tat ca moi nguoi trong danh sach searching partner, cap nhat searching_partner = yes')
+            new_chatible(chatbot, sender_id)
+        
+        array_searching_partner = []
+        cursor_searching_partner = CUSTOMER.find({'SCRIPT.searching_partner': 'yes'})
+        for searching_partner in cursor_searching_partner:
+            array_searching_partner.append(searching_partner)
+
+        chatible_partner = ''
+        print('1')
+        if array_searching_partner != []:
+            chatible_customer = CHATIBLE.find_one({'id_user': sender_id})
+            for partner in array_searching_partner:
+                if partner['id_user'] not in chatible_customer['chatted_with_user']:
+                    chatible_partner = partner['id_user']
+                    break
+            print('2')
+            if chatible_partner != '':
+                start_to_chat(chatbot, chatible_customer, chatible_partner)
+            else:
+                print('da chat voi tat ca moi nguoi trong danh sach searching partner, cap nhat searching_partner = yes')
+                CUSTOMER.update_one(
+                    {'id_user': sender_id},
+                    {'$set': {'SCRIPT.searching_partner': 'yes'}}
+                )
+            print('3')
+        else:
+            print('array searching partner = [], cap nhat searching_partner = yes')
             CUSTOMER.update_one(
                 {'id_user': sender_id},
                 {'$set': {'SCRIPT.searching_partner': 'yes'}}
             )
-        print('3')
-    else:
-        print('array searching partner = [], cap nhat searching_partner = yes')
-        CUSTOMER.update_one(
-            {'id_user': sender_id},
-            {'$set': {'SCRIPT.searching_partner': 'yes'}}
-        )
-        
-        bot_chatible_dict[chatbot].send(partner, 'Đang tìm kiếm')
-    print('4')
+            
+            bot_chatible_dict[chatbot].send(partner, 'Đang tìm kiếm')
+        print('4')
 
 
