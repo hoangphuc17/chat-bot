@@ -159,8 +159,9 @@ def search(chatbot, sender_id):
                     break
             print('2')
             if chatible_partner != '':
-                print(chatible_partner)
-                start_to_chat(chatbot, chatible_customer, chatible_partner)
+                id_chatible_customer = chatible_customer['id_user']
+                print(chatible_partner, chatible_customer)
+                start_to_chat(chatbot, id_chatible_customer, chatible_partner)
             else:
                 print('da chat voi tat ca moi nguoi trong danh sach searching partner, cap nhat searching_partner = yes')
                 CUSTOMER.update_one(
