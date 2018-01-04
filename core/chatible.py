@@ -159,6 +159,7 @@ def search(chatbot, sender_id):
                     break
             print('2')
             if chatible_partner != '':
+                print(chatible_partner)
                 start_to_chat(chatbot, chatible_customer, chatible_partner)
             else:
                 print('da chat voi tat ca moi nguoi trong danh sach searching partner, cap nhat searching_partner = yes')
