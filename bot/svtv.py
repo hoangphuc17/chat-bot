@@ -270,8 +270,10 @@ def svtv_message_handler(event):
     if message is not None:
         message = message.lower()
         if check_chatting_status(sender_id):
-            print('chatting')
-            chat('svtv', sender_id, message)
+            if message == 'pp':
+                exit_chatible()
+            else:
+                chat('svtv', sender_id, message)
         else:
             if message in message_list:
                 message_list[message](sender_id)
