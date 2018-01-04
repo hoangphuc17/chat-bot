@@ -67,18 +67,36 @@ def new_chatible(chatbot, sender_id):
 
 def exit_chatible(chatbot, sender_id):
     print('ket thuc cuoc tro chuyen, cap nhat chat_status, chatted_user')
+    chatible_customer = CHATIBLE.find_one({'id_user': sender_id})
+    chatible_partner = CHATIBLE.find_one({'id_user': chatible_customer['chatting_with_user']})
+    id_chatible_customer = chatible_customer['id_user']
+    id_chatible_partner = chatible_partner['id_user']
+
+    bot_chatible_dict[chatbot].send(id_chatible_customer, "đã kết thúc, gửi home để quay về tính năng")
+    bot_chatible_dict[chatbot].send(id_chatible_partner, "bên kia đã kết thúc, gửi home để quay về tính năng")
+
+
     CUSTOMER.update_one(
-        {'id_user': sender_id},
+        {'id_user': id_chatible_customer},
         {'$set': {'SCRIPT.chatting_status': 'no', 'SCRIPT.searching_partner': 'no'}}
     )
 
-    chatting_with_user = CHATIBLE.find_one({'id_user': sender_id})
+    CUSTOMER.update_one(
+        {'id_user': id_chatible_partner},
+        {'$set': {'SCRIPT.chatting_status': 'no', 'SCRIPT.searching_partner': 'no'}}
+    )
+
     CHATIBLE.update_one(
-        {'id_user': sender_id},
-        {'$push': {'chatted_with_user': chatting_with_user['chatting_with_user']}},
+        {'id_user': id_chatible_customer},
+        {'$push': {'chatted_with_user': id_chatible_partner}},
         {'$set': {'chatting_with_user': ''}}
     )
 
+    CHATIBLE.update_one(
+        {'id_user': id_chatible_partner},
+        {'$push': {'chatted_with_user': id_chatible_customer}},
+        {'$set': {'chatting_with_user': ''}}
+    )
 
 def check_chatting_status(sender_id):
     chatting_status = CUSTOMER.find_one({'id_user': sender_id, 'SCRIPT.chatting_status': 'yes'})
@@ -92,8 +110,8 @@ def check_chatting_status(sender_id):
 
 def start_to_chat(chatbot, chatible_customer, chatible_partner):
     mess = 'Đã tìm thấy, hãy gửi tin nhắn'
-    bot_chatible_dict[chatbot].send(chatible_customer, 'da tim thay, hay gui tin nhan')
-    bot_chatible_dict[chatbot].send(chatible_partner, 'da tim thay, hay gui tin nhan')
+    bot_chatible_dict[chatbot].send(chatible_customer, mess)
+    bot_chatible_dict[chatbot].send(chatible_partner, mess)
 
     CUSTOMER.update_one(
         {'id_user': chatible_customer},
@@ -135,7 +153,7 @@ def chat(chatbot, sender_id, message):
 def search(chatbot, sender_id):
     check_searching = CUSTOMER.find_one({'id_user': sender_id, 'SCRIPT.searching_partner': 'yes'})
     if bool(check_searching):
-        print('dang tim kiem')
+        bot_chatible_dict[chatbot].send(partner, 'Đang tìm kiếm')
         pass
     else:
         check_customer_in_chatible_database = CHATIBLE.find_one({'id_user': sender_id})
@@ -150,17 +168,14 @@ def search(chatbot, sender_id):
             array_searching_partner.append(searching_partner)
 
         chatible_partner = ''
-        print('1')
         if array_searching_partner != []:
             chatible_customer = CHATIBLE.find_one({'id_user': sender_id})
             for partner in array_searching_partner:
                 if partner['id_user'] not in chatible_customer['chatted_with_user']:
                     chatible_partner = partner['id_user']
                     break
-            print('2')
             if chatible_partner != '':
                 id_chatible_customer = chatible_customer['id_user']
-                print(chatible_partner, chatible_customer)
                 start_to_chat(chatbot, id_chatible_customer, chatible_partner)
             else:
                 print('da chat voi tat ca moi nguoi trong danh sach searching partner, cap nhat searching_partner = yes')
@@ -168,7 +183,6 @@ def search(chatbot, sender_id):
                     {'id_user': sender_id},
                     {'$set': {'SCRIPT.searching_partner': 'yes'}}
                 )
-            print('3')
         else:
             print('array searching partner = [], cap nhat searching_partner = yes')
             CUSTOMER.update_one(
@@ -177,6 +191,5 @@ def search(chatbot, sender_id):
             )
             
             bot_chatible_dict[chatbot].send(sender_id, 'Đang tìm kiếm')
-        print('4')
 
 
