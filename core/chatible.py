@@ -17,12 +17,12 @@
     # return partner
 
 # bat dau chat
-    neu tim kiem duoc partner, thi gui thong bao bat dau chat
+    # neu tim kiem duoc partner, thi gui thong bao bat dau chat
     
 
 # chatting
 # exit chat
-    xac dinh tu khoa
+    # xac dinh tu khoa
 
 # HAM PHU
 # check chat status
@@ -166,7 +166,7 @@ def start_to_chat(chatible_customer, chatible_partner):
         {'id_user': chatible_customer},
         {'$set': {'SCRIPT.chatting_status': 'yes', 'SCRIPT.searching_status': 'no'}}
     )
-    
+
     CHATIBLE.update_one(
         {'id_user': chatible_customer},
         {'$set': {'chatting_with_user': chatible_partner}}
