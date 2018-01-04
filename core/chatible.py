@@ -88,15 +88,24 @@ def exit_chatible(chatbot, sender_id):
 
     CHATIBLE.update_one(
         {'id_user': id_chatible_customer},
-        {'$push': {'chatted_with_user': id_chatible_partner}},
+        {'$push': {'chatted_with_user': id_chatible_partner}}
+    )
+
+    CHATIBLE.update_one(
+        {'id_user': id_chatible_customer},
         {'$set': {'chatting_with_user': ''}}
     )
 
     CHATIBLE.update_one(
         {'id_user': id_chatible_partner},
-        {'$push': {'chatted_with_user': id_chatible_customer}},
+        {'$push': {'chatted_with_user': id_chatible_customer}}
+    )
+
+    CHATIBLE.update_one(
+        {'id_user': id_chatible_partner},
         {'$set': {'chatting_with_user': ''}}
     )
+
 
 def check_chatting_status(sender_id):
     chatting_status = CUSTOMER.find_one({'id_user': sender_id, 'SCRIPT.chatting_status': 'yes'})
