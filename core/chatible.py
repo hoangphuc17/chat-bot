@@ -226,13 +226,13 @@ def search(chatbot, sender_id):
             print('da chat voi tat ca moi nguoi trong danh sach searching partner, cap nhat searching_partner = yes')
             CUSTOMER.update_one(
                 {'id_user': sender_id},
-                {'$set': 'SCRIPT.searching_partner': 'yes'}
+                {'$set': {'SCRIPT.searching_partner': 'yes'}}
             )
     else:
         print('array searching partner = [], cap nhat searching_partner = yes')
         CUSTOMER.update_one(
             {'id_user': sender_id},
-            {'$set': 'SCRIPT.searching_partner': 'yes'}
+            {'$set': {'SCRIPT.searching_partner': 'yes'}}
         )
     
 
