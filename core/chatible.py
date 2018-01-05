@@ -162,7 +162,7 @@ def chat(chatbot, sender_id, message):
 def search(chatbot, sender_id):
     check_searching = CUSTOMER.find_one({'id_user': sender_id, 'SCRIPT.searching_partner': 'yes'})
     if bool(check_searching):
-        bot_chatible_dict[chatbot].send(partner, 'Đang tìm kiếm')
+        bot_chatible_dict[chatbot].send(sender_id, 'Đang tìm kiếm')
         pass
     else:
         check_customer_in_chatible_database = CHATIBLE.find_one({'id_user': sender_id})
