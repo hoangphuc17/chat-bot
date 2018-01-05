@@ -264,7 +264,8 @@ def svtv_message_handler(event):
     }
 
     chatible_list = {
-        'c': search
+        'c': search,
+        'pp': exit_chatible
     }
 
     if message is not None:
